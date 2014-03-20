@@ -3,12 +3,12 @@
 defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * Plugin model
+ * Event model
  * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
  * @version 
  * @todo 
- * @since 2014/02/28
+ * @since 2014/03/20
  */
-class Model_Plugin extends ORM {
+class Model_Event extends ORM {
 
 }

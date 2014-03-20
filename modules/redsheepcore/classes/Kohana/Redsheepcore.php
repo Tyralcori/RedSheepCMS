@@ -27,6 +27,9 @@ class Kohana_Redsheepcore extends View {
         // GET URI
         $_uri = Request::detect_uri();
 
+        // Execute before events by URI
+        self::setTemplate('beforeEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'before'));
+
         // Explode on / (first element should be empty)
         $uriParts = explode('/', htmlentities($_uri));
 
@@ -67,9 +70,9 @@ class Kohana_Redsheepcore extends View {
             }
         }
 
-        // First letter in uppercase. Kohana need this.
+        // First letter in uppercase. Kohana needs this.
         $executer[0] = strtoupper($executer[0]);
-
+        
         // If executer exits
         if (file_exists(APPPATH . 'classes/' . $executer . '.php') && is_readable(APPPATH . 'classes/' . $executer . '.php')) {
             // Declare
@@ -119,6 +122,8 @@ class Kohana_Redsheepcore extends View {
         $spaceCalled = new $controllerSpace($request, $response);
         $spaceCalled->action_index();
         
+        // Execute after events by URI
+        self::setTemplate('afterEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'after'));        
     }
 
     /**
@@ -142,7 +147,7 @@ class Kohana_Redsheepcore extends View {
         
         // Set env var
         self::$_environment = $env;
-
+        
         // Make it run
         self::run();
     }

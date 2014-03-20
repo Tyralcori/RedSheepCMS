@@ -143,3 +143,24 @@
 2014-03-20 04:59:39 --- EMERGENCY: ErrorException [ 1 ]: Cannot use object of type Model_Plugin as array ~ APPPATH/classes/Pluginmanager.php [ 114 ] in file:line
 2014-03-20 04:59:39 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
 #1 {main} in file:line
+2014-03-20 05:43:50 --- EMERGENCY: ErrorException [ 1 ]: Interface 'Plugin_Interface' not found ~ APPPATH/classes/Plugins/Core/RedSheepCore/Bootstrap.php [ 10 ] in file:line
+2014-03-20 05:43:50 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 05:43:50 --- EMERGENCY: ErrorException [ 1 ]: Interface 'Plugin_Interface' not found ~ APPPATH/classes/Plugins/Core/RedSheepCore/Bootstrap.php [ 10 ] in file:line
+2014-03-20 05:43:50 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 05:44:15 --- EMERGENCY: ErrorException [ 1 ]: Interface 'Plugins_Interface' not found ~ APPPATH/classes/Plugins/Core/RedSheepCore/Bootstrap.php [ 10 ] in file:line
+2014-03-20 05:44:15 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 05:44:15 --- EMERGENCY: ErrorException [ 1 ]: Interface 'Plugins_Interface' not found ~ APPPATH/classes/Plugins/Core/RedSheepCore/Bootstrap.php [ 10 ] in file:line
+2014-03-20 05:44:15 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 07:04:16 --- EMERGENCY: ErrorException [ 1 ]: Cannot use object of type Model_Event as array ~ MODPATH/redsheepcore/classes/Redsheepcore/Event.php [ 31 ] in file:line
+2014-03-20 07:04:16 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 07:09:54 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function test2() on a non-object ~ MODPATH/redsheepcore/classes/Redsheepcore/Event.php [ 47 ] in file:line
+2014-03-20 07:09:54 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-20 07:10:02 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function test() on a non-object ~ MODPATH/redsheepcore/classes/Redsheepcore/Event.php [ 47 ] in file:line
+2014-03-20 07:10:02 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line

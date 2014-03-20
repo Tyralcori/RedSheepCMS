@@ -7,7 +7,7 @@
  * @todo 
  * @since 2014/03/11
  */
-class Plugins_Core_RedSheepCore_Bootstrap extends Controller {
+class Plugins_Core_RedSheepCore_Bootstrap extends Controller implements Plugins_Interface {
     
     /**
      * Index function
