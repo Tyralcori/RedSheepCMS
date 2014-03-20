@@ -20,6 +20,9 @@ class Redsheepcore_Cron {
         // Get all active crons
         $cronList = ORM::factory('cron')->where('isActive', '=', 1)->find_all()->as_array();
 
+        // Later return
+        $cronExecuted = array();
+        
         // Iterate all crons
         foreach ($cronList as $key => $cron) {
             // If errors, bool is true
@@ -83,6 +86,9 @@ class Redsheepcore_Cron {
                     // Set action to execute
                     $cronAction = $cron->executeFunction;
 
+                    // Add for later return
+                    $cronExecuted[] = $cron->name;
+                    
                     // Set cron returns
                     $cronExecute->message = $currentPluginClass::$cronAction();
                     $cronExecute->lastEnd = $newDate;
@@ -90,6 +96,8 @@ class Redsheepcore_Cron {
                     // Save!
                     $cronExecute->save();
                 }
+                
+                return $cronExecuted;
             }
         }
     }

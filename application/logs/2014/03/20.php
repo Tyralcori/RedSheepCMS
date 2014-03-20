@@ -343,3 +343,15 @@
 2014-03-20 09:18:03 --- EMERGENCY: ErrorException [ 1 ]: Access to undeclared static property: Plugins_Core_RedSheepMonitor_Bootstrap::$cronAction ~ MODPATH/redsheepcore/classes/Redsheepcore/Cron.php [ 70 ] in file:line
 2014-03-20 09:18:03 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
 #1 {main} in file:line
+2014-03-20 09:44:59 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/classes/Controller/Backend.php [ 44 ] in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php:44
+2014-03-20 09:44:59 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php(44): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/ERO/GI...', 44, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(135): Controller_Backend->action_cron()
+#2 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(167): Kohana_Redsheepcore::run()
+#3 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Redsheep.php(22): Kohana_Redsheepcore::init('developement')
+#4 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php(84): Controller_Redsheep->action_index()
+#5 [internal function]: Kohana_Controller->execute()
+#6 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Redsheep))
+#7 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#8 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#9 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
+#10 {main} in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php:44
