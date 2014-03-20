@@ -27,7 +27,17 @@ class Controller_Backend extends Controller_Redsheep {
         // Register all plugins
         Pluginmanager::register();
     }
-
+    
+    /**
+     * Backend Cron
+     * @param type $config
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/20
+     */
+    public function action_cron() {
+        Redsheepcore_Cron::execute();
+        die("CRON");
+    }
 }
 
 ?>

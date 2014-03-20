@@ -111,12 +111,12 @@ class Pluginmanager extends Controller {
 
                         // Plugin model
                         $plugin = ORM::factory('plugin')->where('name', '=', $pluginValue)->find();
-                        
+
                         // Register only new plugins
-                        if(!empty($plugin->name)) {
+                        if(!empty($plugin->version)) {
                             continue;
                         }
-                        
+
                         // Foreach meta data update or create new
                         foreach (self::$pluginMetaData as $metaKey => $metaValue) {
                             // If propertie not empty, update
@@ -134,7 +134,7 @@ class Pluginmanager extends Controller {
                 }
             }
         }
-
+        
         // Return plugins
         return self::getPlugins();
     }

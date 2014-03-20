@@ -18,64 +18,6 @@ USE `redsheepstudios`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `configs`
---
-
-DROP TABLE IF EXISTS `configs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `configs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `value` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `configs`
---
-
-LOCK TABLES `configs` WRITE;
-/*!40000 ALTER TABLE `configs` DISABLE KEYS */;
-INSERT INTO `configs` VALUES (1,'version','0.4.0'),(2,'template','default'),(3,'baseHost','default'),(4,'title','default');
-/*!40000 ALTER TABLE `configs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `plugins`
---
-
-DROP TABLE IF EXISTS `plugins`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `plugins` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT 'PluginName',
-  `description` varchar(2000) NOT NULL DEFAULT 'none desc given',
-  `active` int(1) NOT NULL DEFAULT '0',
-  `added` datetime DEFAULT NULL,
-  `installedOn` datetime DEFAULT NULL,
-  `version` varchar(45) NOT NULL DEFAULT '0.0.0',
-  `publisher` varchar(100) NOT NULL DEFAULT 'RedSheepStudios',
-  `section` varchar(45) DEFAULT NULL,
-  `publisherHomepage` varchar(255) DEFAULT NULL,
-  `space` varchar(45) NOT NULL DEFAULT 'frontend',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `plugins`
---
-
-LOCK TABLES `plugins` WRITE;
-/*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
-INSERT INTO `plugins` VALUES (1,'RedSheepCore','RedSheep Core Plugin',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','0.9.2','RedSheep Studios','Core','http://redsheepstudios.com/','frontend'),(2,'Test','Testplugin',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','0.6.5','RedSheep Studios','Community','http://redsheepstudios.com/','frontend');
-/*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `events`
 --
 
@@ -105,6 +47,31 @@ INSERT INTO `events` VALUES (1,'/backend','URI',1,'test','before',2),(2,'/backen
 UNLOCK TABLES;
 
 --
+-- Table structure for table `configs`
+--
+
+DROP TABLE IF EXISTS `configs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `configs`
+--
+
+LOCK TABLES `configs` WRITE;
+/*!40000 ALTER TABLE `configs` DISABLE KEYS */;
+INSERT INTO `configs` VALUES (1,'version','0.4.0'),(2,'template','default'),(3,'baseHost','default'),(4,'title','default');
+/*!40000 ALTER TABLE `configs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -124,8 +91,72 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('531ed65b73de06-02237218',1394551377,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk0NTUxMzc3O30='),('532002f20aaca0-64770178',1394635859,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk0NjM1ODU5O30='),('532a91bbda59e6-40914160',1395317692,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk1MzE3NjkyO30=');
+INSERT INTO `sessions` VALUES ('531ed65b73de06-02237218',1394551377,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk0NTUxMzc3O30='),('532002f20aaca0-64770178',1394635859,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk0NjM1ODU5O30='),('532a91bbda59e6-40914160',1395325636,'YToxOntzOjExOiJsYXN0X2FjdGl2ZSI7aToxMzk1MzI1NjM2O30=');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `crons`
+--
+
+DROP TABLE IF EXISTS `crons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `crons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `executePluginID` int(5) DEFAULT NULL,
+  `executeFunction` varchar(255) DEFAULT NULL,
+  `lastStart` datetime DEFAULT NULL,
+  `lastEnd` datetime DEFAULT NULL,
+  `interval` varchar(45) DEFAULT NULL,
+  `isActive` int(1) DEFAULT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `crons`
+--
+
+LOCK TABLES `crons` WRITE;
+/*!40000 ALTER TABLE `crons` DISABLE KEYS */;
+INSERT INTO `crons` VALUES (1,'SystemMonitor',3,'monitor','2014-03-20 09:27:16','2014-03-20 09:27:16','10',1,'Monitor NOW');
+/*!40000 ALTER TABLE `crons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `plugins`
+--
+
+DROP TABLE IF EXISTS `plugins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plugins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT 'PluginName',
+  `description` varchar(2000) NOT NULL DEFAULT 'none desc given',
+  `active` int(1) NOT NULL DEFAULT '0',
+  `added` datetime DEFAULT NULL,
+  `installedOn` datetime DEFAULT NULL,
+  `version` varchar(45) NOT NULL DEFAULT '0.0.0',
+  `publisher` varchar(100) NOT NULL DEFAULT 'RedSheepStudios',
+  `section` varchar(45) DEFAULT NULL,
+  `publisherHomepage` varchar(255) DEFAULT NULL,
+  `space` varchar(45) NOT NULL DEFAULT 'frontend',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `plugins`
+--
+
+LOCK TABLES `plugins` WRITE;
+/*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
+INSERT INTO `plugins` VALUES (1,'RedSheepCore','RedSheep Core Plugin',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','0.9.2','RedSheep Studios','Core','http://redsheepstudios.com/','frontend'),(2,'Test','Testplugin',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','0.6.5','RedSheep Studios','Community','http://redsheepstudios.com/','frontend'),(3,'RedSheepMonitor','RedSheep Monitor Plugin',0,NULL,NULL,'0.4.3','RedSheep Studios','Core','http://redsheepstudios.com/','frontend');
+/*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -137,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-20 13:15:57
+-- Dump completed on 2014-03-20 15:28:24
