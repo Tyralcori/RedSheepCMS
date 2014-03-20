@@ -355,3 +355,25 @@
 #8 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #9 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
 #10 {main} in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php:44
+2014-03-20 09:55:31 --- EMERGENCY: ErrorException [ 8 ]: Undefined index: template ~ MODPATH/redsheepcore/classes/Kohana/Redsheepcore.php [ 196 ] in /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php:196
+2014-03-20 09:55:31 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(196): Kohana_Core::error_handler(8, 'Undefined index...', '/var/www/ERO/GI...', 196, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(332): Kohana_Redsheepcore::getConfig('template')
+#2 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Redsheep.php(35): Kohana_Redsheepcore::callTemplate('Twig')
+#3 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php(84): Controller_Redsheep->action_index()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Redsheep))
+#6 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
+#9 {main} in /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php:196
+2014-03-20 09:55:31 --- EMERGENCY: ErrorException [ 8 ]: Undefined index: template ~ MODPATH/redsheepcore/classes/Kohana/Redsheepcore.php [ 196 ] in /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php:196
+2014-03-20 09:55:31 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(196): Kohana_Core::error_handler(8, 'Undefined index...', '/var/www/ERO/GI...', 196, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(332): Kohana_Redsheepcore::getConfig('template')
+#2 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Redsheep.php(35): Kohana_Redsheepcore::callTemplate('Twig')
+#3 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php(84): Controller_Redsheep->action_index()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Redsheep))
+#6 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
+#9 {main} in /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php:196
