@@ -10,7 +10,7 @@
             <div class="redsheepNavPoints">
                 <ul>
                 {% for navi in navigation.top %}                
-                    <li><a href="{{ baseHost }}{{ navi.link }}">{{ navi.name }}</a></li>                                
+                    <li><a href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a></li>                                
                 {% endfor %}
                 </ul>
             </div>
@@ -35,7 +35,7 @@
                 Copyright &copy; 2014 - RedSheep Studios   
                 <div class="redsheepFooterInnerRight">
                     {% for navi in navigation.bottom %}                
-                        <a class="redsheepFooterLink" href="{{ baseHost }}{{ navi.link }}">{{ navi.name }}</a> 
+                        <a class="redsheepFooterLink" href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a> 
                         |                             
                     {% endfor %}    
                 </div>

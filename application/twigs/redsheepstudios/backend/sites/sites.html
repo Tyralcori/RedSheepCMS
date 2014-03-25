@@ -1,1 +1,7 @@
-SITE OVERVIEW
+{% if siteSaved.saved is not empty %}
+       {{ siteSaved.message|raw }}
+{% elseif siteCalled.message.text is not empty %}
+    {% include "%template%/%area%/elements/texteditor"|replace({"%template%": template, "%area%": area}) %}
+{% elseif siteCalled.message %}
+   
+{% endif %}

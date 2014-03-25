@@ -108,7 +108,7 @@ class Redsheepcore_Data {
             }
         } else {
             // No array, maybe a simple string
-            self::setData(self::cleaner($value));
+            self::setData(self::cleaner($requestData));
         }
     }
 

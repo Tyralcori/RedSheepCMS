@@ -38,7 +38,7 @@ class Controller_Backend extends Controller_Redsheep {
             // Login required
             return array('status' => 'warning', 'message' => 'Login required', 'backendSession' => false);
         }
-        
+
         // Everything fine
         return array('status' => 'success', 'message' => 'Logged in', 'backendSession' => $dataSession);
     }
@@ -53,7 +53,7 @@ class Controller_Backend extends Controller_Redsheep {
         // Get session
         $sessionCheck = Redsheepcore::getSession();
         $sessionData = $sessionCheck->as_array();
-        
+
         // Check, if session is okay
         if (!empty($sessionData['username'])) {
             // Everything fine
@@ -133,7 +133,7 @@ class Controller_Backend extends Controller_Redsheep {
         // OK
         return true;
     }
-    
+
     /**
      * Site management
      * @return type
@@ -141,7 +141,41 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/25
      */
     public function action_sites() {
+        // Get whole uri
+        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
 
+        // Create special site param
+        $specialSite = str_replace('/', '', str_replace('/backend/sites', '', Redsheepcore_Data::run($_uri)));
+
+        // If special site given, load this, else all
+        if (empty($specialSite)) {
+            // Load all
+            $staticSitesGiven = ORM::factory('staticsite')->find_all()->as_array();
+            Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
+        } else {
+            // Load by specialsite
+            $staticSitesGiven = ORM::factory('staticsite')->where('name', '=', strtolower($specialSite))->find()->as_array();
+
+            if (empty($staticSitesGiven['id'])) {
+                Redsheepcore::setTemplate('siteCalled', array('status' => 'failure', 'message' => "Site $specialSite not found!"));
+            } else {
+                Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
+            }
+
+            // Set post Data
+            $postData = $this->request->post() ? $this->request->post() : array();
+            
+            // If not empty, user want to save data
+            if (!empty($postData)) {                
+                // Get current site by headname
+                $currentSite = ORM::factory('staticsite')->where('name', '=', strtolower($specialSite))->find();
+                $currentSite->id = $currentSite->id;
+                $currentSite->name = $postData['headline'] ? $postData['headline'] : $specialSite;
+                $currentSite->text = $postData['text'];
+                $currentSite->save();
+                Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/'.$currentSite->name.'">' . $currentSite->name . '</a>', 'saved' => TRUE));
+            }
+        }
     }
 
     /**
@@ -160,6 +194,7 @@ class Controller_Backend extends Controller_Redsheep {
         // Return bool
         return $sessionDestroy;
     }
+
 }
 
 ?>
