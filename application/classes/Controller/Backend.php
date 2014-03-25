@@ -12,6 +12,28 @@ defined('SYSPATH') or die('No direct script access.');
 class Controller_Backend extends Controller_Redsheep {
 
     /**
+     * Construct function - prevention for direct site call
+     * @param Request $request
+     * @param Response $response
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/25
+     */
+    public function __construct(Request $request, Response $response) {
+        // Prevention
+        parent::__construct($request, $response);
+
+        // Get session
+        $sessionCheck = Redsheepcore::getSession();
+        $sessionData = $sessionCheck->as_array();
+
+        // Check, if session is okay
+        if (empty($sessionData['username']) && Request::detect_uri() !== '/backend/login') {
+            header('Location: ' . URL::base() . 'backend/login');
+            die();
+        }
+    }
+
+    /**
      * Backend Index
      * @param type $config
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
@@ -61,7 +83,9 @@ class Controller_Backend extends Controller_Redsheep {
         }
 
         // Get post data
-        $postData = $this->request->post();
+        if (!empty($_POST)) {
+            $postData = $this->request->post() ? $this->request->post() : array();
+        }
 
         // Check, if everything is okay
         if (!empty($postData) && is_array($postData) && (!empty($postData['username']) || !empty($postData['password']))) {
@@ -97,7 +121,8 @@ class Controller_Backend extends Controller_Redsheep {
                     // Check, if session is okay
                     if (!empty($sessionData['username'])) {
                         // Everything fine
-                        return array('status' => 'success', 'message' => 'Logged in', 'backendSession' => $sessionData);
+                        header('Location: ' . URL::base() . 'backend');
+                        die();
                     }
                 }
             }
@@ -160,7 +185,7 @@ class Controller_Backend extends Controller_Redsheep {
                 Redsheepcore::setTemplate('siteCalled', array('status' => 'failure', 'message' => "Site $specialSite not found!"));
             } else {
                 // If empty text, fill it. No empty text possible..
-                if(empty($staticSitesGiven['text'])) {
+                if (empty($staticSitesGiven['text'])) {
                     $staticSitesGiven['text'] = '&nbsp;';
                 }
                 // Special site to template / editor
@@ -168,24 +193,25 @@ class Controller_Backend extends Controller_Redsheep {
             }
 
             // Set post Data
-            $postData = $this->request->post() ? $this->request->post() : array();
-            
+            if (!empty($_POST)) {
+                $postData = $this->request->post() ? $this->request->post() : array();
+            }
+
             // If not empty, user want to save data
-            if (!empty($postData)) {                
+            if (!empty($postData)) {
                 // Get current site by headname
                 $currentSite = ORM::factory('staticsite')->where('name', '=', strtolower($specialSite))->find();
                 $currentSite->id = $currentSite->id;
                 $currentSite->name = $postData['headline'] ? $postData['headline'] : $specialSite;
                 $currentSite->text = $postData['text'];
                 $currentSite->save();
-                Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/'.$currentSite->name.'">' . $currentSite->name . '</a>', 'saved' => TRUE));
+                Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/' . $currentSite->name . '">' . $currentSite->name . '</a>', 'saved' => TRUE));
             }
         }
     }
 
     /**
      * Session destroy
-     * @return type
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/24
      */
@@ -196,8 +222,9 @@ class Controller_Backend extends Controller_Redsheep {
         // Destroy session
         $sessionDestroy = $sessionBackend->destroy();
 
-        // Return bool
-        return $sessionDestroy;
+        // Redirect
+        header('Location: ' . URL::base() . 'backend');
+        die();
     }
 
 }

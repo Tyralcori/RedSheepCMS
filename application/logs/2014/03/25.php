@@ -290,3 +290,58 @@
 #28 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #29 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
 #30 {main} in /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Extension/Core.php:275
+2014-03-25 06:58:38 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function uri() on a non-object ~ APPPATH/classes/Controller/Backend.php [ 22 ] in file:line
+2014-03-25 06:58:38 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 06:59:58 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function post() on a non-object ~ APPPATH/classes/Controller/Backend.php [ 77 ] in file:line
+2014-03-25 06:59:58 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 07:00:13 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function post() on a non-object ~ APPPATH/classes/Controller/Backend.php [ 77 ] in file:line
+2014-03-25 07:00:13 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 07:00:53 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function post() on a non-object ~ APPPATH/classes/Controller/Backend.php [ 78 ] in file:line
+2014-03-25 07:00:53 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 07:01:11 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function post() on a non-object ~ APPPATH/classes/Controller/Backend.php [ 78 ] in file:line
+2014-03-25 07:01:11 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 07:02:20 --- EMERGENCY: ErrorException [ 4096 ]: Argument 1 passed to Kohana_Controller::__construct() must be an instance of Request, none given, called in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php on line 15 and defined ~ SYSPATH/classes/Kohana/Controller.php [ 43 ] in /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php:43
+2014-03-25 07:02:20 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php(43): Kohana_Core::error_handler(4096, 'Argument 1 pass...', '/var/www/ERO/GI...', 43, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php(15): Kohana_Controller->__construct()
+#2 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(172): Controller_Backend->__construct(Object(Request), Object(Response))
+#3 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(219): Kohana_Redsheepcore::run()
+#4 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/init.php(4): Kohana_Redsheepcore::init()
+#5 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Core.php(602): require_once('/var/www/ERO/GI...')
+#6 /var/www/ERO/GIT/RedSheepCMS/application/bootstrap.php(136): Kohana_Core::modules(Array)
+#7 /var/www/ERO/GIT/RedSheepCMS/index.php(103): require('/var/www/ERO/GI...')
+#8 {main} in /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php:43
+2014-03-25 07:10:29 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected ',' ~ APPPATH/classes/Controller/Backend.php [ 16 ] in file:line
+2014-03-25 07:10:29 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-03-25 07:10:34 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: request ~ APPPATH/classes/Controller/Backend.php [ 16 ] in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php:16
+2014-03-25 07:10:34 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php(16): Kohana_Core::error_handler(8, 'Undefined varia...', '/var/www/ERO/GI...', 16, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(172): Controller_Backend->__construct(Object(Request), Object(Response))
+#2 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/classes/Kohana/Redsheepcore.php(219): Kohana_Redsheepcore::run()
+#3 /var/www/ERO/GIT/RedSheepCMS/modules/redsheepcore/init.php(4): Kohana_Redsheepcore::init()
+#4 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Core.php(602): require_once('/var/www/ERO/GI...')
+#5 /var/www/ERO/GIT/RedSheepCMS/application/bootstrap.php(136): Kohana_Core::modules(Array)
+#6 /var/www/ERO/GIT/RedSheepCMS/index.php(103): require('/var/www/ERO/GI...')
+#7 {main} in /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Backend.php:16
+2014-03-25 07:12:39 --- EMERGENCY: Twig_Error_Runtime [ 0 ]: An exception has been thrown during the rendering of a template ("The requested twig redsheepstudios/backend/sites/plugins could not be found") in "redsheepstudios/backend/index" at line 3. ~ MODPATH/twig/vendor/twig/lib/Twig/Template.php [ 279 ] in /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php:238
+2014-03-25 07:12:39 --- DEBUG: #0 /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php(238): Twig_Template->displayWithErrorHandling(Array, Array)
+#1 /var/www/ERO/GIT/RedSheepCMS/modules/twig/cache/cf/6e/9b2cc7549ec42901e97a5864d8a0.php(26): Twig_Template->display(Array)
+#2 /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php(264): __TwigTemplate_cf6e9b2cc7549ec42901e97a5864d8a0->doDisplay(Array, Array)
+#3 /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php(238): Twig_Template->displayWithErrorHandling(Array, Array)
+#4 /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php(249): Twig_Template->display(Array)
+#5 /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Environment.php(288): Twig_Template->render(Array)
+#6 /var/www/ERO/GIT/RedSheepCMS/modules/twig/classes/Kohana/Twig.php(120): Twig_Environment->render('redsheepstudios...', Array)
+#7 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/View.php(228): Kohana_Twig->render()
+#8 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Response.php(160): Kohana_View->__toString()
+#9 /var/www/ERO/GIT/RedSheepCMS/application/classes/Controller/Redsheep.php(35): Kohana_Response->body(Object(Twig))
+#10 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Controller.php(84): Controller_Redsheep->action_index()
+#11 [internal function]: Kohana_Controller->execute()
+#12 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Redsheep))
+#13 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#14 /var/www/ERO/GIT/RedSheepCMS/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#15 /var/www/ERO/GIT/RedSheepCMS/index.php(119): Kohana_Request->execute()
+#16 {main} in /var/www/ERO/GIT/RedSheepCMS/modules/twig/vendor/twig/lib/Twig/Template.php:238
