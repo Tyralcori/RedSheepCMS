@@ -1,0 +1,6 @@
+{% for plugin in plugins.message %}
+    {% if plugin.return.message.view %}
+        {{ plugin.return.message.view|raw }}
+    {% endif %}
+{% endfor %}
+FRONTEND
