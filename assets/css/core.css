@@ -64,7 +64,7 @@ body {
 
 .redsheepNavPoints a:hover {
     background-color:white;
-    color:#8F1414;
+    color:#8F1414!important;
 }
 
 .redsheepLogoStyle {
