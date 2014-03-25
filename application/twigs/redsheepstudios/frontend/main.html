@@ -23,7 +23,11 @@
         </div>
 
         <div class="redsheepPresent">
-            {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+            {% if siteOutput %}
+                {{ siteOutput|raw }}
+            {% else %}
+                {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+            {% endif %}
         </div>
 
         <div class="redsheepFooter">

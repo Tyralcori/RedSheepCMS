@@ -157,6 +157,9 @@ class Kohana_Redsheepcore extends View {
         // Navi container to the template
         self::setTemplate('navigation', $naviContainer);
         
+        // Set action to load
+        self::setTemplate('siteOutput', self::getSiteOutput($siteActionToLoad));
+        
         // Set action in template
         self::setTemplate('action', $siteActionToLoad);
 
@@ -375,6 +378,8 @@ class Kohana_Redsheepcore extends View {
     /**
      * Call template
      * @param type $engine
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
      */
     public static function callTemplate($engine = null) {
         // Template Engine default
@@ -407,6 +412,37 @@ class Kohana_Redsheepcore extends View {
 
         // Return created vars
         return $createdEngine;
+    }
+    
+    /**
+     * Get static site template
+     * @param type $siteName
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
+     */
+    protected static function getSiteOutput($siteName = null) {
+        // Empty? Return
+        if(empty($siteName)) {
+            return false;
+        }
+        
+        // Get siteType
+        $siteType = ORM::factory('viewport')->where('name', '=', $siteName)->find()->as_array();
+        
+        if(!empty($siteType['type'])) {
+            switch($siteType['type'])
+            {
+                default:
+                case 'staticsite':
+                    // Get staticsite content
+                    $getStaticSite = ORM::factory('staticsite')->where('id', '=', $siteType['typeID'])->find()->as_array();
+                    
+                    // Return static site content
+                    return $getStaticSite['text'];
+                    break;
+            }
+        }
     }
 
 }

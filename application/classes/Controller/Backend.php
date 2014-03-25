@@ -133,6 +133,16 @@ class Controller_Backend extends Controller_Redsheep {
         // OK
         return true;
     }
+    
+    /**
+     * Site management
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/25
+     */
+    public function action_sites() {
+
+    }
 
     /**
      * Session destroy

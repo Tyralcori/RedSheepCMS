@@ -1,7 +1,7 @@
 {% for plugin in plugins.message %}
-    {% if plugin.return.message.view %}
-        {{ plugin.return.message.view|raw }}
-    {% endif %}
+{% if plugin.return.message.view %}
+{{ plugin.return.message.view|raw }}
+{% endif %}
 {% endfor %}
 <div class="redsheepContainer">
     <div class="redsheepHeader">
@@ -11,6 +11,12 @@
     </div>
 
     <div class="redsheepContent">
+        <div class="redsheepNavi">
+            <div class="redsheepNaviInner">
+                <a href='{{ baseHost }}backend/sites' title='Sites'>Sites</a>
+            </div>        
+        </div>
+
         <div class="redsheepPresent">
             {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
         </div>
