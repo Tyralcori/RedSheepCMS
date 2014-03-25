@@ -30,6 +30,8 @@ class Controller_Backend extends Controller_Redsheep {
         if (empty($sessionData['username']) && Request::detect_uri() !== '/backend/login') {
             header('Location: ' . URL::base() . 'backend/login');
             die();
+        } elseif (!empty($sessionData['username'])) {
+            Redsheepcore::setTemplate('backendSession', $sessionData);
         }
     }
 
@@ -152,7 +154,7 @@ class Controller_Backend extends Controller_Redsheep {
                 $executed .= $cron . ' ';
             }
             // Show executed crons
-            echo $executed;
+            Redsheepcore::setTemplate('executedCrons', $executed);
         }
 
         // OK
