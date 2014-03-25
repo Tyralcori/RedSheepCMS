@@ -11,6 +11,7 @@
     </div>
 
     <div class="redsheepContent">
+        {% if actionResponse.backendSession is not empty %}
         <div class="redsheepNavi">
             <div class="redsheepNaviInner">
                 <a href='{{ baseHost }}backend/sites' title='Sites'>Sites</a>
@@ -19,7 +20,7 @@
                 <a href='{{ baseHost }}backend/logout' title='Sites'>Logout</a>
             </div>        
         </div>
-
+        {% endif %}
         <div class="redsheepPresent">
             {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
         </div>
