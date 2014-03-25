@@ -3,5 +3,10 @@
 {% elseif siteCalled.message.text is not empty %}
     {% include "%template%/%area%/elements/texteditor"|replace({"%template%": template, "%area%": area}) %}
 {% elseif siteCalled.message %}
-   
+    {% if siteCalled.message is iterable %}
+    <label>Click on a site to edit:</label>
+        {% for site in siteCalled.message %}
+        <br/><a href='/backend/sites/{{ site.name }}'>{{ site.name }}</a>
+        {% endfor %}
+    {% endif %}
 {% endif %}

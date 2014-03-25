@@ -159,6 +159,11 @@ class Controller_Backend extends Controller_Redsheep {
             if (empty($staticSitesGiven['id'])) {
                 Redsheepcore::setTemplate('siteCalled', array('status' => 'failure', 'message' => "Site $specialSite not found!"));
             } else {
+                // If empty text, fill it. No empty text possible..
+                if(empty($staticSitesGiven['text'])) {
+                    $staticSitesGiven['text'] = '&nbsp;';
+                }
+                // Special site to template / editor
                 Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
             }
 
