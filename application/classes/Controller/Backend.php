@@ -174,8 +174,18 @@ class Controller_Backend extends Controller_Redsheep {
         // Create special site param
         $specialSite = str_replace('/', '', str_replace('/backend/sites', '', Redsheepcore_Data::run($_uri)));
 
+        // Create a new site, if $_GET['new'] not empty
+        if (!empty($_GET)) {
+            if (!empty($_GET['new'])) {
+                Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'createNewSite' => "Create new site"));
+            }
+
+            if (!empty($_GET['newSite'])) {
+                $newSiteToSave = true;
+            }
+        }
         // If special site given, load this, else all
-        if (empty($specialSite)) {
+        if (empty($specialSite) && empty($newSiteToSave)) {
             // Load all
             $staticSitesGiven = ORM::factory('staticsite')->find_all()->as_array();
             Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
