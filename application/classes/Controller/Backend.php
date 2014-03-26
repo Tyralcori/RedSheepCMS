@@ -304,7 +304,8 @@ class Controller_Backend extends Controller_Redsheep {
         // Create a new site, if $_GET['new'] not empty
         if (!empty($_GET)) {
             if (!empty($_GET['new'])) {
-                Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'createNewSite' => "Create new site"));
+                Redsheepcore::setTemplate('createNewSite', "Create new site");
+                Redsheepcore::setTemplate('siteCalled', array('status' => 'success'));
             }
 
             if (!empty($_GET['newSite'])) {
