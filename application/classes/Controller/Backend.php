@@ -75,7 +75,7 @@ class Controller_Backend extends Controller_Redsheep {
     public function action_plugins() {
         
     }
-    
+
     /**
      * Account Overview
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
@@ -84,16 +84,116 @@ class Controller_Backend extends Controller_Redsheep {
     public function action_accounts() {
         
     }
-    
+
     /**
      * Navigation Overview
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/26
      */
     public function action_navigation() {
-        
+        // Get all navigation elements - saved in "viewports"
+        $navigationElements = ORM::factory('viewport')->find_all()->as_array();
+
+        // New container Element
+        $containerElement = array();
+
+        // Get all names for the static site
+        foreach ($navigationElements as $key => $navigationElement) {
+            // Add some infos into container
+            $requiredInfos = array('id', 'name', 'link', 'typeID', 'isActive', 'position');
+
+            // Add every given element into the container
+            foreach ($requiredInfos as $reqKey => $reqValue) {
+                $containerElement[$key][$reqValue] = $navigationElement->$reqValue ? $navigationElement->$reqValue : '';
+            }
+
+            // If static site, get name
+            if ($navigationElement->type == 'staticsite') {
+                $staticSiteElement = ORM::factory('staticsite')->where('id', '=', $navigationElement->typeID)->find()->as_array();
+                $containerElement[$key]['type'] = 'staticsite';
+                $containerElement[$key]['typeName'] = $staticSiteElement['name'] ? $staticSiteElement['name'] : 'Empty name';
+            }
+        }
+
+        // Get whole uri
+        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
+
+        // Create special viewport param
+        $specialViewport = str_replace('/', '', str_replace('/backend/navigation', '', Redsheepcore_Data::run($_uri)));
+
+        // Make it safer than before..
+        $viewportID = (int) $specialViewport;
+
+        // Create a new site, if $_GET['new'] not empty
+        if (!empty($_GET)) {
+            if (!empty($_GET['new'])) {
+                // Create new site
+                Redsheepcore::setTemplate('createNewSite', true);
+                
+                // Placeholder
+                $viewportSpecial = array();
+                
+                // Get all available sites
+                $viewportSpecial['availableSites'] = ORM::factory('staticsite')->find_all()->as_array();
+
+                // Return all given viewport elements
+                Redsheepcore::setTemplate('oneViewport', $viewportSpecial);
+                return true;
+            }
+            
+            if (!empty($_GET['newSite'])) {
+                $newSiteToSave = true;
+            }
+        }
+
+
+        // If empty, return all elements
+        if (!empty($viewportID) || !empty($newSiteToSave)) {
+            // Check, if $_POST is given
+            if (!empty($_POST)) {
+                // Get post
+                $postData = $_POST;
+
+                // Spam prev.
+                unset($_POST);
+                
+                // Get current element, set new darta
+                $currentViewportElement = ORM::factory('viewport')->where('id', '=', $viewportID)->find();
+                $currentViewportElement->id = $viewportID;
+                $currentViewportElement->name = $postData['headline'] ? htmlentities($postData['headline']) : 'default';
+                $currentViewportElement->link = $postData['link'] ? htmlentities($postData['link']) : '/' . htmlentities($postData['headline']);
+                $currentViewportElement->type = $postData['type'] ? htmlentities($postData['type']) : 'staticsite';
+                $currentViewportElement->typeID = $postData['elementID'] ? htmlentities($postData['elementID']) : 1;
+                $currentViewportElement->isActive = $postData['isActive'] ? htmlentities($postData['isActive']) : 1;
+                $currentViewportElement->position = $postData['position'] ? htmlentities($postData['position']) : 'top';
+
+                // Save all the changes
+                $currentViewportElement->save();
+
+                // Just a safe flag
+                Redsheepcore::setTemplate('siteIsSaved', 'Successfully saved!');
+            }
+            // Edit a special site by viewport ID
+            $viewportSpecial = ORM::factory('viewport')->where('id', '=', $viewportID)->find()->as_array();
+            if (!empty($viewportSpecial['name'])) {
+                // Get name from static site by id
+                $viewportStaticTemp = ORM::factory('staticsite')->where('id', '=', $viewportSpecial['typeID'])->find()->as_array();
+                $viewportSpecial['typeName'] = $viewportStaticTemp['name'] ? $viewportStaticTemp['name'] : 'Empty name';
+
+                // Get all available sites
+                $viewportSpecial['availableSites'] = ORM::factory('staticsite')->find_all()->as_array();
+
+                // Return all given viewport elements
+                Redsheepcore::setTemplate('oneViewport', $viewportSpecial);
+                return true;
+            }
+        }
+
+        // Return all given viewport elements
+        Redsheepcore::setTemplate('viewports', $containerElement);
+        return true;
     }
-    
+
     /**
      * Login backend user
      * @param type $config
