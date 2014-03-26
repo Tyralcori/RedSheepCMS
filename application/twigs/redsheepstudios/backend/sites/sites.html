@@ -1,3 +1,6 @@
+<label class="redsheepHeadline">Site Overview</label>
+<hr/>
+<p class="redsheepDescription">
 {% if siteCalled.createNewSite is not empty %}
     {% include "%template%/%area%/elements/texteditor"|replace({"%template%": template, "%area%": area}) %}
 {% elseif siteSaved.saved is not empty %}
@@ -14,3 +17,4 @@
         {% endfor %}
     {% endif %}
 {% endif %}
+</p>

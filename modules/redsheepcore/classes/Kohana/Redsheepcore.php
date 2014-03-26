@@ -146,7 +146,7 @@ class Kohana_Redsheepcore extends View {
         $space[0] = strtoupper($space[0]);
         
         // If current action not in viewport
-        if(!in_array($siteActionToLoad, $foundViewports)) {
+        if(!in_array($siteActionToLoad, $foundViewports)) {            
             // And if not exists
             if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {
                 // 404 error not found

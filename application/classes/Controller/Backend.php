@@ -68,6 +68,33 @@ class Controller_Backend extends Controller_Redsheep {
     }
 
     /**
+     * Plugin Loader
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/26
+     */
+    public function action_plugins() {
+        
+    }
+    
+    /**
+     * Account Overview
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/26
+     */
+    public function action_accounts() {
+        
+    }
+    
+    /**
+     * Navigation Overview
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/26
+     */
+    public function action_navigation() {
+        
+    }
+    
+    /**
      * Login backend user
      * @param type $config
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
