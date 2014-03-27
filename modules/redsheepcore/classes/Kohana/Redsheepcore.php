@@ -124,6 +124,7 @@ class Kohana_Redsheepcore extends View {
         
         // Found elements array
         $foundViewports = array();
+        $foundViewportsLinks = array();
         
         // Index at first
         $foundViewports[] = 'index';
@@ -140,19 +141,28 @@ class Kohana_Redsheepcore extends View {
             
             // Found following element, add into found viewports
             $foundViewports[] = $viewport->name;
+            $foundViewportsLinks[] = str_replace('/', '', $viewport->link) ? str_replace('/', '', $viewport->link) : $viewport->name;
         }
         
         // Space first letter uppercase - Controller
         $space[0] = strtoupper($space[0]);
         
         // If current action not in viewport
-        if(!in_array($siteActionToLoad, $foundViewports)) {            
+        if(!in_array($siteActionToLoad, $foundViewports) && !in_array($siteActionToLoad, $foundViewportsLinks)) {            
             // And if not exists
             if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {
                 // 404 error not found
                 $siteActionToLoad = 'error';
             }
         }        
+        
+        // Get the template name
+        if(in_array($siteActionToLoad, $foundViewportsLinks)) {
+            $createRoute = ORM::factory('viewport')->where('link', '=', '/' . $siteActionToLoad)->find()->as_array();
+            if(!empty($createRoute) && is_array($createRoute) && !empty($createRoute['name'])) {
+                $siteActionToLoad = $createRoute['name'];
+            }
+        }
         
         // Navi container to the template
         self::setTemplate('navigation', $naviContainer);

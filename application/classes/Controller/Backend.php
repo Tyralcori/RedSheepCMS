@@ -164,7 +164,7 @@ class Controller_Backend extends Controller_Redsheep {
                 $currentViewportElement->link = $postData['link'] ? htmlentities($postData['link']) : '/' . htmlentities($postData['headline']);
                 $currentViewportElement->type = $postData['type'] ? htmlentities($postData['type']) : 'staticsite';
                 $currentViewportElement->typeID = $postData['elementID'] ? htmlentities($postData['elementID']) : 1;
-                $currentViewportElement->isActive = $postData['isActive'] ? htmlentities($postData['isActive']) : 1;
+                $currentViewportElement->isActive = htmlentities($postData['isActive']);
                 $currentViewportElement->position = $postData['position'] ? htmlentities($postData['position']) : 'top';
 
                 // Save all the changes
