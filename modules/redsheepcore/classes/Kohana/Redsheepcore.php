@@ -86,7 +86,7 @@ class Kohana_Redsheepcore extends View {
         }
 
         // Config elements
-        $elements = array('version', 'template', 'baseHost', 'title');
+        $elements = array('version', 'template', 'baseHost', 'title', 'staticBaseHost');
 
         // Iterate all elements 
         foreach ($elements as $key => $element) {

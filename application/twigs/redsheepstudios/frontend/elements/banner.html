@@ -1,3 +1,7 @@
 <a href="{{ baseHost }}download">
+    {% if staticBaseHost %}
+    <img src="{{ staticBaseHost }}img/banner/welcome.png" class="redsheepBannerInner" alt="Welcome" title="Welcome"/>
+    {% else %}
     <img src="{{ baseHost }}assets/img/banner/welcome.png" class="redsheepBannerInner" alt="Welcome" title="Welcome"/>
+    {% endif %}
 </a>

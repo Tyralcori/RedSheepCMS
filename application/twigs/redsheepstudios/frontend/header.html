@@ -1,15 +1,16 @@
 <html>
     <head>
         <title>{{ title }}</title>
+        {% if staticBaseHost %}
+        <link rel="stylesheet" type="text/css" href="{{ staticBaseHost }}css/bootstrap.css" media="screen, projection" />
+        <link rel="stylesheet" type="text/css" href="{{ staticBaseHost }}css/font-awesome.min.css" media="screen, projection" />
+        <link rel="stylesheet" type="text/css" href="{{ staticBaseHost }}css/core.css" media="screen, projection" />
+        {% else %}
         <link rel="stylesheet" type="text/css" href="{{ baseHost }}assets/css/bootstrap.css" media="screen, projection" />
         <link rel="stylesheet" type="text/css" href="{{ baseHost }}assets/css/font-awesome.min.css" media="screen, projection" />
         <link rel="stylesheet" type="text/css" href="{{ baseHost }}assets/css/core.css" media="screen, projection" />
+        {% endif %}
 
         <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'/>
-
-        <script type="text/javascript" src="{{ baseHost }}assets/js/jquery.min.js"></script>
-        <script type="text/javascript" src="{{ baseHost }}assets/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="{{ baseHost }}assets/js/core.js"></script>
-        
     </head>
     <body>
