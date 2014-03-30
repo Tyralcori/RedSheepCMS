@@ -27,7 +27,7 @@ class Controller_Backend extends Controller_Redsheep {
         $sessionData = $sessionCheck->as_array();
 
         // Check, if session is okay
-        if (empty($sessionData['username']) && Request::detect_uri() !== '/backend/login') {
+        if (empty($sessionData['username']) && str_replace('/', '', Request::detect_uri()) !== 'backendlogin') {
             header('Location: ' . URL::base() . 'backend/login');
             die();
         } elseif (!empty($sessionData['username'])) {
@@ -124,15 +124,34 @@ class Controller_Backend extends Controller_Redsheep {
         // Make it safer than before..
         $viewportID = (int) $specialViewport;
 
+        // Set own get parameters
+        $getParamsInOwn = htmlentities($_SERVER['REQUEST_URI']);
+
+        // Substr on ? in QUERY
+        $currentNeedleGetPara = explode('?', $getParamsInOwn);
+
+        if (!empty($currentNeedleGetPara[1])) {
+
+            // Split on & - GET PARAMS Delimiter
+            $splittedNeedle = explode('&', $currentNeedleGetPara[1]);
+            $newGet = array();
+
+            // Set new get params
+            foreach ($splittedNeedle as $key => $value) {
+                $tempVar = explode('=', $value);
+                $newGet[$tempVar[0]] = $tempVar[1];
+            }
+        }
+
         // Create a new site, if $_GET['new'] not empty
-        if (!empty($_GET)) {
-            if (!empty($_GET['new'])) {
+        if (!empty($newGet)) {
+            if (!empty($newGet['new'])) {
                 // Create new site
                 Redsheepcore::setTemplate('createNewSite', true);
-                
+
                 // Placeholder
                 $viewportSpecial = array();
-                
+
                 // Get all available sites
                 $viewportSpecial['availableSites'] = ORM::factory('staticsite')->find_all()->as_array();
 
@@ -140,8 +159,8 @@ class Controller_Backend extends Controller_Redsheep {
                 Redsheepcore::setTemplate('oneViewport', $viewportSpecial);
                 return true;
             }
-            
-            if (!empty($_GET['newSite'])) {
+
+            if (!empty($newGet['newSite'])) {
                 $newSiteToSave = true;
             }
         }
@@ -156,7 +175,7 @@ class Controller_Backend extends Controller_Redsheep {
 
                 // Spam prev.
                 unset($_POST);
-                
+
                 // Get current element, set new darta
                 $currentViewportElement = ORM::factory('viewport')->where('id', '=', $viewportID)->find();
                 $currentViewportElement->id = $viewportID;
@@ -164,7 +183,7 @@ class Controller_Backend extends Controller_Redsheep {
                 $currentViewportElement->link = $postData['link'] ? htmlentities($postData['link']) : '/' . htmlentities($postData['headline']);
                 $currentViewportElement->type = $postData['type'] ? htmlentities($postData['type']) : 'staticsite';
                 $currentViewportElement->typeID = $postData['elementID'] ? htmlentities($postData['elementID']) : 1;
-                $currentViewportElement->isActive = htmlentities($postData['isActive']);
+                $currentViewportElement->isActive = $postData['isActive'] ? htmlentities($postData['isActive']) : 1;
                 $currentViewportElement->position = $postData['position'] ? htmlentities($postData['position']) : 'top';
 
                 // Save all the changes
@@ -301,14 +320,33 @@ class Controller_Backend extends Controller_Redsheep {
         // Create special site param
         $specialSite = str_replace('/', '', str_replace('/backend/sites', '', Redsheepcore_Data::run($_uri)));
 
+        // Set own get parameters
+        $getParamsInOwn = htmlentities($_SERVER['REQUEST_URI']);
+
+        // Substr on ? in QUERY
+        $currentNeedleGetPara = explode('?', $getParamsInOwn);
+
+        if (!empty($currentNeedleGetPara[1])) {
+
+            // Split on & - GET PARAMS Delimiter
+            $splittedNeedle = explode('&', $currentNeedleGetPara[1]);
+            $newGet = array();
+
+            // Set new get params
+            foreach ($splittedNeedle as $key => $value) {
+                $tempVar = explode('=', $value);
+                $newGet[$tempVar[0]] = $tempVar[1];
+            }
+        }
+
         // Create a new site, if $_GET['new'] not empty
-        if (!empty($_GET)) {
-            if (!empty($_GET['new'])) {
+        if (!empty($newGet)) {
+            if (!empty($newGet['new'])) {
                 Redsheepcore::setTemplate('createNewSite', "Create new site");
                 Redsheepcore::setTemplate('siteCalled', array('status' => 'success'));
             }
 
-            if (!empty($_GET['newSite'])) {
+            if (!empty($newGet['newSite'])) {
                 $newSiteToSave = true;
             }
         }
