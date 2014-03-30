@@ -1,0 +1,15 @@
+{% if siteCalled.message.name is not empty %}
+<form action="/backend/sites/{{ siteCalled.message.name }}" method="POST">
+{% else %}
+<form action="/backend/sites?newSite=true" method="POST">
+{% endif %}
+    <div class="form-group">
+        <label for="inputHeadline">Name of site</label>
+        <input type="text" class="form-control" id="headline" name="headline" placeholder="Headline" value="{{ siteCalled.message.name }}">
+    </div>
+    <div class="form-group">
+        <label for="inputText">Text</label><br/>
+        <textarea name="text" id="text" class="form-control" rows="7">{{ siteCalled.message.text|raw }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

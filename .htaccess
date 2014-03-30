@@ -7,5 +7,9 @@ RewriteRule ^(.*)$ /index.php/$1 [L]
 RewriteCond %{HTTPS} on
 RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+<<<<<<< HEAD
 RewriteCond %{QUERY_STRING} ^(%2d|-)[^=]+$ [NC]
 RewriteRule ^(.*) $1? [L]
+=======
+
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4

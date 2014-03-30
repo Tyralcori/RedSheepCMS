@@ -1,0 +1,45 @@
+{% for plugin in plugins.message %}
+{% if plugin.return.message.view %}
+{{ plugin.return.message.view|raw }}
+{% endif %}
+{% endfor %}
+<div class="redsheepContainer">
+    <div class="redsheepHeader">
+        <div class="redsheepHeaderInner">
+            <a href='{{ baseHost }}' title='RedSheep Studios'><label class="redsheepLogoStyle">RedSheep Studios</label></a>
+            <div class="redsheepNavPoints">
+                <ul>
+                {% for navi in navigation.top %}                
+                    <li><a href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a></li>                                
+                {% endfor %}
+                </ul>
+            </div>
+        </div>        
+    </div>
+
+    <div class="redsheepContent">
+        <div class="redsheepBanner">
+            {% include "%template%/%area%/elements/banner"|replace({"%template%": template, "%area%": area}) %}
+        </div>
+
+        <div class="redsheepPresent">
+            {% if siteOutput %}
+                {{ siteOutput|raw }}
+            {% else %}
+                {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+            {% endif %}
+        </div>
+
+        <div class="redsheepFooter">
+            <div class="redsheepFooterInner">
+                Copyright &copy; 2014 - RedSheep Studios   
+                <div class="redsheepFooterInnerRight">
+                    {% for navi in navigation.bottom %}                
+                        <a class="redsheepFooterLink" href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a> 
+                        |                             
+                    {% endfor %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+    {% if staticBaseHost %}
+        <script type="text/javascript" src="{{ staticBaseHost }}js/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/core.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ baseHost }}assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ baseHost }}assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ baseHost }}assets/js/core.js"></script>
+    {% endif %}
+    </body>
+</html>

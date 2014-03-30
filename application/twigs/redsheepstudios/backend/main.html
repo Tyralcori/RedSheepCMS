@@ -1,0 +1,36 @@
+{% for plugin in plugins.message %}
+{% if plugin.return.message.view %}
+{{ plugin.return.message.view|raw }}
+{% endif %}
+{% endfor %}
+<div class="redsheepContainer">
+    <div class="redsheepHeader">
+        <div class="redsheepHeaderInner">
+            <a href='{{ baseHost }}backend' title='RedSheep Studios'><label class="redsheepLogoStyle">RedSheep Studios Backend</label></a>
+        </div>        
+    </div>
+
+    <div class="redsheepContent">
+        {% if backendSession is not empty %}
+        <div class="redsheepNavi">
+            <div class="redsheepNaviInner">
+                <a href='{{ baseHost }}backend/navigation' title='Sites'>Navigation</a>
+                <a href='{{ baseHost }}backend/sites' title='Sites'>Sites</a>
+                <a href='{{ baseHost }}backend/accounts' title='Sites'>Accounts</a>
+                <a href='{{ baseHost }}backend/plugins' title='Sites'>Plugins</a>
+                <a href='{{ baseHost }}backend/cron' title='Sites'>Cronjobs</a>
+                <a href='{{ baseHost }}backend/logout' title='Sites'>Logout</a>
+            </div>        
+        </div>
+        {% endif %}
+        <div class="redsheepPresent">
+            {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+        </div>
+
+        <div class="redsheepFooter">
+            <div class="redsheepFooterInner">
+                Copyright &copy; 2014 - RedSheep Studios   
+            </div>
+        </div>
+    </div>
+</div>

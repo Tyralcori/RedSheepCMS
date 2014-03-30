@@ -25,7 +25,11 @@ class Kohana_Redsheepcore extends View {
      */
     public static function run() {
         // GET URI
+<<<<<<< HEAD
         $_uri = Request::detect_uri();
+=======
+        $_uri = str_replace('//', '/', '/'.Request::detect_uri());
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
 
         // Execute before events by URI
         self::setTemplate('beforeEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'before'));
@@ -72,7 +76,11 @@ class Kohana_Redsheepcore extends View {
         
         // First letter in uppercase. Kohana needs this.
         $executer[0] = strtoupper($executer[0]);
+<<<<<<< HEAD
         #var_dump($action);die();
+=======
+
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
         // If executer exits
         if (file_exists(APPPATH . 'classes/' . $executer . '.php') && is_readable(APPPATH . 'classes/' . $executer . '.php')) {
             // Declare
@@ -86,7 +94,11 @@ class Kohana_Redsheepcore extends View {
         }
 
         // Config elements
+<<<<<<< HEAD
         $elements = array('version', 'template', 'baseHost', 'title');
+=======
+        $elements = array('version', 'template', 'baseHost', 'title', 'staticBaseHost');
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
 
         // Iterate all elements 
         foreach ($elements as $key => $element) {
@@ -109,14 +121,84 @@ class Kohana_Redsheepcore extends View {
         
         // Set space in template
         self::setTemplate('area', $space);
+<<<<<<< HEAD
 
         // Space first letter uppercase - Controller
         $space[0] = strtoupper($space[0]);
+=======
+        
+        // Load action
+        $siteActionToLoad = strtolower($executer);
+        if(strtolower($executer) == 'frontend' || strtolower($executer) == 'backend') {
+            $siteActionToLoad = 'index';
+        }
+        
+        // Get navigationpoints
+        $viewports = ORM::factory('viewport')->where('isActive', '=', 1)->find_all()->as_array();
+        
+        // Navi container
+        $naviContainer = array();
+        
+        // Found elements array
+        $foundViewports = array();
+        $foundViewportsLinks = array();
+        
+        // Index at first
+        $foundViewports[] = 'index';
+        
+        // Iterate navigation
+        foreach($viewports as $key => $viewport) {
+            // Found viewport into navicontainer
+            $naviContainer[$viewport->position][] = array(
+                'name' => $viewport->name,
+                'link' => $viewport->link ? $viewport->link : '/' . $viewport->name,
+                'type' => $viewport->type,
+                'typeID' => $viewport->typeID,
+            );      
+            
+            // Found following element, add into found viewports
+            $foundViewports[] = $viewport->name;
+            $foundViewportsLinks[] = str_replace('/', '', $viewport->link) ? str_replace('/', '', $viewport->link) : $viewport->name;
+        }
+        
+        // Space first letter uppercase - Controller
+        $space[0] = strtoupper($space[0]);
+        
+        // If current action not in viewport
+        if(!in_array($siteActionToLoad, $foundViewports) && !in_array($siteActionToLoad, $foundViewportsLinks)) {            
+            // And if not exists
+            if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {
+                // 404 error not found
+                $siteActionToLoad = 'error';
+            }
+        }        
+        
+        // Get the template name
+        if(in_array($siteActionToLoad, $foundViewportsLinks)) {
+            $createRoute = ORM::factory('viewport')->where('link', '=', '/' . $siteActionToLoad)->find()->as_array();
+            if(!empty($createRoute) && is_array($createRoute) && !empty($createRoute['name'])) {
+                $siteActionToLoad = $createRoute['name'];
+            }
+        }
+        
+        // Navi container to the template
+        self::setTemplate('navigation', $naviContainer);
+        
+        // Set action to load
+        self::setTemplate('siteOutput', self::getSiteOutput($siteActionToLoad));
+        
+        // Set action in template
+        self::setTemplate('action', $siteActionToLoad);
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
 
         // Set request / response factorys
         $request = Request::factory();
         $response = Response::factory();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
         // Declare space
         $controllerSpace = 'Controller_' . $space;
         $spaceCalled = new $controllerSpace($request, $response);
@@ -129,12 +211,23 @@ class Kohana_Redsheepcore extends View {
             // New action
             $newAction = 'action_' . htmlentities($uriParts[2]);
         }
+<<<<<<< HEAD
         
         // Check if executeable
         if(method_exists($spaceCalled, $newAction)) {
             $spaceCalled->$newAction();
         } else {
             $spaceCalled->action_index();
+=======
+                
+        // Check if executeable
+        if(method_exists($spaceCalled, $newAction)) {
+            // Set action response
+            self::setTemplate('actionResponse', $spaceCalled->$newAction());
+        } else {
+            // Set action response
+            self::setTemplate('actionResponse', $spaceCalled->action_index());
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
         }
         
         // Execute after events by URI
@@ -200,12 +293,20 @@ class Kohana_Redsheepcore extends View {
 
     /**
      * Config setter
+<<<<<<< HEAD
+=======
+     * @param type $key
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
      * @param type $value
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/11
      */
     public static function setConfig($key = null, $value = null) {
+<<<<<<< HEAD
         if (!empty($value)) {
+=======
+        if (!empty($value) && !empty($key)) {
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
             self::$_config[$key] = $value;
         }
     }
@@ -233,12 +334,20 @@ class Kohana_Redsheepcore extends View {
 
     /**
      * Template setter
+<<<<<<< HEAD
+=======
+     * @param type $key
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
      * @param type $value
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/11
      */
     public static function setTemplate($key = null, $value = null) {
+<<<<<<< HEAD
         if (!empty($value)) {
+=======
+        if (!empty($value) && !empty($key)) {
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
             self::$_template[$key] = $value;
         }
     }
@@ -264,13 +373,21 @@ class Kohana_Redsheepcore extends View {
         }
 
         if (!empty($key)) {
+<<<<<<< HEAD
             return self::$_session[$key];
+=======
+            return self::$_session->get($key);
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
         }
         return self::$_session;
     }
 
     /**
      * Session setter
+<<<<<<< HEAD
+=======
+     * @param type $key
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
      * @param type $value
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/11
@@ -281,8 +398,13 @@ class Kohana_Redsheepcore extends View {
             self::$_session = Session::instance();
         }
 
+<<<<<<< HEAD
         if (!empty($value)) {
             self::$_session[$key] = $value;
+=======
+        if (!empty($value) && !empty($key)) {
+            self::$_session->set($key, $value);
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
         }
     }
 
@@ -309,12 +431,20 @@ class Kohana_Redsheepcore extends View {
 
     /**
      * Session setter
+<<<<<<< HEAD
+=======
+     * @param type $key
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
      * @param type $value
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/11
      */
     public static function setErrorMessages($key = null, $value = null) {
+<<<<<<< HEAD
         if (!empty($value)) {
+=======
+        if (!empty($value) && !empty($key)) {
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
             self::$_errorMessages[$key] = $value;
         }
     }
@@ -322,6 +452,11 @@ class Kohana_Redsheepcore extends View {
     /**
      * Call template
      * @param type $engine
+<<<<<<< HEAD
+=======
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
      */
     public static function callTemplate($engine = null) {
         // Template Engine default
@@ -355,6 +490,40 @@ class Kohana_Redsheepcore extends View {
         // Return created vars
         return $createdEngine;
     }
+<<<<<<< HEAD
+=======
+    
+    /**
+     * Get static site template
+     * @param type $siteName
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
+     */
+    protected static function getSiteOutput($siteName = null) {
+        // Empty? Return
+        if(empty($siteName)) {
+            return false;
+        }
+        
+        // Get siteType
+        $siteType = ORM::factory('viewport')->where('name', '=', $siteName)->find()->as_array();
+        
+        if(!empty($siteType['type'])) {
+            switch($siteType['type'])
+            {
+                default:
+                case 'staticsite':
+                    // Get staticsite content
+                    $getStaticSite = ORM::factory('staticsite')->where('id', '=', $siteType['typeID'])->find()->as_array();
+                    
+                    // Return static site content
+                    return $getStaticSite['text'];
+                    break;
+            }
+        }
+    }
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
 
 }
 

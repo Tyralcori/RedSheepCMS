@@ -1,0 +1,33 @@
+<label class="redsheepHeadline">Navigation</label>
+<hr/>
+<p class="redsheepDescription">
+    {% if createNewSite is not empty %}
+        {% include "%template%/%area%/elements/siteeditor"|replace({"%template%": template, "%area%": area}) %}
+    {% elseif oneViewport is empty %}
+        <a href='/backend/navigation?new=true'>Create a new navigation element</a>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Links to</th>
+                <th>Type</th>
+                <th>Type Name</th>
+                <th>Is active?</th>
+                <th>Position</th>
+                <th>Options</th>
+            </tr>
+        {% for viewport in viewports %}
+            <tr>
+                <td>{{ viewport.name }}</td>
+                <td>{{ viewport.link }}</td>
+                <td>{{ viewport.type }}</td>
+                <td><a href='/backend/sites/{{ viewport.typeName }}'>{{ viewport.typeName }}</a></td>
+                <td>{{ viewport.isActive }}</td>
+                <td>{{ viewport.position }}</td>
+                <td><a href='/backend/navigation/{{ viewport.id }}'>Edit</a></d>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+         {% include "%template%/%area%/elements/siteeditor"|replace({"%template%": template, "%area%": area}) %}
+    {% endif %}
+</p>

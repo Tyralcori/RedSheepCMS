@@ -20,7 +20,11 @@ http://yourdomain.com/backend/cron
 ## Whats next?
 Smarty as second template engine, SOLR plugin for whatever, caching methods like APC and redis (if it is usefull), some nice templates, and last but not least a full useable backend.
 
+<<<<<<< HEAD
 ## FAQ:
+=======
+## FAQ
+>>>>>>> a1d6ae493c9306a74a2f934405d48575cdd61fc4
 Are you ashamed for your english?
 Yep.
 

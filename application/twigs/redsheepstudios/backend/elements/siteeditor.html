@@ -1,0 +1,50 @@
+{% if siteIsSaved is not empty %}
+    {{ siteIsSaved }}
+{% endif %}
+
+{% if oneViewport.id is not empty %}
+<form action="/backend/navigation/{{ oneViewport.id }}" method="POST">
+{% else %}
+<form action="/backend/navigation/?newSite=true" method="POST">
+{% endif %}
+    <div class="form-group">
+        <label for="inputHeadline">Navigation Name</label>
+        <input type="text" class="form-control" id="headline" name="headline" placeholder="Headline" value="{{ oneViewport.name }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="inputHeadline">Link</label>
+        <input type="text" class="form-control" id="link" name="link" placeholder="Link" value="{{ oneViewport.link }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="inputHeadline">Type</label>
+        <input type="text" class="form-control" id="type" name="type" placeholder="Type" value="{{ oneViewport.type }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="inputHeadline">Show site element</label>
+        <select name='elementID' class="form-control">
+             {% for site in oneViewport.availableSites %}
+                <option value='{{ site.id }}' id='{{ site.id }}' name='{{ site.id }}' {% if oneViewport.typeID == site.id %}selected="selected"{% endif %}>{{ site.name }}</option>
+             {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="inputHeadline">Is Active?</label>
+        <select name='isActive' class="form-control">
+            <option value='1' id='1' name='1' {% if oneViewport.isActive == 1 %}selected="selected"{% endif %}>Yes</option>
+            <option value='0' id='0' name='0' {% if oneViewport.isActive == 0 %}selected="selected"{% endif %}>No</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputHeadline">Position</label>
+        <select name='position' class="form-control">
+            <option value='top' id='top' name='top' {% if oneViewport.position == "top" %}selected="selected"{% endif %}>Top</option>
+            <option value='bottom' id='bottom' name='bottom' {% if oneViewport.position == "bottom" %}selected="selected"{% endif %}>Bottom</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
