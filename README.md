@@ -28,7 +28,7 @@ How do i get support?
 I would setup a community forum later.
 
 Is it free?
-Yes.
+Yes..
 
 
 Thanks for using (If you still don't using, start, and convince yourself)!
