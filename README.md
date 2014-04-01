@@ -17,6 +17,13 @@ The most important functions are integrated. All other parts are in your hands.
 http://yourdomain.com/backend/cron
 
 
+## Twig extensions
+Add following lines in 
+\modules\twig\classes\Kohana\Twig.php Line 67:
+// Experimental
+$env->addExtension(new Twig_Extension_StringLoader());
+
+
 ## Whats next?
 Smarty as second template engine, SOLR plugin for whatever, caching methods like APC and redis (if it is usefull), some nice templates, and last but not least a full useable backend.
 
