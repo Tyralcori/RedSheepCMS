@@ -1,7 +1,7 @@
 {% for plugin in plugins.message %}
-{% if plugin.return.message.view %}
-{{ plugin.return.message.view|raw }}
-{% endif %}
+    {% if plugin.return.message.view %}
+        {{ include(template_from_string(plugin.return.message.view)) }}
+    {% endif %}
 {% endfor %}
 <div class="redsheepContainer">
     <div class="redsheepHeader">
