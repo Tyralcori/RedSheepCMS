@@ -18,7 +18,8 @@ class Controller_Frontend extends Controller_Redsheep {
      * @since 2014/03/11
      */
     public function action_index() {
-        
+        // Load plugins
+        Redsheepcore::setTemplate('plugins', Pluginmanager::load('frontend'));
     }
 
 }

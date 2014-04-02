@@ -27,9 +27,6 @@ class Controller_Redsheep extends Controller {
         // Set current Session as Array into template
         $sessionData = $session->as_array();
         Redsheepcore::setTemplate('session', $sessionData);
-
-        // Load plugins
-        Redsheepcore::setTemplate('plugins', Pluginmanager::load());
         
         // Set template vars
         $this->response->body(Redsheepcore::callTemplate('Twig'));

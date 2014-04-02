@@ -25,6 +25,9 @@ class Controller_Backend extends Controller_Redsheep {
         // Get session
         $sessionCheck = Redsheepcore::getSession();
         $sessionData = $sessionCheck->as_array();
+        
+        // Load plugins
+        Redsheepcore::setTemplate('plugins', Pluginmanager::load('backend'));
 
         // Check, if session is okay
         if (empty($sessionData['username']) && str_replace('/', '', Request::detect_uri()) !== 'backendlogin') {
@@ -73,10 +76,45 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/26
      */
     public function action_plugins() {
+        // Get whole uri
+        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
+
+        // Create special viewport param
+        $specialViewport = str_replace('/', '', str_replace('/backend/plugins', '', Redsheepcore_Data::run($_uri)));
+        
+        // If not empty pluginID
+        if(!empty($specialViewport)) {
+            // Set plugin ID int cast
+            $pluginID = (int) $specialViewport;
+            
+            // Get all infos about the plugin
+            $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
+            
+            // Get active state
+            $currentActiveState = (int) $selectedPlugin->active;
+            
+            // Invert default = 0 (not active)
+            $invertedActiveState = 0;
+            
+            // If not active, inverted = 1 (active)
+            if($currentActiveState === 0) {
+                $invertedActiveState = 1;
+            }
+            
+            // Update the datas!
+            $selectedPlugin->id = $selectedPlugin->id;
+            $selectedPlugin->active = $invertedActiveState;
+            
+            // Save updated datas
+            $selectedPlugin->save();
+            
+            header('Location: ' . URL::base() . 'backend/plugins');
+            die();
+        }
+        
         // Get all plugins
         $allPlugins = ORM::factory('plugin')->find_all()->as_array();
-        
-        
+                
         // Plugin container
         $containerPlugins = array();
         

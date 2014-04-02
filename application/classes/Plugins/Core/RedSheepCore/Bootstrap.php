@@ -16,7 +16,8 @@ class Plugins_Core_RedSheepCore_Bootstrap extends Controller implements Plugins_
      * @since 2014/03/11
      */
     public static function index() {
-        return array('status' => 'success', 
+        return array(
+            'status' => 'success', 
             'message' => array(
                 'view' => self::view(),
             )
