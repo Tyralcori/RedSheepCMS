@@ -30,7 +30,7 @@ class Plugins_Core_RedSheepCore_Bootstrap extends Controller implements Plugins_
      * @since 2014/03/11
      */
     public static function view() {
-        $template = file_get_contents(APPPATH . 'classes/Plugins/Core/RedSheepCore/view/frontend/index.html');
+        $template = file_get_contents(__DIR__ . '/view/frontend/index.html');
         
         return $template;
     }
