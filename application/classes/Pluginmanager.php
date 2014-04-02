@@ -243,6 +243,9 @@ class Pluginmanager extends Controller {
 
     /**
      * Generate CSS and JS Files, if not exists or plugin changed active
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/02
      */
     public static function generate() {
         // Declare required css / js pathes
