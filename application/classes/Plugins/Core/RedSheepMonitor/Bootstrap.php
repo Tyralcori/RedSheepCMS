@@ -60,7 +60,6 @@ class Plugins_Core_RedSheepMonitor_Bootstrap extends Controller implements Plugi
      * @since 2014/03/20
      */
     public static function monitor() {
-        die("TEST");
         return "Monitor NOW";
     }
 }

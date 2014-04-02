@@ -1,9 +1,18 @@
+{% set stopRendering = false %}
 {% for plugin in plugins.message %}
+
     {% if plugin.return.message.view %}
-        {{ include(template_from_string(plugin.return.message.view)) }}
+        {% if stopRendering is empty %}
+            {% if plugin.return.message.isOnly %}
+                {% set stopRendering = 'isOnly' %}
+            {% endif %}
+            {{ include(template_from_string(plugin.return.message.view)) }}            
+        {% endif %}
     {% endif %}
+    
 {% endfor %}
 
+{% if stopRendering is empty %}
 <div class="redsheepContainer">
     <div class="redsheepHeader">
         <div class="redsheepHeaderInner">
@@ -44,3 +53,4 @@
         </div>
     </div>
 </div>
+{% endif %}

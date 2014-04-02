@@ -113,7 +113,7 @@ class Pluginmanager extends Controller {
                         $plugin = ORM::factory('plugin')->where('name', '=', $pluginValue)->find();
 
                         // Register only new plugins
-                        if(!empty($plugin->version)) {
+                        if (!empty($plugin->version)) {
                             continue;
                         }
 
@@ -134,7 +134,7 @@ class Pluginmanager extends Controller {
                 }
             }
         }
-        
+
         // Return plugins
         return self::getPlugins();
     }
@@ -239,6 +239,62 @@ class Pluginmanager extends Controller {
 
         // Something wrong
         return array('status' => 'success', 'message' => 'Plugins can not be loaded / executed.');
+    }
+
+    /**
+     * Generate CSS and JS Files, if not exists or plugin changed active
+     */
+    public static function generate() {
+        // Declare required css / js pathes
+        $assetDIR = array(
+            'css' => $_SERVER['DOCUMENT_ROOT'] . '/assets/css/plugins.css',
+            'js' => $_SERVER['DOCUMENT_ROOT'] . '/assets/js/plugins.js',
+        );
+
+        // Load all plugins
+        $allPlugins = self::load();
+        
+        // Create everytime css & js file new
+        foreach ($assetDIR as $key => $path) {
+            try {
+                $handle = fopen($path, "w+");
+                fwrite($handle, "/** Automatic generated $key file **/");
+                fclose($handle);
+            } catch (Exception $e) {
+                die($e);
+            }
+        }
+        
+        // Check if plugins must be generated
+        if(empty($allPlugins) || !is_array($allPlugins) || empty($allPlugins['message']) || !is_array($allPlugins['message'])) {
+            // Everything is fine
+            return array('status' => 'success', 'message' => 'Files are okay');
+        }
+        
+        // Iterate all given plugins
+        foreach ($allPlugins['message'] as $key => $plugin) {
+            // CSS
+            if (!empty($plugin['return']['message']['style'])) {
+                $handle = fopen($assetDIR['css'], "a");
+                $pluginName = $plugin['name'];
+                fwrite($handle, "\r\n/** Style for plugin $pluginName: Start **/\r\n");
+                fwrite($handle, $plugin['return']['message']['style']);
+                fwrite($handle, "\r\n/** Style for plugin $pluginName: END **/\r\n");
+                fclose($handle);
+            }
+            // JS
+            if (!empty($plugin['return']['message']['script'])) {
+                $handle = fopen($assetDIR['js'], "w+");
+                $pluginName = $plugin['name'];
+                fwrite($handle, "\r\n/** Script for plugin $pluginName: Start **/\r\n");
+                fwrite($handle, $plugin['return']['message']['script']);
+                fwrite($handle, "\r\n/** Script for plugin $pluginName: END **/\r\n");
+                fclose($handle);
+            }
+        }
+        
+        // Everything is fine
+        return array('status' => 'success', 'message' => 'Files generated');
     }
 
 }

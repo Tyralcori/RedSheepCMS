@@ -108,6 +108,9 @@ class Controller_Backend extends Controller_Redsheep {
             // Save updated datas
             $selectedPlugin->save();
             
+            // Generate new styles (css & js)
+            Pluginmanager::generate();
+            
             header('Location: ' . URL::base() . 'backend/plugins');
             die();
         }

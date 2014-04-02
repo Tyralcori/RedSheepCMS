@@ -20,7 +20,9 @@ class Plugins_Core_RedSheepStore_Bootstrap extends Controller implements Plugins
             'status' => 'success',
             'message' => array(
                 'view' => self::view(),
+                'isOnly' => true,
                 'style' => self::style(),
+                'script' => self::script(),
             )
         );
     }
@@ -38,15 +40,27 @@ class Plugins_Core_RedSheepStore_Bootstrap extends Controller implements Plugins
     }
     
     /**
-     * View function
+     * CSS Return function
      * @return boolean
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/02
      */
     public static function style() {
-        $cssPath = __DIR__ . '/view/assets/css/store.css';
+        $cssPath = file_get_contents(__DIR__ . '/view/assets/css/store.css');
 
         return $cssPath;
+    }
+    
+    /**
+     * JS Return function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/02
+     */
+    public static function script() {
+        $jsPath = file_get_contents(__DIR__ . '/view/assets/js/store.js');
+
+        return $jsPath;
     }
 
     /**
