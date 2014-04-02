@@ -1,5 +1,32 @@
 <label class="redsheepHeadline">Plugin Overview</label>
 <hr/>
 <p class="redsheepDescription">
-
+    {% if pluginsOverview is iterable %}
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Active</th>
+                <th>Added</th>
+                <th>Installed on</th>
+                <th>Version</th>
+                <th>Publisher</th>
+                <th>Section</th>
+                <th>Space</th>
+            </tr>
+        {% for plugin in pluginsOverview %}
+            <tr>
+                <td>{{ plugin.name }}</td>
+                <td>{{ plugin.description }}</td>
+                <td>{{ plugin.active }}</td>
+                <td>{{ plugin.added }}</td>
+                <td>{{ plugin.installedOn }}</td>
+                <td>{{ plugin.version }}</td>
+                <td><a href="{{ plugin.publisherHomepage }}" name="{{ plugin.publisher }} Homepage" title="{{ plugin.publisher }} Homepage" target="_blank">{{ plugin.publisher }}</a></td>
+                <td>{{ plugin.section }}</td>
+                <td>{{ plugin.space }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
 </p>

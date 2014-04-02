@@ -73,7 +73,32 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/26
      */
     public function action_plugins() {
+        // Get all plugins
+        $allPlugins = ORM::factory('plugin')->find_all()->as_array();
         
+        
+        // Plugin container
+        $containerPlugins = array();
+        
+        // Iterate all given plugins
+        foreach($allPlugins as $key => $currentPlugin) {
+            // Add some infos into container
+            $requiredInfos = array('id', 'name', 'description', 'active', 'added', 'installedOn', 'version', 'publisher', 'publisherHomepage', 'section', 'space');
+            
+            // Add every given element into the container
+            foreach ($requiredInfos as $reqKey => $reqValue) {
+                if($reqValue == 'active') {
+                    $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue;
+                } else {
+                    $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue ? $currentPlugin->$reqValue : '';
+                }
+            }
+        }
+        
+        // Check if empty. If not, send it to the view
+        if(!empty($containerPlugins) && is_array($containerPlugins) && !empty($containerPlugins[0])) {
+            Redsheepcore::setTemplate('pluginsOverview', $containerPlugins);
+        }
     }
 
     /**
@@ -104,7 +129,11 @@ class Controller_Backend extends Controller_Redsheep {
 
             // Add every given element into the container
             foreach ($requiredInfos as $reqKey => $reqValue) {
-                $containerElement[$key][$reqValue] = $navigationElement->$reqValue ? $navigationElement->$reqValue : '';
+                if($reqValue == 'isActive') {
+                    $containerElement[$key][$reqValue] = $navigationElement->$reqValue;
+                } else {
+                    $containerElement[$key][$reqValue] = $navigationElement->$reqValue ? $navigationElement->$reqValue : '';
+                }
             }
 
             // If static site, get name
