@@ -322,6 +322,9 @@ class Controller_Backend extends Controller_Redsheep {
 
                     // Check, if session is okay
                     if (!empty($sessionData['username'])) {
+                        // Watchdog login
+                        Redsheepcore_Watchdog::setLog('info', 'login', $sessionData['username'] . ' logged in');
+                        
                         // Everything fine
                         header('Location: ' . URL::base() . 'backend');
                         die();
@@ -451,9 +454,19 @@ class Controller_Backend extends Controller_Redsheep {
         // Get backend session
         $sessionBackend = Session::instance();
 
+        // Session temp
+        $sessionTemp = $sessionBackend->as_array();
+
+        // Watchdog logout
+        Redsheepcore_Watchdog::setLog('info', 'login', $sessionTemp['username'] . ' logged out');
+        
         // Destroy session
         $sessionDestroy = $sessionBackend->destroy();
 
+        // Unsets
+        unset($sessionBackend);
+        unset($sessionTemp);
+        
         // Redirect
         header('Location: ' . URL::base() . 'backend');
         die();

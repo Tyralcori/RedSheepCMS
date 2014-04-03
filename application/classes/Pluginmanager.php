@@ -190,7 +190,7 @@ class Pluginmanager extends Controller {
         $selectedPlugin->save();
 
         // Generate new styles (css & js)
-        Pluginmanager::generate();
+        self::generate();
         
         // Everything fine
         return true;
