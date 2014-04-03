@@ -67,9 +67,7 @@ class Pluginmanager extends Controller {
      * @since 2014/03/11
      */
     public static function register() {
-        // Plugin directory
-        $pluginDir = APPPATH . 'classes/Plugins/';
-
+        
         // Ignore following content dir
         $givenDenyList = array('.', '..',);
 
@@ -79,17 +77,25 @@ class Pluginmanager extends Controller {
         // Scan all spaces
         foreach ($allowedSpaces as $key => $currentSpace) {
 
+            // Plugin directory
+            $pluginDir = APPPATH . 'classes/Plugins/';
+        
             // Add space to pluginDir if given and not empty
             if (!empty($currentSpace)) {
                 // Deny double slash (if space is, whyever, empty)
                 $pluginDir .= $currentSpace . '/';
             }
 
-            // If plugindir incl. space is dir and readable, catch em all
-            if (is_dir($pluginDir) && is_readable($pluginDir) && !empty($currentSpace)) {
+            if(!is_dir($pluginDir)) {
+                die("$pluginDir is no plugin directory");
+            } elseif(!is_readable($pluginDir)) {
+                die("$pluginDir is not readable");
+            } elseif(empty($currentSpace)) {
+                die("Pluginspace is empty");
+            } else  {
                 // Scan the dir
                 $foundPlugins = scandir($pluginDir);
-
+                
                 // Check return
                 if (!empty($foundPlugins) && is_array($foundPlugins)) {
                     // Iterate all the plugins 

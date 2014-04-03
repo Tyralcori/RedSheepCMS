@@ -1,5 +1,3 @@
-
-/** Script for plugin RedSheepScrollTop: Start **/
 $( document ).ready(function() {
     // Scroll on Top, if click on DIV
     $('.scrollTop').click(function() {
@@ -15,4 +13,3 @@ $( document ).ready(function() {
         }
     })
 });
-/** Script for plugin RedSheepScrollTop: END **/
