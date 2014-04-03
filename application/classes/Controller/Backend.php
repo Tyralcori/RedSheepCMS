@@ -96,9 +96,15 @@ class Controller_Backend extends Controller_Redsheep {
             // Invert default = 0 (not active)
             $invertedActiveState = 0;
             
+            // Datetime
+            $selectedPlugin->installedOn = '0000-00-00 00:00:00';
+            
             // If not active, inverted = 1 (active)
             if($currentActiveState === 0) {
                 $invertedActiveState = 1;
+                
+                // Datetime
+                $selectedPlugin->installedOn = date('Y-m-d H:i:s');
             }
             
             // Update the datas!

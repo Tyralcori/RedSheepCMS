@@ -123,6 +123,10 @@ class Pluginmanager extends Controller {
                             if (!empty($pluginMetaDatas[$metaValue])) {
                                 $plugin->$metaValue = $pluginMetaDatas[$metaValue];
                             }
+                            
+                            // Datetime
+                            $plugin->added = date('Y-m-d H:i:s');
+                            
                             // Save changed / new plugin
                             $plugin->save();
                         }
