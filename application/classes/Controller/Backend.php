@@ -25,7 +25,7 @@ class Controller_Backend extends Controller_Redsheep {
         // Get session
         $sessionCheck = Redsheepcore::getSession();
         $sessionData = $sessionCheck->as_array();
-        
+
         // Load plugins
         Redsheepcore::setTemplate('plugins', Pluginmanager::load('backend'));
 
@@ -81,69 +81,47 @@ class Controller_Backend extends Controller_Redsheep {
 
         // Create special viewport param
         $specialViewport = str_replace('/', '', str_replace('/backend/plugins', '', Redsheepcore_Data::run($_uri)));
-        
+
         // If not empty pluginID
-        if(!empty($specialViewport)) {
+        if (!empty($specialViewport)) {
             // Set plugin ID int cast
             $pluginID = (int) $specialViewport;
-            
-            // Get all infos about the plugin
-            $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
-            
-            // Get active state
-            $currentActiveState = (int) $selectedPlugin->active;
-            
-            // Invert default = 0 (not active)
-            $invertedActiveState = 0;
-            
-            // Datetime
-            $selectedPlugin->installedOn = '0000-00-00 00:00:00';
-            
-            // If not active, inverted = 1 (active)
-            if($currentActiveState === 0) {
-                $invertedActiveState = 1;
-                
-                // Datetime
-                $selectedPlugin->installedOn = date('Y-m-d H:i:s');
+
+            // Install or uninstall plugin
+            if(!empty($pluginID)) {
+                $invert = Pluginmanager::invert($pluginID);
             }
             
-            // Update the datas!
-            $selectedPlugin->id = $selectedPlugin->id;
-            $selectedPlugin->active = $invertedActiveState;
-            
-            // Save updated datas
-            $selectedPlugin->save();
-            
-            // Generate new styles (css & js)
-            Pluginmanager::generate();
-            
-            header('Location: ' . URL::base() . 'backend/plugins');
-            die();
+            // If $invert, reload site
+            if($invert) {
+                header('Location: ' . URL::base() . 'backend/plugins');
+                die();
+            }
         }
-        
+
         // Get all plugins
         $allPlugins = ORM::factory('plugin')->find_all()->as_array();
-                
+
         // Plugin container
         $containerPlugins = array();
-        
+
         // Iterate all given plugins
-        foreach($allPlugins as $key => $currentPlugin) {
+        foreach ($allPlugins as $key => $currentPlugin) {
             // Add some infos into container
             $requiredInfos = array('id', 'name', 'description', 'active', 'added', 'installedOn', 'version', 'publisher', 'publisherHomepage', 'section', 'space');
-            
+
             // Add every given element into the container
             foreach ($requiredInfos as $reqKey => $reqValue) {
-                if($reqValue == 'active') {
+                if ($reqValue == 'active') {
                     $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue;
                 } else {
                     $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue ? $currentPlugin->$reqValue : '';
                 }
             }
         }
-        
+
         // Check if empty. If not, send it to the view
-        if(!empty($containerPlugins) && is_array($containerPlugins) && !empty($containerPlugins[0])) {
+        if (!empty($containerPlugins) && is_array($containerPlugins) && !empty($containerPlugins[0])) {
             Redsheepcore::setTemplate('pluginsOverview', $containerPlugins);
         }
     }
@@ -176,7 +154,7 @@ class Controller_Backend extends Controller_Redsheep {
 
             // Add every given element into the container
             foreach ($requiredInfos as $reqKey => $reqValue) {
-                if($reqValue == 'isActive') {
+                if ($reqValue == 'isActive') {
                     $containerElement[$key][$reqValue] = $navigationElement->$reqValue;
                 } else {
                     $containerElement[$key][$reqValue] = $navigationElement->$reqValue ? $navigationElement->$reqValue : '';

@@ -67,7 +67,7 @@ class Pluginmanager extends Controller {
      * @since 2014/03/11
      */
     public static function register() {
-        
+
         // Ignore following content dir
         $givenDenyList = array('.', '..',);
 
@@ -79,23 +79,23 @@ class Pluginmanager extends Controller {
 
             // Plugin directory
             $pluginDir = APPPATH . 'classes/Plugins/';
-        
+
             // Add space to pluginDir if given and not empty
             if (!empty($currentSpace)) {
                 // Deny double slash (if space is, whyever, empty)
                 $pluginDir .= $currentSpace . '/';
             }
 
-            if(!is_dir($pluginDir)) {
+            if (!is_dir($pluginDir)) {
                 die("$pluginDir is no plugin directory");
-            } elseif(!is_readable($pluginDir)) {
+            } elseif (!is_readable($pluginDir)) {
                 die("$pluginDir is not readable");
-            } elseif(empty($currentSpace)) {
+            } elseif (empty($currentSpace)) {
                 die("Pluginspace is empty");
-            } else  {
+            } else {
                 // Scan the dir
                 $foundPlugins = scandir($pluginDir);
-                
+
                 // Check return
                 if (!empty($foundPlugins) && is_array($foundPlugins)) {
                     // Iterate all the plugins 
@@ -129,10 +129,10 @@ class Pluginmanager extends Controller {
                             if (!empty($pluginMetaDatas[$metaValue])) {
                                 $plugin->$metaValue = $pluginMetaDatas[$metaValue];
                             }
-                            
+
                             // Datetime
                             $plugin->added = date('Y-m-d H:i:s');
-                            
+
                             // Save changed / new plugin
                             $plugin->save();
                         }
@@ -147,6 +147,53 @@ class Pluginmanager extends Controller {
 
         // Return plugins
         return self::getPlugins();
+    }
+
+    /**
+     * Install or uninstalls an pluin
+     * @param type $pluginID
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/03
+     */
+    public static function invert($pluginID = null) {
+        // Must not be empty
+        if (empty($pluginID)) {
+            return false;
+        }
+
+        // Get all infos about the plugin
+        $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
+
+        // Get active state
+        $currentActiveState = (int) $selectedPlugin->active;
+
+        // Invert default = 0 (not active)
+        $invertedActiveState = 0;
+
+        // Datetime
+        $selectedPlugin->installedOn = '0000-00-00 00:00:00';
+
+        // If not active, inverted = 1 (active)
+        if ($currentActiveState === 0) {
+            $invertedActiveState = 1;
+
+            // Datetime
+            $selectedPlugin->installedOn = date('Y-m-d H:i:s');
+        }
+
+        // Update the datas!
+        $selectedPlugin->id = $selectedPlugin->id;
+        $selectedPlugin->active = $invertedActiveState;
+
+        // Save updated datas
+        $selectedPlugin->save();
+
+        // Generate new styles (css & js)
+        Pluginmanager::generate();
+        
+        // Everything fine
+        return true;
     }
 
     /**
@@ -266,7 +313,7 @@ class Pluginmanager extends Controller {
 
         // Load all plugins
         $allPlugins = self::load();
-        
+
         // Create everytime css & js file new
         foreach ($assetDIR as $key => $path) {
             try {
@@ -277,13 +324,13 @@ class Pluginmanager extends Controller {
                 die($e);
             }
         }
-        
+
         // Check if plugins must be generated
-        if(empty($allPlugins) || !is_array($allPlugins) || empty($allPlugins['message']) || !is_array($allPlugins['message'])) {
+        if (empty($allPlugins) || !is_array($allPlugins) || empty($allPlugins['message']) || !is_array($allPlugins['message'])) {
             // Everything is fine
             return array('status' => 'success', 'message' => 'Files are okay');
         }
-        
+
         // Iterate all given plugins
         foreach ($allPlugins['message'] as $key => $plugin) {
             // CSS
@@ -305,7 +352,7 @@ class Pluginmanager extends Controller {
                 fclose($handle);
             }
         }
-        
+
         // Everything is fine
         return array('status' => 'success', 'message' => 'Files generated');
     }
