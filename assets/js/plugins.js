@@ -1,4 +1,4 @@
-
+/** Automatic generated js file **/
 /** Script for plugin RedSheepScrollTop: Start **/
 $( document ).ready(function() {
     // Scroll on Top, if click on DIV
@@ -16,3 +16,15 @@ $( document ).ready(function() {
     })
 });
 /** Script for plugin RedSheepScrollTop: END **/
+
+/** Script for plugin RedSheepBugTracker: Start **/
+$( document ).ready(function() {
+    $('.bugTracker').click(function() {
+        $('.bugTrackerForm').fadeIn();
+    });
+    
+    $('.bugTrackerFormClose a').click(function() {
+        $('.bugTrackerForm').fadeOut();
+    })
+});
+/** Script for plugin RedSheepBugTracker: END **/

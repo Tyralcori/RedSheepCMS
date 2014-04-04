@@ -21,3 +21,84 @@
     cursor:pointer;
 }
 /** Style for plugin RedSheepScrollTop: END **/
+
+/** Style for plugin RedSheepBugTracker: Start **/
+.bugTracker {
+    position:fixed;
+    top:200px;
+    left:-38px;
+    height:25px;
+    width:100px;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-transform: rotate(-270deg); 
+    -moz-transform: rotate(-270deg);	
+    color:white;
+    font-weight:bold;
+    background-color:#8F1414;
+    z-index:9998;
+    text-align:center;
+    border:1px solid white;
+    font-siz:18px;
+}
+
+.bugTracker:hover {
+    background-color:white;
+    color:#8F1414;
+    cursor:pointer;
+}
+
+.bugTrackerForm {
+    position:fixed;
+    top:50px;
+    left:0;
+    right:0;
+    height:500px;
+    width:400px;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:5px;
+    -moz-box-shadow: 0 0 2px 2px grey;
+    webkit-box-shadow: 0 0 2px 2px grey;
+    box-shadow: 0 0 2px 2px grey;
+    color: grey;
+    background-color:white;
+    z-index:9999;
+    display:none;
+}
+
+.bugTrackerFormClose {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:25px;
+    width:100%;
+    text-align:right;
+}
+
+.bugTrackerFormClose a {
+    position:relative;
+    margin-right:5px;
+    color:grey;
+    font-weight:normal;
+}
+
+.bugTrackerFormClose a:hover {
+    position:relative;
+    margin-right:5px;
+    text-decoration:none;
+    color:#d3d3d3;
+}
+
+.bugTrackerFormInner {
+    position:absolute;
+    top:30px;
+    left:10px;
+    width:380px;
+    height:470px;
+}
+
+.bugTrackerFormInnerForm {
+    
+}
+/** Style for plugin RedSheepBugTracker: END **/

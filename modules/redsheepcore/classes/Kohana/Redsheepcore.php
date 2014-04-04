@@ -177,6 +177,10 @@ class Kohana_Redsheepcore extends View {
         $request = Request::factory();
         $response = Response::factory();
         
+        // Internal setting
+        self::setRequestObject($request);
+        self::setResponseObject($response);
+        
         // Declare space
         $controllerSpace = 'Controller_' . $space;
         $spaceCalled = new $controllerSpace($request, $response);
@@ -382,6 +386,68 @@ class Kohana_Redsheepcore extends View {
     public static function setErrorMessages($key = null, $value = null) {
         if (!empty($value) && !empty($key)) {
             self::$_errorMessages[$key] = $value;
+        }
+    }
+    
+    /**
+     * Private Request element
+     * @var type 
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
+     */
+    private static $_request = array();
+
+    /**
+     * Request getter
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/04
+     */
+    public static function getRequestObject() {
+        return self::$_request;
+    }
+
+    /**
+     * Request setter
+     * @param type $key
+     * @param type $value
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/04
+     */
+    public static function setRequestObject($requestObject = null) {
+        if (!empty($requestObject)) {
+            self::$_request = $requestObject;
+        }
+    }
+    
+    /**
+     * Private Response element
+     * @var type 
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/03/11
+     */
+    private static $_response = array();
+
+    /**
+     * Response getter
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/04
+     */
+    public static function getResponseObject() {
+        return self::$_response;
+    }
+
+    /**
+     * Response setter
+     * @param type $key
+     * @param type $value
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/04
+     */
+    public static function setResponseObject($requestObject = null) {
+        if (!empty($requestObject)) {
+            self::$_response = $requestObject;
         }
     }
 
