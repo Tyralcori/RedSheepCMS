@@ -94,6 +94,9 @@ class Controller_Backend extends Controller_Redsheep {
             
             // If $invert, reload site
             if($invert) {
+                // Log
+                Redsheepcore_Watchdog::setLog('info', 'plugins', 'Inverted plugin ' . $pluginID);
+                
                 header('Location: ' . URL::base() . 'backend/plugins');
                 die();
             }
@@ -243,6 +246,9 @@ class Controller_Backend extends Controller_Redsheep {
                 // Save all the changes
                 $currentViewportElement->save();
 
+                // Log
+                Redsheepcore_Watchdog::setLog('info', 'navigation', 'Created / updated element ' . $postData['headline']);
+                
                 // Just a safe flag
                 Redsheepcore::setTemplate('siteIsSaved', 'Successfully saved!');
             }
@@ -354,6 +360,8 @@ class Controller_Backend extends Controller_Redsheep {
         if (!empty($executedCrons) && is_array($executedCrons) && count($executedCrons) > 0) {
             // Prepare string 
             foreach ($executedCrons as $key => $cron) {
+                // Log cron
+                Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron '. $cron);
                 $executed .= $cron . ' ';
             }
             // Show executed crons
@@ -440,6 +448,10 @@ class Controller_Backend extends Controller_Redsheep {
                 $currentSite->name = $postData['headline'] ? $postData['headline'] : $specialSite;
                 $currentSite->text = $postData['text'];
                 $currentSite->save();
+                
+                // Log
+                Redsheepcore_Watchdog::setLog('info', 'site', 'Created / updated site ' . $postData['headline']);
+                
                 Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/' . $currentSite->name . '">' . $currentSite->name . '</a>', 'saved' => TRUE));
             }
         }

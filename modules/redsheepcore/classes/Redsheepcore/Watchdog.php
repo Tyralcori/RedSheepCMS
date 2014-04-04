@@ -14,11 +14,13 @@ class Redsheepcore_Watchdog {
      * LOG GETTER
      * @param type $type
      * @param type $key
+     * @param type $period
      * @return type
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/03
+     * @todo Integrate period in watchdog e.g. "7days,3years,yesterday, or Datetimes from - to) 
      */
-    public static function getLog($type = null, $key = null) {
+    public static function getLog($type = null, $key = null, $period = null) {
         // Check if type is given
         if (!empty($type)) {
             // If key, return key in type
