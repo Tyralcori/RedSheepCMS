@@ -143,6 +143,60 @@ class Plugins_Community_RedSheepBugTracker_Bootstrap extends Controller implemen
         $request = Redsheepcore::getRequestObject();
         $_uri = str_replace('/', '', $request::detect_uri());
 
+        // Get postData
+        $postData = Redsheepcore_Data::run($request->post());
+
+        // If all postData given, check
+        if (!empty($postData) && is_array($postData) && !empty($postData['email']) && !empty($postData['bug'])) {
+            // Check email
+            if (!filter_var($postData['email'], FILTER_VALIDATE_EMAIL)) {
+                Redsheepcore::setTemplate('bugTrackerReturnMessage', 'Invalid Email!');
+            } else {
+                // Session set
+                $session = Session::instance();
+
+                // Get all of the session data as an array
+                $data = $session->as_array();
+
+                // Not allowed to report
+                $allowedReport = false;
+                
+                if (!empty($data['bugTrackerLastSent'])) {
+                    $now = time();
+                    if(($now - $data['bugTrackerLastSent']) > 600) {
+                        $allowedReport = true;
+                    } else {
+                        Redsheepcore::setTemplate('bugTrackerReturnMessage', 'Spamprotection. You are allowed to report a Bug every 10 Minutes!');
+                    }
+                } else {
+                    $allowedReport = true;
+                }
+                
+                if ($allowedReport) {
+                    // Set ticket datas
+                    $ticket = ORM::factory('bugtracker');
+                    $ticket->email = $postData['email'];
+                    $ticket->bugDescribe = $postData['bug'];
+                    $ticket->sentOn = date('Y-n-d H:i:s');
+                    $ticket->prio = 'normal';
+                    $ticket->assignedTo = '-';
+                    $ticket->status = 'unseen';
+                    $ticket->comment = '-';
+                    $ticket->save();
+                    unset($_POST);
+                    
+                    // Set timestamp
+                    $session->set('bugTrackerLastSent', time());
+                    
+                    // Thank you.
+                    Redsheepcore::setTemplate('bugTrackerReturnMessage', 'Your bug was reported. Thank you to improve RedSheep CMS!');
+                }
+            }
+        } else {
+            // All fields required
+            // Redsheepcore::setTemplate('bugTrackerReturnMessage', 'Please fill all fields!');
+        }
+
         // Set ticketID
         $ticketID = (int) str_replace('bugtracker', '', $_uri);
 
@@ -153,22 +207,22 @@ class Plugins_Community_RedSheepBugTracker_Bootstrap extends Controller implemen
 
         // Declare Container
         $ticketContainer = array();
-        
+
         // If no id, load all, else load one by id
         if (empty($ticketID)) {
             // Load all tickets
-            $ticketContainer = ORM::factory('bugtracker')->find_all()->as_array();
+            $ticketContainer = ORM::factory('bugtracker')->order_by('sentOn', 'DESC')->find_all()->as_array();
         } else {
             // Load ticket by id
-            $ticketContainer = ORM::factory('bugtracker')->where('id', '=', $ticketID)->find()->as_array();
+            $ticketContainer = ORM::factory('bugtracker')->order_by('sentOn', 'DESC')->where('id', '=', $ticketID)->find()->as_array();
         }
-        
+
         // Return tickets
         Redsheepcore::setTemplate('bugTrackerReturn', array(
             'ticketCount' => count($ticketContainer),
             'tickets' => is_array($ticketContainer) ? $ticketContainer : array($ticketContainer),
         ));
-        
+
         // Template
         return true;
     }

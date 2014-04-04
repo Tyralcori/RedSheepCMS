@@ -67,7 +67,26 @@
     display:none;
 }
 
-.bugTrackerFormClose {
+.bugTrackerFormResponse {
+    position:fixed;
+    top:50px;
+    left:0;
+    right:0;
+    height:100px;
+    width:400px;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:5px;
+    -moz-box-shadow: 0 0 2px 2px grey;
+    webkit-box-shadow: 0 0 2px 2px grey;
+    box-shadow: 0 0 2px 2px grey;
+    color: grey;
+    background-color:white;
+    z-index:9999;
+    display:none;
+}
+
+.bugTrackerFormClose, .bugTrackerFormCloseResponse {
     position:absolute;
     top:0px;
     left:0px;
@@ -76,14 +95,14 @@
     text-align:right;
 }
 
-.bugTrackerFormClose a {
+.bugTrackerFormClose a, .bugTrackerFormCloseResponse a {
     position:relative;
     margin-right:5px;
     color:grey;
     font-weight:normal;
 }
 
-.bugTrackerFormClose a:hover {
+.bugTrackerFormClose a:hover, .bugTrackerFormCloseResponse a:hover {
     position:relative;
     margin-right:5px;
     text-decoration:none;
@@ -98,7 +117,14 @@
     height:470px;
 }
 
-.bugTrackerFormInnerForm {
-    
+.bugTrackerFormResponseInner {
+    position:absolute;
+    top:30px;
+    left:10px;
+    width:380px;
+    height:70px;
+    text-align:center;
 }
+
+
 /** Style for plugin RedSheepBugTracker: END **/
