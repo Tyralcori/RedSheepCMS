@@ -34,7 +34,7 @@
 
         <div class="redsheepPresent">
             {% if siteOutput %}
-                {{ siteOutput|raw }}
+                {{ include(template_from_string(siteOutput)) }}
             {% else %}
                 {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
             {% endif %}

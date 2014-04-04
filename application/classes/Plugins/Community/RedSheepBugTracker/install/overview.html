@@ -1,5 +1,28 @@
 <label class="redsheepHeadline">Bugtracker</label>
 <hr/>
 <p class="redsheepDescription">
-    Overview
+    {{ bugTrackerReturn.ticketCount }} Ticket(s) reported.
+<hr/>
+{% if bugTrackerReturn.tickets is iterable %}
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Description</th>
+        <th>Since</th>
+        <th>Priority</th>
+        <th>Assigned ro</th>
+        <th>Status</th>
+        <th>Comment</th>
+    </tr>
+    {% for ticket in bugTrackerReturn.tickets %}    
+    <tr>
+        <td><a href='#' title='{{ ticket.bugDescribe }}' name='Decsription'>{{ ticket.bugDescribe|slice(0,40) }}..</a></td>
+        <td>{{ ticket.sentOn }}</td>
+        <td>{{ ticket.prio }}</td>
+        <td>{{ ticket.assignedTo }}</td>
+        <td>{{ ticket.status }}</td>
+        <td>{{ ticket.comment }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 </p>
