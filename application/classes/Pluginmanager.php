@@ -344,7 +344,7 @@ class Pluginmanager extends Controller {
             }
             // JS
             if (!empty($plugin['return']['message']['script'])) {
-                $handle = fopen($assetDIR['js'], "w+");
+                $handle = fopen($assetDIR['js'], "a");
                 $pluginName = $plugin['name'];
                 fwrite($handle, "\r\n/** Script for plugin $pluginName: Start **/\r\n");
                 fwrite($handle, $plugin['return']['message']['script']);

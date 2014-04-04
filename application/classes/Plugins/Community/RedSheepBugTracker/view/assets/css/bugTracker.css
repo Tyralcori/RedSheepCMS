@@ -1,0 +1,20 @@
+.scrollTop {
+    position:fixed;
+    bottom:5px;
+    right:5px;
+    width:100px;
+    height:25px;
+    background-color:grey;
+    opacity:0.7;
+    color:white;
+    border:1px black solid;
+    border-radius:5px;
+    display:none;
+    z-index:9999;
+    text-align:center;
+}
+
+.scrollTop:hover {
+    opacity:0.9;
+    cursor:pointer;
+}
