@@ -87,11 +87,11 @@ class Pluginmanager extends Controller {
             }
 
             if (!is_dir($pluginDir)) {
-                die("$pluginDir is no plugin directory");
+                Redsheepcore_Watchdog::setLog('error', 'plugins', "$pluginDir is no plugin directory");
             } elseif (!is_readable($pluginDir)) {
-                die("$pluginDir is not readable");
+                Redsheepcore_Watchdog::setLog('error', 'plugins', "$pluginDir is not readable");
             } elseif (empty($currentSpace)) {
-                die("Pluginspace is empty");
+                Redsheepcore_Watchdog::setLog('error', 'plugins', "Pluginspace is empty");
             } else {
                 // Scan the dir
                 $foundPlugins = scandir($pluginDir);
@@ -168,18 +168,26 @@ class Pluginmanager extends Controller {
         // Get active state
         $currentActiveState = (int) $selectedPlugin->active;
 
-        // Invert default = 0 (not active)
-        $invertedActiveState = 0;
 
-        // Datetime
-        $selectedPlugin->installedOn = '0000-00-00 00:00:00';
-
-        // If not active, inverted = 1 (active)
+        // Check the current active state
         if ($currentActiveState === 0) {
+            // If not active, inverted = 1 (active)
             $invertedActiveState = 1;
+
+            // Uninstall function?
+            $return = self::executePluginFunction($pluginID, 'install');
 
             // Datetime
             $selectedPlugin->installedOn = date('Y-m-d H:i:s');
+        } else {
+            // Invert default = 0 (not active)
+            $invertedActiveState = 0;
+
+            // Uninstall function?
+            $return = self::executePluginFunction($pluginID, 'uninstall');
+
+            // Datetime
+            $selectedPlugin->installedOn = '0000-00-00 00:00:00';
         }
 
         // Update the datas!
@@ -191,9 +199,68 @@ class Pluginmanager extends Controller {
 
         // Generate new styles (css & js)
         self::generate();
-        
+
         // Everything fine
         return true;
+    }
+
+    /**
+     * Execute a function in the selected plugin
+     * @param type $pluginID
+     * @param type $functionName
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/04
+     */
+    public static function executePluginFunction($pluginID = null, $functionName = null) {
+        // Params must not be empty
+        if (empty($pluginID) || empty($functionName)) {
+            return false;
+        }
+
+        // Int cast
+        $pluginID = (int) $pluginID;
+
+        // If pluginID is now empty, return false, again.
+        if (empty($pluginID)) {
+            return false;
+        }
+
+        // Return call
+        $return = array();
+
+        // Get all infos about the plugin
+        $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
+
+        // Plugin directory
+        $pluginDir = APPPATH . 'classes/Plugins/';
+
+        // Create new plugin dir
+        $currentPluginDir = $pluginDir . $selectedPlugin->section . '/' . $selectedPlugin->name . '/';
+
+        // Check if plugin is okay
+        if (!is_dir($currentPluginDir)) {
+            Redsheepcore_Watchdog::setLog('error', 'plugins', "$currentPluginDir is no directory");
+        } elseif (!is_readable($currentPluginDir)) {
+            Redsheepcore_Watchdog::setLog('error', 'plugins', "$currentPluginDir is no readable");
+        } elseif (!is_file($currentPluginDir . 'Bootstrap.php')) {
+            Redsheepcore_Watchdog::setLog('error', 'plugins', "$currentPluginDir has no Bootstrap.php");
+        } elseif (!is_readable($currentPluginDir . 'Bootstrap.php')) {
+            Redsheepcore_Watchdog::setLog('error', 'plugins', "$currentPluginDir Bootstrap.php is not radable");
+        } else {
+            // Plugin class
+            $currentPluginClass = 'Plugins_' . $selectedPlugin->section . '_' . $selectedPlugin->name . '_Bootstrap';
+
+            // Check if method exists and executeable
+            if (method_exists($currentPluginClass, $functionName)) {
+                $return = $currentPluginClass::$functionName();
+            } else {
+                Redsheepcore_Watchdog::setLog('error', 'plugins', "$currentPluginDir has no function $functionName");
+            }
+        }
+
+        // Everything fine
+        return $return;
     }
 
     /**
