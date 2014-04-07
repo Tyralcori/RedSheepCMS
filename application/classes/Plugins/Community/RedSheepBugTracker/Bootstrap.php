@@ -78,6 +78,31 @@ class Plugins_Community_RedSheepBugTracker_Bootstrap extends Controller implemen
             'publisherHomepage' => 'http://redsheepstudios.com/',
         );
     }
+    
+    /**
+     * Return config elements
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfig() {
+        return array(
+            0 => array(
+                'label' => 'Max Tickets per site',
+                'name' => 'showMaxTickets',
+                'type' => 'INT',
+                'required' => true,
+                'default' => 10,
+            ),
+            1 => array(
+                'label' => 'Hide solved Tickets',
+                'name' => 'hideSolvedTickets',
+                'type' => 'INT',
+                'required' => true,
+                'default' => 0,
+            ),
+        );
+    }
 
     /**
      * Install function

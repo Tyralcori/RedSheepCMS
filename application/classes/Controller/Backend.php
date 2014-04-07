@@ -84,19 +84,68 @@ class Controller_Backend extends Controller_Redsheep {
 
         // If not empty pluginID
         if (!empty($specialViewport)) {
+            // Edit config plugin!
+            $explodeNeedle = explode('edit', $specialViewport);
+
+            // Check, if save needle is given
+            $saveNeedle = explode('save', $specialViewport);
+
+            if (!empty($saveNeedle) && is_array($saveNeedle) && isset($saveNeedle[1])) {
+                // Save button pressed, param: pluginID, Request Object (includes post params)
+                Redsheepcore::setTemplate('pluginConfigResponse', Pluginmanager::saveedit((int) $explodeNeedle[1], Redsheepcore::getRequestObject()));
+            }
+
+            if (!empty($explodeNeedle) && is_array($explodeNeedle) && !empty($explodeNeedle[1])) {
+                // Plugin EDIT - getConfigurationElements get pluginID
+                $pluginConfig = Pluginmanager::getConfigurationElements((int) $explodeNeedle[1]);
+
+                // Set config in template, if config is given
+                if (!empty($pluginConfig) && is_array($pluginConfig)) {
+                    // Get all infos about the plugin
+                    $selectedPlugin = ORM::factory('plugin')->where('id', '=', (int) $explodeNeedle[1])->find();
+
+                    // Get current config
+                    $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
+                    $configContainerTemp = explode(',', str_replace(array('{', '}'), '', $config->value));
+                    
+                    // Empty config container
+                    $configContainer = array();
+                    
+                    // Iterate Database output
+                    foreach($configContainerTemp as $key => $value) {
+                        // Explode on :
+                        $currTemp = explode(':', $value);
+
+                        // Set default values by iterating all given config values
+                        foreach($pluginConfig as $key => $currentValue) {
+                            if($currentValue['name'] == $currTemp[0]) {
+                                $pluginConfig[$key]['default'] = $currTemp[1] ? $currTemp[1] : $currentValue['default'];
+                            }
+                        }
+                    }
+                    
+                    // Set template vars
+                    Redsheepcore::setTemplate('pluginConfig', $pluginConfig);
+                    Redsheepcore::setTemplate('pluginID', (int) $explodeNeedle[1]);
+                }
+            }
+
             // Set plugin ID int cast
             $pluginID = (int) $specialViewport;
 
+            // Just need this
+            $invert = false;
+
             // Install or uninstall plugin
-            if(!empty($pluginID)) {
+            if (!empty($pluginID)) {
                 $invert = Pluginmanager::invert($pluginID);
             }
-            
+
             // If $invert, reload site
-            if($invert) {
+            if ($invert) {
                 // Log
                 Redsheepcore_Watchdog::setLog('info', 'plugins', 'Inverted plugin ' . $pluginID);
-                
+
                 header('Location: ' . URL::base() . 'backend/plugins');
                 die();
             }
@@ -248,7 +297,7 @@ class Controller_Backend extends Controller_Redsheep {
 
                 // Log
                 Redsheepcore_Watchdog::setLog('info', 'navigation', 'Created / updated element ' . $postData['headline']);
-                
+
                 // Just a safe flag
                 Redsheepcore::setTemplate('siteIsSaved', 'Successfully saved!');
             }
@@ -330,7 +379,7 @@ class Controller_Backend extends Controller_Redsheep {
                     if (!empty($sessionData['username'])) {
                         // Watchdog login
                         Redsheepcore_Watchdog::setLog('info', 'login', $sessionData['username'] . ' logged in');
-                        
+
                         // Everything fine
                         header('Location: ' . URL::base() . 'backend');
                         die();
@@ -361,7 +410,7 @@ class Controller_Backend extends Controller_Redsheep {
             // Prepare string 
             foreach ($executedCrons as $key => $cron) {
                 // Log cron
-                Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron '. $cron);
+                Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron ' . $cron);
                 $executed .= $cron . ' ';
             }
             // Show executed crons
@@ -448,10 +497,10 @@ class Controller_Backend extends Controller_Redsheep {
                 $currentSite->name = $postData['headline'] ? $postData['headline'] : $specialSite;
                 $currentSite->text = $postData['text'];
                 $currentSite->save();
-                
+
                 // Log
                 Redsheepcore_Watchdog::setLog('info', 'site', 'Created / updated site ' . $postData['headline']);
-                
+
                 Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/' . $currentSite->name . '">' . $currentSite->name . '</a>', 'saved' => TRUE));
             }
         }
@@ -471,14 +520,14 @@ class Controller_Backend extends Controller_Redsheep {
 
         // Watchdog logout
         Redsheepcore_Watchdog::setLog('info', 'login', $sessionTemp['username'] . ' logged out');
-        
+
         // Destroy session
         $sessionDestroy = $sessionBackend->destroy();
 
         // Unsets
         unset($sessionBackend);
         unset($sessionTemp);
-        
+
         // Redirect
         header('Location: ' . URL::base() . 'backend');
         die();

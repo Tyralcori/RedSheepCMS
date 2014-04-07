@@ -150,6 +150,85 @@ class Pluginmanager extends Controller {
     }
 
     /**
+     * Get plugin config elements for backend
+     * @param type $pluginID
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfigurationElements($pluginID = null) {
+        // Must not be empty
+        if (empty($pluginID)) {
+            return false;
+        }
+
+        return self::executePluginFunction($pluginID, 'getConfig');
+    }
+
+    /**
+     * Save the plugin configs
+     * @param type $pluginID
+     * @param type $configElements
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function saveedit($pluginID = null, $configElements = null) {
+        // Must not be empty
+        if (empty($pluginID) || empty($configElements)) {
+            return false;
+        }
+
+        // Get postData
+        $postData = $configElements->post();
+
+        // Get config datas for match
+        $pluginConfig = self::executePluginFunction($pluginID, 'getConfig');
+
+        // Config container for the current plugin
+        $configContainer = '{';
+
+        // Iterate all plugin configs
+        foreach ($pluginConfig as $key => $config) {
+            // If name iteration is not empty
+            if (!empty($config) && is_array($config) && isset($config['name']) && isset($postData[$config['name']])) {
+                $configContainer .= $config['name'] . ':' . (isset($postData[$config['name']]) ? $postData[$config['name']] : '') . ',';
+            }
+        }
+
+        // And just make it fix
+        $configContainer = rtrim($configContainer, ',');
+        $configContainer .= '}';
+
+        // Get all infos about the plugin
+        $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
+        
+        // Get current config
+        $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
+
+        // Oh no, empty config
+        if($configContainer != '{}') {        
+            // If config given, update. Else create new entry
+            if(!empty($config->value)) {
+                $config->id = $config->id;
+            }
+
+            // Set important datas
+            $config->value = $configContainer;
+            $config->name = 'Plugin_' . $selectedPlugin->name;
+
+            // Save
+            $config->save();
+
+            // Unset post
+            unset($_POST);
+            unset($configElements);
+        }
+        // Everything fine
+        return true;
+    }
+
+    /**
      * Install or uninstalls an pluin
      * @param type $pluginID
      * @return boolean
@@ -425,5 +504,4 @@ class Pluginmanager extends Controller {
     }
 
 }
-
 ?>
