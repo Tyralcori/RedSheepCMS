@@ -107,10 +107,7 @@ class Controller_Backend extends Controller_Redsheep {
                     // Get current config
                     $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
                     $configContainerTemp = explode(',', str_replace(array('{', '}'), '', $config->value));
-                    
-                    // Empty config container
-                    $configContainer = array();
-                    
+                                        
                     // Iterate Database output
                     foreach($configContainerTemp as $key => $value) {
                         // Explode on :
