@@ -165,6 +165,41 @@ class Pluginmanager extends Controller {
         return self::executePluginFunction($pluginID, 'getConfig');
     }
 
+    public static function getConfigurationTable($name = null) {
+        // Must not be empty
+        if(empty($name)) {
+            return false;
+        }
+        
+        // Get config by name
+        $elements = ORM::factory('config')->where('name', '=', 'Plugin_' . $name)->find();
+
+        // Holds config
+        $pluginConfig = array();
+        
+        // If the found value is not empty
+        if (!empty($elements->value)) {
+            // Get current config
+            $configContainerTemp = explode(',', str_replace(array('{', '}'), '', $elements->value));
+
+            // Iterate Database output
+            foreach ($configContainerTemp as $key => $value) {
+                // Explode on :
+                $currTemp = explode(':', $value);
+                $pluginConfig[$currTemp[0]] = $currTemp[1] ? $currTemp[1] : 'empty';
+ 
+            }
+        }
+        
+        // Return the pretty config
+        if(!empty($pluginConfig) && is_array($pluginConfig)) {
+            return $pluginConfig;
+        }
+        
+        // No config value
+        return false;
+    }
+
     /**
      * Save the plugin configs
      * @param type $pluginID
@@ -202,14 +237,14 @@ class Pluginmanager extends Controller {
 
         // Get all infos about the plugin
         $selectedPlugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
-        
+
         // Get current config
         $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
 
         // Oh no, empty config
-        if($configContainer != '{}') {        
+        if ($configContainer != '{}') {
             // If config given, update. Else create new entry
-            if(!empty($config->value)) {
+            if (!empty($config->value)) {
                 $config->id = $config->id;
             }
 
@@ -426,6 +461,7 @@ class Pluginmanager extends Controller {
             if (is_dir($currentPluginDir) && is_readable($currentPluginDir) && is_file($currentPluginDir . 'Bootstrap.php') && is_readable($currentPluginDir . 'Bootstrap.php')) {
                 $currentPluginClass = 'Plugins_' . $activePlugin->section . '_' . $activePlugin->name . '_Bootstrap';
                 $pluginContainer[$activePlugin->name]['return'] = $currentPluginClass::index();
+                $pluginContainer[$activePlugin->name]['config'] = self::getConfigurationTable($activePlugin->name);
                 $pluginContainer[$activePlugin->name]['status'] = 'success';
             } else {
                 $pluginContainer[$activePlugin->name]['return'] = 'Can not execute. Make sure, plugin exists and is readable.';

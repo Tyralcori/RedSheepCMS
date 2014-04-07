@@ -105,6 +105,14 @@ class Plugins_Community_RedSheepScrollTop_Bootstrap extends Controller implement
      * @since 2014/04/07
      */
     public static function getConfig() {
-        return array();
+        return array(
+            0 => array(
+                'label' => 'Value on Button',
+                'name' => 'btnValue',
+                'type' => 'STRING',
+                'required' => true,
+                'default' => 'Scroll Top',
+            ),
+        );
     }
 }
