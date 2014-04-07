@@ -21,7 +21,7 @@
                 <td>{{ viewport.link }}</td>
                 <td>{{ viewport.type }}</td>
                 <td><a href='/backend/sites/{{ viewport.typeName }}'>{{ viewport.typeName }}</a></td>
-                <td>{{ viewport.isActive }}</td>
+                <td>{{ viewport.isActive|replace({1: "Yes", 0: "No"}) }}</td>
                 <td>{{ viewport.position }}</td>
                 <td><a href='/backend/navigation/{{ viewport.id }}'>Edit</a></d>
             </tr>

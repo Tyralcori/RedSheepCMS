@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ plugin.name }}</td>
                 <td>{{ plugin.description }}</td>
-                <td><a href="/backend/plugins/{{ plugin.id }}">{{ plugin.active }}</a></td>
+                <td><a href="/backend/plugins/{{ plugin.id }}">{{ plugin.active|replace({1: "Yes", 0: "No"}) }}</a></td>
                 <td>{{ plugin.added }}</td>
                 <td>{{ plugin.installedOn }}</td>
                 <td>{{ plugin.version }}</td>
