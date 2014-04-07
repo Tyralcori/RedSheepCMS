@@ -165,6 +165,13 @@ class Pluginmanager extends Controller {
         return self::executePluginFunction($pluginID, 'getConfig');
     }
 
+    /**
+     * Get configuration in config table
+     * @param type $name
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
     public static function getConfigurationTable($name = null) {
         // Must not be empty
         if(empty($name)) {
