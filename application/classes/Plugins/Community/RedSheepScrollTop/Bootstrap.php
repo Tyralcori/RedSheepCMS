@@ -77,4 +77,34 @@ class Plugins_Community_RedSheepScrollTop_Bootstrap extends Controller implement
             'publisherHomepage' => 'http://redsheepstudios.com/',
         );
     }
+    
+    /**
+     * Install function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function install () {
+        return true;
+    }
+    
+    /**
+     * Uninstall function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function uninstall() {
+        return true;
+    }
+    
+    /**
+     * Returns config
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfig() {
+        return array();
+    }
 }

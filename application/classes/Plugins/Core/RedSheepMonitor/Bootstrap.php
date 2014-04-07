@@ -38,6 +38,26 @@ class Plugins_Core_RedSheepMonitor_Bootstrap extends Controller implements Plugi
     }
     
     /**
+     * CSS Return function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function style() {
+        return false;
+    }
+    
+    /**
+     * JS Return function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function script() {
+        return false;
+    }
+    
+    /**
      * Return all the meta infos
      * @return boolean
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
@@ -51,6 +71,36 @@ class Plugins_Core_RedSheepMonitor_Bootstrap extends Controller implements Plugi
             'publisher' => 'RedSheep Studios',
             'publisherHomepage' => 'http://redsheepstudios.com/',
         );
+    }
+    
+    /**
+     * Install function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function install () {
+        return true;
+    }
+    
+    /**
+     * Uninstall function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function uninstall() {
+        return true;
+    }
+    
+    /**
+     * Returns config
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfig() {
+        return array();
     }
     
     /**

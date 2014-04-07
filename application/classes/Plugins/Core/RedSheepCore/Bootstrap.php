@@ -28,12 +28,32 @@ class Plugins_Core_RedSheepCore_Bootstrap extends Controller implements Plugins_
      * View function
      * @return boolean
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
-     * @since 2014/03/11
+     * @since 2014/04/07
      */
     public static function view() {
         $template = file_get_contents(__DIR__ . '/view/frontend/index.html');
         
         return $template;
+    }
+    
+    /**
+     * CSS Return function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function style() {
+        return false;
+    }
+    
+    /**
+     * JS Return function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function script() {
+        return false;
     }
     
     /**
@@ -50,5 +70,35 @@ class Plugins_Core_RedSheepCore_Bootstrap extends Controller implements Plugins_
             'publisher' => 'RedSheep Studios',
             'publisherHomepage' => 'http://redsheepstudios.com/',
         );
+    }
+    
+    /**
+     * Install function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function install () {
+        return true;
+    }
+    
+    /**
+     * Uninstall function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function uninstall() {
+        return true;
+    }
+    
+    /**
+     * Returns config
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfig() {
+        return array();
     }
 }

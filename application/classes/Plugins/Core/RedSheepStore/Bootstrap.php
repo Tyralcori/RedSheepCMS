@@ -62,6 +62,36 @@ class Plugins_Core_RedSheepStore_Bootstrap extends Controller implements Plugins
 
         return $jsPath;
     }
+    
+    /**
+     * Install function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function install () {
+        return true;
+    }
+    
+    /**
+     * Uninstall function
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function uninstall() {
+        return true;
+    }
+    
+    /**
+     * Returns config
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/07
+     */
+    public static function getConfig() {
+        return array();
+    }
 
     /**
      * Return all the meta infos
