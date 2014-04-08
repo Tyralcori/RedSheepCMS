@@ -43,7 +43,7 @@ class Redsheepcore_Form {
         $postData = Redsheepcore_Data::run($requestObject->post());
         
         // Get post Data
-        if($options['allowHTML']) {
+        if(isset($options['allowHTML']) && !empty($options['allowHTML'])) {
             $postData = $requestObject->post();
         }
         
