@@ -107,20 +107,20 @@ class Controller_Backend extends Controller_Redsheep {
                     // Get current config
                     $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
                     $configContainerTemp = explode(',', str_replace(array('{', '}'), '', $config->value));
-                                        
+
                     // Iterate Database output
-                    foreach($configContainerTemp as $key => $value) {
+                    foreach ($configContainerTemp as $key => $value) {
                         // Explode on :
                         $currTemp = explode(':', $value);
 
                         // Set default values by iterating all given config values
-                        foreach($pluginConfig as $key => $currentValue) {
-                            if($currentValue['name'] == $currTemp[0]) {
+                        foreach ($pluginConfig as $key => $currentValue) {
+                            if ($currentValue['name'] == $currTemp[0]) {
                                 $pluginConfig[$key]['default'] = $currTemp[1] ? $currTemp[1] : $currentValue['default'];
                             }
                         }
                     }
-                    
+
                     // Set template vars
                     Redsheepcore::setTemplate('pluginConfig', $pluginConfig);
                     Redsheepcore::setTemplate('pluginID', (int) $explodeNeedle[1]);
@@ -387,6 +387,59 @@ class Controller_Backend extends Controller_Redsheep {
 
         // Something wrong
         return array('status' => 'failure', 'message' => 'Wrong username / email and password.', 'backendSession' => false);
+    }
+
+    /**
+     * Config Elements
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/08
+     */
+    public function action_config() {
+        // Detect the current URI
+        $_uri = Request::detect_uri();
+
+        // Replace URI backend config with nothing to recive the choosed ID
+        $configElementID = (int) str_replace('/backend/config/', '', $_uri);
+
+        // Set request object
+        $configElements = Redsheepcore::getRequestObject();
+        
+        // Set post elements
+        $postData = Redsheepcore_Data::run($configElements->post());
+        
+        // Check datas
+        if(!empty($postData) && is_array($postData)) {
+            // Get config element
+            $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find();
+            
+            // Set settings
+            $configElements->id = $configElementID;
+            $configElements->name = $postData['name'];
+            $configElements->value = $postData['value'];
+            
+            // Save config element
+            $configElements->save();
+            
+            // Saved flag
+            Redsheepcore::setTemplate('configSaved', true);
+        }
+        
+        // If id is not empty, show form
+        if (!empty($configElementID)) {
+            // Get config element
+            $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find()->as_array();
+            
+            // Edit flag
+            $configElements['edit'] = true; 
+        } else {
+            // Get all config elements
+            $configElements = ORM::factory('config')->find_all()->as_array();
+        }
+
+        // Set to template, if is array
+        if (!empty($configElements) && is_array($configElements)) {
+            Redsheepcore::setTemplate('configElements', $configElements);
+        }
     }
 
     /**
