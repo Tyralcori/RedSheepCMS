@@ -468,22 +468,57 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/20
      */
     public function action_cron() {
-        // Execute crons
-        $executedCrons = Redsheepcore_Cron::execute();
-
-        // Executed string
-        $executed = 'Following crons executed: ';
-
-        // If executedcrons
-        if (!empty($executedCrons) && is_array($executedCrons) && count($executedCrons) > 0) {
-            // Prepare string 
-            foreach ($executedCrons as $key => $cron) {
-                // Log cron
-                Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron ' . $cron);
-                $executed .= $cron . ' ';
+        // Get whole uri
+        $_uri = Request::detect_uri();
+        
+        // Cron ID
+        $cronID = (int) str_replace('/backend/cron/', '', $_uri);
+        
+        // If cronID is not empty, reset
+        if(!empty($cronID)) {
+            // Get current cron
+            $cronChoosed = ORM::factory('cron')->where('id', '=', $cronID)->find();
+           
+            // If cron return is not empty, set elements
+            if(!empty($cronChoosed->name)) {
+                // Set elements -> "reset"
+                $cronChoosed->id = $cronID;
+                $cronChoosed->lastStart = '0000-00-00 00:00:00';
+                $cronChoosed->isActive = 1;
+                $cronChoosed->message = '';
+                
+                // Save reset
+                $cronChoosed->save();
+                
+                // Set template needle
+                Redsheepcore::setTemplate('cronReset', true);
             }
-            // Show executed crons
-            Redsheepcore::setTemplate('executedCrons', $executed);
+        } else {        
+            // Execute crons
+            $executedCrons = Redsheepcore_Cron::execute();
+
+            // Executed string
+            $executed = 'Following crons executed: ';
+
+            // If executedcrons
+            if (!empty($executedCrons) && is_array($executedCrons) && count($executedCrons) > 0) {
+                // Prepare string 
+                foreach ($executedCrons as $key => $cron) {
+                    // Log cron
+                    Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron ' . $cron);
+                    $executed .= $cron . ' ';
+                }
+                // Show executed crons
+                Redsheepcore::setTemplate('executedCrons', $executed);
+            }
+        }
+        
+        // Get cron status
+        $cronStatus = ORM::factory('cron')->find_all()->as_array();
+        
+        // Set cronstatus, if ok
+        if(!empty($cronStatus) && is_array($cronStatus)) {
+            Redsheepcore::setTemplate('cronStatus', $cronStatus);
         }
 
         // OK
