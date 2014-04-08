@@ -90,6 +90,13 @@ class Controller_Backend extends Controller_Redsheep {
             'hide' => array(
                 'added', 'installedOn', 'publisher', 'section', 'publisherHomepage', 'space', 'version',
             ),
+            'add' => array(
+                'Pluginmanager' => array(
+                    'getConfigurationTable' => array(
+                        'name'
+                    )
+                )
+            ),
             'redirect' => '/backend/plugin',
             'mapping' => array(
                 'active' => array(

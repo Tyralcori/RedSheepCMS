@@ -222,7 +222,11 @@ class Pluginmanager extends Controller {
         }
 
         // Get postData
-        $postData = $configElements->post();
+        if(method_exists($configElements, 'post')) {
+            $postData = $configElements->post();
+        } else {
+            $postData = $configElements;
+        }
 
         // Get config datas for match
         $pluginConfig = self::executePluginFunction($pluginID, 'getConfig');

@@ -20,6 +20,26 @@
             
     <button type="submit" class="btn btn-default">Save settings</button>
 </form>
+
+{% if formDataValues.additional %}
+<form action="/backend/{{ formDataSection }}/{{ attribute(formDataValues, formData_edit) }}?saveConfig=true" method="POST">    
+        {% for key, pluginConf in formDataValues.additional %}
+            <div class="form-group">
+                <label for="{{ key }}">{{ key }}</label>                
+                <input 
+                    {% if formData_ignore %}
+                        {% for key in formData_ignore %}
+                            {% if key == column %}
+                            readonly
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    type="text" name="{{ key }}" class="form-control" value="{{ pluginConf }}" placeholder="{{ pluginConf }}"/>
+            </div>
+        {% endfor %}   
+    <button type="submit" class="btn btn-default">Save settings</button>
+</form>
+{% endif %}
 {% else %}
 {% if formData_new %}
 <a href='/backend/{{ formDataSection }}?new=true'>Click here to create a new site</a><br/><br/>

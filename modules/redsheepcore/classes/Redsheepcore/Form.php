@@ -47,19 +47,20 @@ class Redsheepcore_Form {
             $postData = $requestObject->post();
         }
         
+        // Check, if "new" element is given
+        if(isset($_GET) && is_array($_GET)) {
+            $isNew = isset($_GET['new']) ? $_GET['new'] : '';
+            $isSave = isset($_GET['saveConfig']) ? $_GET['saveConfig'] : '';
+        }    
+        
         // If post Data, save / create / whatever
-        if(!empty($postData) && is_array($postData)) {            
+        if(!empty($postData) && is_array($postData) && !$isSave) {            
             // Save
             self::save($section, $postData, $options);
         }
 
         // Get current URI
-        $_uri = Request::detect_uri();
-        
-        // Check, if "new" element is given
-        if(isset($_GET) && is_array($_GET)) {
-            $isNew = isset($_GET['new']) ? $_GET['new'] : '';
-        }
+        $_uri = Request::detect_uri();            
         
         // Set special ID
         $specialID = (int) str_replace('backend' . ($sectionSpecial ? $sectionSpecial : $section), '', str_replace('/', '', $_uri));
@@ -70,6 +71,20 @@ class Redsheepcore_Form {
         } else {
             // Load ORM Datas
             $loadORM = ORM::factory($section)->find_all()->as_array();
+        }
+        
+        // Save plugin if plugin
+        if(isset($isSave) && !empty($isSave)) {
+            $configPlugin = Pluginmanager::saveedit($specialID, $postData);
+        }
+        
+        // If additional infos are not empty, get this
+        if(isset($options['add']) && !empty($options['add']) && isset($loadORM['name']) && !empty($loadORM['name'])) {
+            foreach($options['add'] as $key => $value) {
+                foreach($value as $cKey => $cValue) {
+                    $loadORM['additional'] = $key::$cKey($loadORM[$cValue[0]]);
+                }                
+            }
         }
 
         // if not empty and is array, everything fine, isn't it?
