@@ -176,6 +176,7 @@ class Controller_Backend extends Controller_Redsheep {
             if ($navigationElement->type == 'staticsite') {
                 $staticSiteElement = ORM::factory('staticsite')->where('id', '=', $navigationElement->typeID)->find()->as_array();
                 $containerElement[$key]['type'] = 'staticsite';
+                $containerElement[$key]['typeID'] = $navigationElement->typeID;
                 $containerElement[$key]['typeName'] = $staticSiteElement['name'] ? $staticSiteElement['name'] : 'Empty name';
             }
         }
