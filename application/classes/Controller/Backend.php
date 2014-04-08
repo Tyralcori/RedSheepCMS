@@ -76,6 +76,9 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/26
      */
     public function action_plugins() {
+        // Register all plugins
+        Pluginmanager::register();
+        
         // Get whole uri
         $_uri = str_replace('//', '/', '/' . Request::detect_uri());
 

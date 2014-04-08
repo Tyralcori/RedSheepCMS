@@ -173,3 +173,9 @@ hr {
     color:#8F1414;
     text-decoration:none;
 }
+
+.prettyTable {
+    position:absolute;
+    height:770px;
+    overflow:auto;
+}

@@ -157,8 +157,6 @@ hr {
     vertical-align: baseline;
     background: transparent;
     text-align:justify;
-    height:770px;
-    overflow:auto;
 }
 
 .redsheepHeadline {
@@ -200,4 +198,10 @@ hr {
 .redsheepFooterLink:hover {
     color:#8F1414;
     text-decoration:none;
+}
+
+.prettyTable {
+    position:absolute;
+    height:770px;
+    overflow:auto;
 }
