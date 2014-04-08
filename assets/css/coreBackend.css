@@ -157,6 +157,8 @@ hr {
     vertical-align: baseline;
     background: transparent;
     text-align:justify;
+    height:770px;
+    overflow:auto;
 }
 
 .redsheepHeadline {

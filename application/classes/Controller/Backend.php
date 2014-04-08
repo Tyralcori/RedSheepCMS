@@ -403,34 +403,34 @@ class Controller_Backend extends Controller_Redsheep {
 
         // Set request object
         $configElements = Redsheepcore::getRequestObject();
-        
+
         // Set post elements
         $postData = Redsheepcore_Data::run($configElements->post());
-        
+
         // Check datas
-        if(!empty($postData) && is_array($postData)) {
+        if (!empty($postData) && is_array($postData)) {
             // Get config element
             $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find();
-            
+
             // Set settings
             $configElements->id = $configElementID;
             $configElements->name = $postData['name'];
             $configElements->value = $postData['value'];
-            
+
             // Save config element
             $configElements->save();
-            
+
             // Saved flag
             Redsheepcore::setTemplate('configSaved', true);
         }
-        
+
         // If id is not empty, show form
         if (!empty($configElementID)) {
             // Get config element
             $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find()->as_array();
-            
+
             // Edit flag
-            $configElements['edit'] = true; 
+            $configElements['edit'] = true;
         } else {
             // Get all config elements
             $configElements = ORM::factory('config')->find_all()->as_array();
@@ -439,6 +439,22 @@ class Controller_Backend extends Controller_Redsheep {
         // Set to template, if is array
         if (!empty($configElements) && is_array($configElements)) {
             Redsheepcore::setTemplate('configElements', $configElements);
+        }
+    }
+
+    /**
+     * Log
+     * @param type $config
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/08
+     */
+    public function action_log() {
+        // Get logs
+        $logStack = ORM::factory('watchdog')->order_by('id', 'DESC')->find_all()->as_array();
+        
+        // Set logs to template
+        if(!empty($logStack) && is_array($logStack)) {
+            Redsheepcore::setTemplate('logElements', $logStack);
         }
     }
 

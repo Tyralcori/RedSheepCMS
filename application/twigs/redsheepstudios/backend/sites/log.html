@@ -1,0 +1,24 @@
+<label class="redsheepHeadline">Log</label>
+<hr/>
+<p class="redsheepDescription">
+    {% if logElements %}
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>TYPE</th>
+                <th>KEY</th>
+                <th>VALUE</th>
+                <th>DATE</th>
+            </tr>            
+            {% for log in logElements %}
+                <tr>            
+                    <td>{{ log.type }}</td>
+                    <td>{{ log.key }}</td>
+                    <td>{{ log.value }}</td>
+                    <td>{{ log.datetime }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <label>No log available.</label>
+    {% endif %}
+</p>
