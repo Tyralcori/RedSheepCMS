@@ -23,7 +23,7 @@ class Redsheepcore_Data {
 
         // Action
         self::iterate($arrayToCheck);
-        
+
         // Return after iteration 
         return self::getData();
     }
@@ -58,10 +58,10 @@ class Redsheepcore_Data {
      */
     public static function setData($key = null, $value = null) {
         // If value is empty, but not the key, simple string add
-        if (empty($value) && !empty($key)) {
+        if (!isset($value) && !empty($key)) {
             self::$_data = $key;
             // Both params not empty
-        } elseif (!empty($value) && !empty($key)) {
+        } elseif (isset($value) && !empty($key)) {
             // Add value with given key
             // If is array, add by key in array
             if (is_array($value)) {

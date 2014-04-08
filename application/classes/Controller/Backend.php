@@ -75,67 +75,45 @@ class Controller_Backend extends Controller_Redsheep {
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/26
      */
-    public function action_plugins() {
+    public function action_plugin() {
         // Register all plugins
         Pluginmanager::register();
-        
+
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('plugin', array(
+            'edit' => 'id',
+            'save' => true,
+            'delete' => true,
+            'ignore' => array(
+                'id',
+            ),
+            'hide' => array(
+                'added', 'installedOn', 'publisher', 'section', 'publisherHomepage', 'space', 'version',
+            ),
+            'redirect' => '/backend/plugin',
+            'mapping' => array(
+                'active' => array(
+                    'value' => '/backend/plugin/%needle%?fastInvert=true',
+                    'key' => 'id',
+                ),
+            ),
+                )
+        );
+
         // Get whole uri
         $_uri = str_replace('//', '/', '/' . Request::detect_uri());
 
-        // Create special viewport param
-        $specialViewport = str_replace('/', '', str_replace('/backend/plugins', '', Redsheepcore_Data::run($_uri)));
+        //Create special viewport param
+        $pluginID = str_replace('/', '', str_replace('/backend/plugin', '', $_uri));
 
-        // If not empty pluginID
-        if (!empty($specialViewport)) {
-            // Edit config plugin!
-            $explodeNeedle = explode('edit', $specialViewport);
+        // Get request object
+        $requestObj = Redsheepcore::getRequestObject();
 
-            // Check, if save needle is given
-            $saveNeedle = explode('save', $specialViewport);
+        // Check "fastInvert"
+        $getParams = $requestObj->query('fastInvert');
 
-            if (!empty($saveNeedle) && is_array($saveNeedle) && isset($saveNeedle[1])) {
-                // Save button pressed, param: pluginID, Request Object (includes post params)
-                Redsheepcore::setTemplate('pluginConfigResponse', Pluginmanager::saveedit((int) $explodeNeedle[1], Redsheepcore::getRequestObject()));
-            }
-
-            if (!empty($explodeNeedle) && is_array($explodeNeedle) && !empty($explodeNeedle[1])) {
-                // Plugin EDIT - getConfigurationElements get pluginID
-                $pluginConfig = Pluginmanager::getConfigurationElements((int) $explodeNeedle[1]);
-
-                // Set config in template, if config is given
-                if (!empty($pluginConfig) && is_array($pluginConfig)) {
-                    // Get all infos about the plugin
-                    $selectedPlugin = ORM::factory('plugin')->where('id', '=', (int) $explodeNeedle[1])->find();
-
-                    // Get current config
-                    $config = ORM::factory('config')->where('name', '=', 'Plugin_' . $selectedPlugin->name)->find();
-                    $configContainerTemp = explode(',', str_replace(array('{', '}'), '', $config->value));
-
-                    // Iterate Database output
-                    foreach ($configContainerTemp as $key => $value) {
-                        // Explode on :
-                        $currTemp = explode(':', $value);
-
-                        // Set default values by iterating all given config values
-                        foreach ($pluginConfig as $key => $currentValue) {
-                            if ($currentValue['name'] == $currTemp[0]) {
-                                $pluginConfig[$key]['default'] = $currTemp[1] ? $currTemp[1] : $currentValue['default'];
-                            }
-                        }
-                    }
-
-                    // Set template vars
-                    Redsheepcore::setTemplate('pluginConfig', $pluginConfig);
-                    Redsheepcore::setTemplate('pluginID', (int) $explodeNeedle[1]);
-                }
-            }
-
-            // Set plugin ID int cast
-            $pluginID = (int) $specialViewport;
-
-            // Just need this
-            $invert = false;
-
+        // If not empty, invert
+        if (!empty($getParams)) {
             // Install or uninstall plugin
             if (!empty($pluginID)) {
                 $invert = Pluginmanager::invert($pluginID);
@@ -146,35 +124,9 @@ class Controller_Backend extends Controller_Redsheep {
                 // Log
                 Redsheepcore_Watchdog::setLog('info', 'plugins', 'Inverted plugin ' . $pluginID);
 
-                header('Location: ' . URL::base() . 'backend/plugins');
+                header('Location: ' . URL::base() . 'backend/plugin');
                 die();
             }
-        }
-
-        // Get all plugins
-        $allPlugins = ORM::factory('plugin')->find_all()->as_array();
-
-        // Plugin container
-        $containerPlugins = array();
-
-        // Iterate all given plugins
-        foreach ($allPlugins as $key => $currentPlugin) {
-            // Add some infos into container
-            $requiredInfos = array('id', 'name', 'description', 'active', 'added', 'installedOn', 'version', 'publisher', 'publisherHomepage', 'section', 'space');
-
-            // Add every given element into the container
-            foreach ($requiredInfos as $reqKey => $reqValue) {
-                if ($reqValue == 'active') {
-                    $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue;
-                } else {
-                    $containerPlugins[$key][$reqValue] = $currentPlugin->$reqValue ? $currentPlugin->$reqValue : '';
-                }
-            }
-        }
-
-        // Check if empty. If not, send it to the view
-        if (!empty($containerPlugins) && is_array($containerPlugins) && !empty($containerPlugins[0])) {
-            Redsheepcore::setTemplate('pluginsOverview', $containerPlugins);
         }
     }
 
@@ -398,51 +350,18 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/04/08
      */
     public function action_config() {
-        // Detect the current URI
-        $_uri = Request::detect_uri();
-
-        // Replace URI backend config with nothing to recive the choosed ID
-        $configElementID = (int) str_replace('/backend/config/', '', $_uri);
-
-        // Set request object
-        $configElements = Redsheepcore::getRequestObject();
-
-        // Set post elements
-        $postData = Redsheepcore_Data::run($configElements->post());
-
-        // Check datas
-        if (!empty($postData) && is_array($postData)) {
-            // Get config element
-            $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find();
-
-            // Set settings
-            $configElements->id = $configElementID;
-            $configElements->name = $postData['name'];
-            $configElements->value = $postData['value'];
-
-            // Save config element
-            $configElements->save();
-
-            // Saved flag
-            Redsheepcore::setTemplate('configSaved', true);
-        }
-
-        // If id is not empty, show form
-        if (!empty($configElementID)) {
-            // Get config element
-            $configElements = ORM::factory('config')->where('id', '=', $configElementID)->find()->as_array();
-
-            // Edit flag
-            $configElements['edit'] = true;
-        } else {
-            // Get all config elements
-            $configElements = ORM::factory('config')->find_all()->as_array();
-        }
-
-        // Set to template, if is array
-        if (!empty($configElements) && is_array($configElements)) {
-            Redsheepcore::setTemplate('configElements', $configElements);
-        }
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('config', array(
+            'edit' => 'id',
+            'save' => true,
+            'delete' => true,
+            'ignore' => array(
+                'id',
+            ),
+            'hide' => array(
+            ),
+                )
+        );
     }
 
     /**
@@ -454,9 +373,9 @@ class Controller_Backend extends Controller_Redsheep {
     public function action_log() {
         // Get logs
         $logStack = ORM::factory('watchdog')->order_by('id', 'DESC')->find_all()->as_array();
-        
+
         // Set logs to template
-        if(!empty($logStack) && is_array($logStack)) {
+        if (!empty($logStack) && is_array($logStack)) {
             Redsheepcore::setTemplate('logElements', $logStack);
         }
     }
@@ -468,61 +387,82 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/20
      */
     public function action_cron() {
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('cron', array(
+            'edit' => 'id',
+            'reset' => 'id',
+            'save' => true,
+            'delete' => true,
+            'ignore' => array(
+                'id', 'lastStart', 'lastEnd', 'message',
+            ),
+            'hide' => array(
+            ),
+            'mapping' => array(
+                'reset' => array(
+                    'value' => '/backend/cron/%needle%?fastReset=true',
+                    'key' => 'id',
+                ),
+            ),
+                )
+        );
+
         // Get whole uri
-        $_uri = Request::detect_uri();
-        
-        // Cron ID
-        $cronID = (int) str_replace('/backend/cron/', '', $_uri);
-        
-        // If cronID is not empty, reset
-        if(!empty($cronID)) {
-            // Get current cron
-            $cronChoosed = ORM::factory('cron')->where('id', '=', $cronID)->find();
-           
-            // If cron return is not empty, set elements
-            if(!empty($cronChoosed->name)) {
-                // Set elements -> "reset"
-                $cronChoosed->id = $cronID;
-                $cronChoosed->lastStart = '0000-00-00 00:00:00';
-                $cronChoosed->isActive = 1;
-                $cronChoosed->message = '';
-                
-                // Save reset
-                $cronChoosed->save();
-                
-                // Set template needle
-                Redsheepcore::setTemplate('cronReset', true);
-            }
-        } else {        
-            // Execute crons
-            $executedCrons = Redsheepcore_Cron::execute();
+        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
 
-            // Executed string
-            $executed = 'Following crons executed: ';
+        //Create special viewport param
+        $cronID = str_replace('/', '', str_replace('/backend/cron', '', $_uri));
 
-            // If executedcrons
-            if (!empty($executedCrons) && is_array($executedCrons) && count($executedCrons) > 0) {
-                // Prepare string 
-                foreach ($executedCrons as $key => $cron) {
-                    // Log cron
-                    Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron ' . $cron);
-                    $executed .= $cron . ' ';
+        // Get request object
+        $requestObj = Redsheepcore::getRequestObject();
+
+        // Check "fastInvert"
+        $getParams = $requestObj->query('fastReset');
+
+        // If not empty, invert
+        if (!empty($getParams)) {
+            // Install or uninstall plugin
+            if (!empty($cronID)) {
+                // Get current cron
+                $cronChoosed = ORM::factory('cron')->where('id', '=', $cronID)->find();
+
+                // If cron return is not empty, set elements
+                if (!empty($cronChoosed->name)) {
+                    // Set elements -> "reset"
+                    $cronChoosed->id = $cronID;
+                    $cronChoosed->lastStart = '0000-00-00 00:00:00';
+                    $cronChoosed->isActive = 1;
+                    $cronChoosed->message = '';
+
+                    // Save reset
+                    $cronChoosed->save();
+
+                    // Log
+                    Redsheepcore_Watchdog::setLog('info', 'cron', 'Reset cron ' . $cronID);
+
+                    header('Location: ' . URL::base() . 'backend/cron');
+                    die();
                 }
-                // Show executed crons
-                Redsheepcore::setTemplate('executedCrons', $executed);
             }
         }
-        
-        // Get cron status
-        $cronStatus = ORM::factory('cron')->find_all()->as_array();
-        
-        // Set cronstatus, if ok
-        if(!empty($cronStatus) && is_array($cronStatus)) {
-            Redsheepcore::setTemplate('cronStatus', $cronStatus);
-        }
 
-        // OK
-        return true;
+        // Execute crons
+        $executedCrons = Redsheepcore_Cron::execute();
+
+        // Executed string
+        $executed = 'Following crons executed: ';
+
+        // If executedcrons
+        if (!empty($executedCrons) && is_array($executedCrons) && count($executedCrons) > 0) {
+            // Prepare string 
+            foreach ($executedCrons as $key => $cron) {
+                // Log cron
+                Redsheepcore_Watchdog::setLog('info', 'cron', 'Executing cron ' . $cron);
+                $executed .= $cron . ' ';
+            }
+            // Show executed crons
+            Redsheepcore::setTemplate('executedCrons', $executed);
+        }
     }
 
     /**
@@ -532,82 +472,22 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/25
      */
     public function action_sites() {
-        // Get whole uri
-        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
-
-        // Create special site param
-        $specialSite = str_replace('/', '', str_replace('/backend/sites', '', Redsheepcore_Data::run($_uri)));
-
-        // Set own get parameters
-        $getParamsInOwn = htmlentities($_SERVER['REQUEST_URI']);
-
-        // Substr on ? in QUERY
-        $currentNeedleGetPara = explode('?', $getParamsInOwn);
-
-        if (!empty($currentNeedleGetPara[1])) {
-
-            // Split on & - GET PARAMS Delimiter
-            $splittedNeedle = explode('&', $currentNeedleGetPara[1]);
-            $newGet = array();
-
-            // Set new get params
-            foreach ($splittedNeedle as $key => $value) {
-                $tempVar = explode('=', $value);
-                $newGet[$tempVar[0]] = $tempVar[1];
-            }
-        }
-
-        // Create a new site, if $_GET['new'] not empty
-        if (!empty($newGet)) {
-            if (!empty($newGet['new'])) {
-                Redsheepcore::setTemplate('createNewSite', "Create new site");
-                Redsheepcore::setTemplate('siteCalled', array('status' => 'success'));
-            }
-
-            if (!empty($newGet['newSite'])) {
-                $newSiteToSave = true;
-            }
-        }
-        // If special site given, load this, else all
-        if (empty($specialSite) && empty($newSiteToSave)) {
-            // Load all
-            $staticSitesGiven = ORM::factory('staticsite')->find_all()->as_array();
-            Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
-        } else {
-            // Load by specialsite
-            $staticSitesGiven = ORM::factory('staticsite')->where('name', '=', strtolower($specialSite))->find()->as_array();
-
-            if (empty($staticSitesGiven['id'])) {
-                Redsheepcore::setTemplate('siteCalled', array('status' => 'failure', 'message' => "Site $specialSite not found!"));
-            } else {
-                // If empty text, fill it. No empty text possible..
-                if (empty($staticSitesGiven['text'])) {
-                    $staticSitesGiven['text'] = '&nbsp;';
-                }
-                // Special site to template / editor
-                Redsheepcore::setTemplate('siteCalled', array('status' => 'success', 'message' => $staticSitesGiven));
-            }
-
-            // Set post Data
-            if (!empty($_POST)) {
-                $postData = $this->request->post() ? $this->request->post() : array();
-            }
-
-            // If not empty, user want to save data
-            if (!empty($postData)) {
-                // Get current site by headname
-                $currentSite = ORM::factory('staticsite')->where('name', '=', strtolower($specialSite))->find();
-                $currentSite->id = $currentSite->id;
-                $currentSite->name = $postData['headline'] ? $postData['headline'] : $specialSite;
-                $currentSite->text = $postData['text'];
-                $currentSite->save();
-
-                // Log
-                Redsheepcore_Watchdog::setLog('info', 'site', 'Created / updated site ' . $postData['headline']);
-
-                Redsheepcore::setTemplate('siteSaved', array('status' => 'success', 'message' => 'Successfully changed. New site available: <a href="/backend/sites/' . $currentSite->name . '">' . $currentSite->name . '</a>', 'saved' => TRUE));
-            }
-        }
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('staticsite', array(
+            'edit' => 'id',
+            'new' => true,
+            'save' => true,
+            'delete' => true,
+            'allowHTML' => true,
+            'ignore' => array(
+                'id',
+            ),
+            'redirect' => '/backend/sites',
+            'hide' => array(
+            ),
+            'viewport' => 'sites',
+                )
+        );
     }
 
     /**

@@ -1,0 +1,85 @@
+{% if formDataValues.id %}
+<form action="/backend/{{ formDataSection }}/{{ attribute(formDataValues, formData_edit) }}" method="POST">    
+        {% if formDataMessage %}
+            <label>{{ formDataMessage }}</label><br/><br/>
+        {% endif %}
+        {% for column in formDataColumns %}
+            <div class="form-group">
+                <label for="name">{{ column }}</label>                
+                <input 
+                    {% if formData_ignore %}
+                        {% for key in formData_ignore %}
+                            {% if key == column %}
+                            readonly
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    type="text" name="{{ column }}" class="form-control" value="{{ attribute(formDataValues, column) }}" placeholder="Name"/>
+            </div>
+        {% endfor %}
+            
+    <button type="submit" class="btn btn-default">Save settings</button>
+</form>
+{% else %}
+{% if formData_new %}
+<a href='/backend/{{ formDataSection }}?new=true'>Click here to create a new site</a><br/><br/>
+{% endif %}
+<table class="table table-striped table-bordered">
+    <tr>
+        {% for column in formDataColumns %}
+            <td>{{ column }}</td>
+        {% endfor %}
+        
+        {% if formData_edit %}
+            <td>Options</td>
+        {% endif %}
+        
+        {% if formData_reset %}
+            <td>Reset</td>
+        {% endif %}
+    </tr>
+    {% for config in formDataValues %}
+    <tr>
+        {% for column in formDataColumns %}
+            {% if formData_mapping %}
+                {% for key, map in formData_mapping %}                    
+                    {% if key == column %}
+                    <td><a href={{ map.value|replace({ "%needle%" : attribute(config, map.key)}) }} ">{{ attribute(config, column) }}</a></td>
+                    {% else %}
+                    <td>{{ attribute(config, column)|slice(0, 30)  }}</td>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <td>{% if attribute(config, column) %}{{ attribute(config, column)|slice(0, 60)  }}{% endif %}</td>
+            {% endif %}
+        {% endfor %}
+        {% if formData_edit %}
+            {% if formData_mapping %}
+                {% for key, map in formData_mapping %}                    
+                    {% if key == 'edit' %}
+                    <td><a href={{ map.value|replace({ "%needle%" : attribute(config, map.key)}) }} ">Edit</a></td>
+                    {% else %}
+                    <td><a href="/backend/{{ formDataSection }}/{{ attribute(config, formData_edit) }} ">Edit</a></td>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <td><a href="/backend/{{ formDataSection }}/{{ attribute(config, formData_edit) }} ">Edit</a></td>
+            {% endif %}            
+        {% endif %}
+        {% if formData_reset %}
+            {% if formData_mapping %}
+                {% for key, map in formData_mapping %}                    
+                    {% if key == 'reset' %}
+                    <td><a href={{ map.value|replace({ "%needle%" : attribute(config, map.key)}) }} ">Reset</a></td>
+                    {% else %}
+                    <td><a href="/backend/{{ formDataSection }}/{{ attribute(config, formData_reset) }} ">Reset</a></td>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <td><a href="/backend/{{ formDataSection }}/{{ attribute(config, formData_reset) }} ">Reset</a></td>
+            {% endif %}
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
