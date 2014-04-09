@@ -36,3 +36,23 @@ $( document ).ready(function() {
     }
 });
 /** Script for plugin RedSheepBugTracker: END **/
+
+/** Script for plugin RedSheepNewsletter: Start **/
+$( document ).ready(function() {
+    $('.bugTracker').click(function() {
+        $('.bugTrackerForm').fadeIn();
+    });
+    
+    $('.bugTrackerFormClose a').click(function() {
+        $('.bugTrackerForm').fadeOut();
+    });
+    
+    $('.bugTrackerFormCloseResponse').click(function() {
+        $('.bugTrackerFormResponse').fadeOut();
+    });
+    
+    if(typeof $('.bugTrackerFormResponse') != "undefined") {
+        $('.bugTrackerFormResponse').fadeIn();
+    }
+});
+/** Script for plugin RedSheepNewsletter: END **/

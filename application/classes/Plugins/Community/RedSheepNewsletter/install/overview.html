@@ -1,0 +1,38 @@
+<label class="redsheepHeadline">Newsletter</label>
+<hr/>
+<p class="redsheepDescription">   
+    {% if newsletterMessage %}
+        {{ newsletterMessage }}<br/>
+    {% endif %}
+    {% if newsletterUnsubscribe %}        
+    <label>Unsubscribe from our newsletter</label><br/>
+    <form action="/newsletter/unsubscribe" method="POST">
+        <div class="form-group">
+            <label for="emailInputField">Email address</label>
+            <input type="email" class="form-control" name='email' id="emailInputField" placeholder="Enter email">
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    {% else %}
+    <label>Sign up for free to our newsletter and stay in touch with us!</label><br/>
+    <form action="/newsletter" method="POST">
+        <div class="form-group">
+            <label for="emailInputField">Email address</label>
+            <input type="text" class="form-control" name='email' id="emailInputField" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="firstname">Firstname (optional)</label>
+            <input type="text" class="form-control" name='firstname' id="firstname" placeholder="Firstname (optional)">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Lastname (optional)</label>
+            <input type="text" class="form-control" name='lastname' id="lastname" placeholder="Lastname (optional)">
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <br/><br/>
+    <a href="/newsletter/unsubscribe" title="Unsubscribe">Click here to unsubscribe</a>
+    {% endif %}
+</p>
