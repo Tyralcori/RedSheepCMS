@@ -26,7 +26,7 @@ class Kohana_Redsheepcore extends View {
     public static function run() {
         // GET URI
         $_uri = str_replace('//', '/', '/'.Request::detect_uri());
-
+        
         // Execute before events by URI
         self::setTemplate('beforeEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'before'));
 
