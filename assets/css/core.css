@@ -145,7 +145,7 @@ hr {
     left:0px;
     height:75px;
     width:900px;
-    color:#333333;
+    color:white;
     background-color:#96919E;
     text-transform: uppercase;
 }
@@ -165,7 +165,7 @@ hr {
 }
 
 .redsheepFooterLink {
-    color:#333333;
+    color:white;
     text-decoration:none;
 }
 
