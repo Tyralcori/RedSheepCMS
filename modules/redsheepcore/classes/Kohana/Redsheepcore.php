@@ -176,7 +176,7 @@ class Kohana_Redsheepcore extends View {
         // Set request / response factorys
         $request = Request::factory();
         $response = Response::factory();
-        
+
         // Internal setting
         self::setRequestObject($request);
         self::setResponseObject($response);
