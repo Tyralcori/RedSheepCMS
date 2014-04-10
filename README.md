@@ -1,6 +1,7 @@
 # RedSheepCMS
 
-RedSheepCMS based on Kohana (PHP Framework), Twig (Template engine) and RedSheepCore (Meh)
+RedSheepCMS based on Kohana (PHP Framework), Twig (Template engine) and RedSheepCore (Meh). I started developement on 11st March.
+The first official RC called "OVIS" and will be released on 11st May.
 
 ## What is RedSheepCMS?
 RedSheepCMS is an lightweight content management system (in developement progress!!, i just commit the files to keep back nothing).

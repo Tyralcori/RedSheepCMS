@@ -169,7 +169,7 @@ class Kohana_Redsheepcore extends View {
         
         // Set action to load
         self::setTemplate('siteOutput', self::getSiteOutput($siteActionToLoad));
-        
+
         // Set action in template
         self::setTemplate('action', $siteActionToLoad);
 
@@ -202,7 +202,7 @@ class Kohana_Redsheepcore extends View {
             // Set action response
             self::setTemplate('actionResponse', $spaceCalled->action_index());
         }
-        
+
         // Execute after events by URI
         self::setTemplate('afterEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'after'));        
     }
@@ -225,7 +225,7 @@ class Kohana_Redsheepcore extends View {
         if (empty($env)) {
             $env = 'production';
         }
-        
+
         // Set env var
         self::$_environment = $env;
         
@@ -293,7 +293,10 @@ class Kohana_Redsheepcore extends View {
      */
     public static function getTemplate($key = null) {
         if (!empty($key)) {
-            return self::$_template[$key];
+            if(isset(self::$_template[$key])) {
+                return self::$_template[$key];
+            }
+            return false;
         }
         return self::$_template;
     }
