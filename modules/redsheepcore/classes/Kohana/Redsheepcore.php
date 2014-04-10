@@ -3,7 +3,7 @@
 defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Redsheepcore CORE.
+ * Redsheepcore CORE. 
  * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
  * @since 2014/03/11
  */
