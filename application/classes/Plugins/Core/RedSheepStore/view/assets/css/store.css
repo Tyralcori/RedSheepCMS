@@ -133,7 +133,7 @@ body {
 
 .redsheepStoreBox .redsheepStoreBoxContent .element { 
     position:relative;
-    padding-left:10px;
+    text-align:center;
     left:0px;
     width:100%;
     height:20px;
@@ -142,6 +142,16 @@ body {
     display:block;
     border-left:1px grey solid;
     border-right:1px grey solid;
+}
+
+.redsheepStoreBoxContent .element a {
+    text-decoration:none;
+    color:white;
+}
+
+.redsheepStoreBoxContent .element a:hover {
+    text-decoration:none;
+    color:black;
 }
 
 .redsheepStoreBox .redsheepStoreBoxContent .firstElement {
@@ -156,4 +166,42 @@ body {
     background-color:#E6ECED;
     color:black;
     cursor:pointer;
+}
+
+.redsheepStoreDetailedPlugin {
+    position:absolute;
+    top:85px;
+    left:20px;
+    width:760px;
+    text-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+
+.redsheepStoreDetailedPluginHeadline {
+    font-weight:bold;
+    font-size:22px;
+    color:grey;
+}
+
+.redsheepStoreDetailedPluginScreens {
+    position:relative;
+    top:0px;
+    margin:auto auto;
+    height:170px;
+    width:100%;
+    border:1px grey solid;
+    background-color:#d3d3d3;
+}
+
+.redsheepStoreDetailedPluginInfos {
+    position:relative;
+    top:50px;
+    margin:auto;
+    width:100%;
+}
+
+.pluginTabs {
+    position:relative;
+    top:10px;
+    left:5px;
+    font-size:17px;
 }

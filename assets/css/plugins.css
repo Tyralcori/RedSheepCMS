@@ -1,4 +1,214 @@
 /** Automatic generated css file **/
+/** Style for plugin RedSheepStore: Start **/
+body {
+    font-family:'Oswald', Arial,Helvetica,sans-serif;    
+}
+
+.redsheepStoreContainer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    min-height:1100px;
+    height:100%;
+    width:100%;
+    background-color:#E6ECED;
+}
+
+.redsheepStoreInner {
+    position:absolute;
+    top:80px;
+    width:800px;
+    height:950px;
+    left:0;
+    right:0;    
+    margin-left:auto;
+    margin-right:auto; 
+    background-color:white;
+    -moz-box-shadow: 0 0 2px 2px grey;
+    -webkit-box-shadow: 0 0 2px 2px grey;
+    box-shadow: 0 0 2px 2px grey;
+    color:grey;
+}
+
+.redsheepStoreLogoStyle {
+    position:absolute;
+    top:5px;
+    width:800px;
+    height:50px;
+    left:0;
+    right:0;    
+    margin-left:auto;
+    margin-right:auto; 
+    color:#B02525;
+    font-size:32px;
+    text-shadow: -1px -1px 0px #202020, 1px 1px 0px #fff;
+}
+
+.redsheepStoreLogoStyle:hover {
+    cursor:pointer;
+}
+
+.redsheepStoreLogoSlogan {
+    position:relative;
+    top:0px;
+    left:0px;
+    font-size:15px;
+    color:#B02525;
+    text-shadow: -1px -1px 0px #202020, 1px 1px 0px #fff;
+}
+
+.redsheepStoreSearchLayer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:45px;
+    width:100%;
+    text-align:center;
+}
+
+.redsheepStoreSearchInnerLayer {
+    position:absolute;
+    top:5px;
+    left:5px;
+    bottom:5px;
+    right:5px;
+}
+
+.redsheepStoreColLeft , .redsheepStoreColMid, .redsheepStoreColRight {
+    position:absolute;
+    margin-left:5px;
+    top:50px;
+    height:900px;
+}
+
+.redsheepStoreColLeft {    
+    left:0%;
+    width:25%;
+}
+
+.redsheepStoreColMid {
+    left:25%;
+    width:49%;
+}
+
+.redsheepStoreColRight {
+    left:74%;
+    width:25%;    
+}
+
+.prettyBtn {
+    background-color:#B02525;
+}
+
+.prettyBtn:hover {
+    background-color:#E6ECED;
+    color:black;
+    cursor:pointer;
+}
+
+.redsheepStoreBox {
+    position:relative;
+}
+
+.redsheepStoreBox .redsheepStoreBoxHeading {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:30px;
+    font-size:20px;
+    font-weight:bold;
+    width:100%;
+    color:white;
+    text-align:center;
+    background-color:#B02525;
+}
+
+.redsheepStoreBox .redsheepStoreBoxContent {
+    position:absolute;
+    top:30px;
+    left:0px;
+    height:20px;
+    font-size:14px;
+    width:100%;
+    color:white;
+}
+
+.redsheepStoreBox .redsheepStoreBoxContent .element { 
+    position:relative;
+    text-align:center;
+    left:0px;
+    width:100%;
+    height:20px;
+    background-color:#DE3E3E;
+    color:white;
+    display:block;
+    border-left:1px grey solid;
+    border-right:1px grey solid;
+}
+
+.redsheepStoreBoxContent .element a {
+    text-decoration:none;
+    color:white;
+}
+
+.redsheepStoreBoxContent .element a:hover {
+    text-decoration:none;
+    color:black;
+}
+
+.redsheepStoreBox .redsheepStoreBoxContent .firstElement {
+    border-top:1px grey solid;
+}
+
+.redsheepStoreBox .redsheepStoreBoxContent .lastElement { 
+    border-bottom:1px grey solid;
+}
+
+.redsheepStoreBox .redsheepStoreBoxContent .element:hover {
+    background-color:#E6ECED;
+    color:black;
+    cursor:pointer;
+}
+
+.redsheepStoreDetailedPlugin {
+    position:absolute;
+    top:85px;
+    left:20px;
+    width:760px;
+    text-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+
+.redsheepStoreDetailedPluginHeadline {
+    font-weight:bold;
+    font-size:22px;
+    color:grey;
+}
+
+.redsheepStoreDetailedPluginScreens {
+    position:relative;
+    top:0px;
+    margin:auto auto;
+    height:170px;
+    width:100%;
+    border:1px grey solid;
+    background-color:#d3d3d3;
+}
+
+.redsheepStoreDetailedPluginInfos {
+    position:relative;
+    top:50px;
+    margin:auto;
+    width:100%;
+}
+
+.pluginTabs {
+    position:relative;
+    top:10px;
+    left:5px;
+    font-size:17px;
+}
+/** Style for plugin RedSheepStore: END **/
+
 /** Style for plugin RedSheepScrollTop: Start **/
 .scrollTop {
     position:fixed;
