@@ -151,12 +151,13 @@ class Controller_Backend extends Controller_Redsheep {
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/14
      */
-    public function action_mail() {
+    public function action_mailpattern() {
         // Yeah, this is more easier
         Redsheepcore_Form::generate('mailpattern', array(
             'edit' => 'id',
             'save' => true,
             'delete' => true,
+            'allowHTML' => true,
             'ignore' => array(
                 'id',
             ),
