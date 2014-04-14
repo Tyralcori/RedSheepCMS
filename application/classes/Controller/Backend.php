@@ -145,6 +145,26 @@ class Controller_Backend extends Controller_Redsheep {
     public function action_accounts() {
         
     }
+    
+    /**
+     * Mail Pattern Overview
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/14
+     */
+    public function action_mail() {
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('mailpattern', array(
+            'edit' => 'id',
+            'save' => true,
+            'delete' => true,
+            'ignore' => array(
+                'id',
+            ),
+            'hide' => array(
+            ),
+                )
+        );
+    }
 
     /**
      * Navigation Overview

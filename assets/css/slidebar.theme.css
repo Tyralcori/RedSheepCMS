@@ -1,0 +1,13 @@
+.redsheepNaviSlideInner ul li a {
+    border-left: 3px solid transparent;
+    width: 100%;
+    display: inline-block;
+    padding: 1em;
+    font-size:16px;
+    color:white;
+}
+
+.redsheepNaviSlideInner ul li a:hover {
+    color:#8F1414;
+    text-decoration:none;
+}

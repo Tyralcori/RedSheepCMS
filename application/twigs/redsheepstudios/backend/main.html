@@ -1,30 +1,25 @@
 {% for plugin in plugins.message %}
-    {% if plugin.return.message.view %}
-        {{ include(template_from_string(plugin.return.message.view)) }}
-    {% endif %}
+{% if plugin.return.message.view %}
+{{ include(template_from_string(plugin.return.message.view)) }}
+{% endif %}
 {% endfor %}
 <div class="redsheepContainer">
     <div class="redsheepHeader">
-        <div class="redsheepHeaderInner">
+        <div class="redsheepHeaderInner">            
             <a href='{{ baseHost }}backend' title='RedSheep Studios'><label class="redsheepLogoStyle">RedSheep Studios Backend</label></a>
         </div>        
     </div>
 
-    <div class="redsheepContent">
-        {% if backendSession is not empty %}
-        <div class="redsheepNavi">
-            <div class="redsheepNaviInner">
-                <a href='{{ baseHost }}backend/navigation' title='Navigation'>Navigation</a>
-                <a href='{{ baseHost }}backend/sites' title='Sites'>Sites</a>
-                <a href='{{ baseHost }}backend/accounts' title='Accounts'>Accounts</a>
-                <a href='{{ baseHost }}backend/plugin' title='Plugins'>Plugins</a>
-                <a href='{{ baseHost }}backend/config' title='Config'>Config</a>
-                <a href='{{ baseHost }}backend/cron' title='Cronjobs'>Cronjobs</a>
-                <a href='{{ baseHost }}backend/log' title='Log'>Log</a>
-                <a href='{{ baseHost }}backend/logout' title='Logout'>Logout</a>
-            </div>        
+    {% if backendSession is not empty %}
+        <div class="setTop redSheepNaviBTN">
+            <i class="fa fa-align-justify"></i>
         </div>
-        {% endif %}
+
+        <div class="redsheepNaviSlide">
+            {% include "%template%/%area%/elements/navi"|replace({"%template%": template, "%area%": area}) %}
+        </div>
+    {% endif %}
+    <div class="redsheepContent">
         <div class="redsheepPresent">
             {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
         </div>

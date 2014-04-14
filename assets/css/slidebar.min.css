@@ -1,0 +1,67 @@
+.redsheepNaviSlide {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:100%;
+    width:250px;
+    background-color:black;
+    color:white;
+    display:none;
+    z-index:999;
+}
+
+.setTop {
+    position:absolute;
+    top:20px;    
+    left:25px;
+    height:40px;
+    width:40px;
+    text-align:center;
+    color:white;
+    font-size:26px;
+    cursor:pointer;
+}
+
+.redsheepNaviSlide .redsheepNaviSlideInner {
+
+}
+
+.redsheepNaviSlideInner ul {
+    list-style-type:none;
+}
+
+.redsheepNaviSlideInner .redSheepNaviMenu {
+    padding: 0;
+    margin: 0;
+}
+
+.redSheepNaviSubMenu {
+    background-color:black;
+    position:relative;
+    top:-55px;
+    left:210px;
+}
+
+.redsheepNaviSlideInner ul li {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height:50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: list-item;
+    text-align: -webkit-match-parent;    
+}
+
+.redsheepNaviSlideInner ul li a {
+    width: 100%;
+    display: inline-block;
+    padding: 1em;
+    color:white;
+}
+
+.redsheepNaviSlideInner ul li a:hover {
+    color:white;
+    text-decoration:none;
+}
