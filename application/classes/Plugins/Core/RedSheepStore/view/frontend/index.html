@@ -1,8 +1,10 @@
 <div class='redsheepStoreContainer'>
-    <div class='redsheepStoreLogoStyle'>
-        RedSheep Community
-        <div class='redsheepStoreLogoSlogan'>Your place to go for RedSheepCMS Plugins and Templates! </div>
-    </div>
+    <a href="/" title="RedSheep Community">
+        <div class='redsheepStoreLogoStyle'>
+            RedSheep Community
+            <div class='redsheepStoreLogoSlogan'>Your place to go for RedSheepCMS Plugins and Templates! </div>
+        </div>
+    </a>
     <div class='redsheepStoreInner'>
 
         <div class='redsheepStoreSearchLayer'>
@@ -17,18 +19,30 @@
                 </div>
             </form>
         </div>
-
+        
         {% if detailedPlugin %}
         <div class="redsheepStoreDetailedPlugin">
             <p><label class="redsheepStoreDetailedPluginHeadline">{{ detailedPlugin.name }}</label> ({{ detailedPlugin.rating }} / 10)</p>
             <div class="redsheepStoreDetailedPluginScreens">
-                
+
             </div>
-            
+
             <br/>
             
-            <a class="btn btn-danger btn-block" href="#">DOWNLOAD</a>      
+            {% if downloadURL %}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    console.log("HEHE");
+                    window.open('http://{{ downloadURL }}');
+                });
+            </script>
+            {% endif %}
             
+            {% if downloadMessage %}
+                <span class="btn btn-danger btn-block" href="#">{{ downloadMessage }}</span>
+            {% else %}
+                <a class="btn btn-danger btn-block" href="/initDownload/{{ detailedPlugin.name }}">DOWNLOAD</a>      
+            {% endif%}
             <div class="redsheepStoreDetailedPluginInfos">
                 <ul id="pluginInfo" class="nav nav-tabs">
                     <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
@@ -37,10 +51,10 @@
                 <div id="pluginInfo" class="tab-content pluginTabs">
                     <div class="tab-pane fade in active" id="details">
                         <p>
-                            Publisher: <a href="{{ detailedPlugin.publisherHomepage }}" target="_blank" title="Publisher">{{ detailedPlugin.publisher }}</a><br/>
-                            
-                            Description: {{ detailedPlugin.description }}<br/>
-                            
+                            <br/>Publisher: <a href="{{ detailedPlugin.publisherHomepage }}" target="_blank" title="Publisher">{{ detailedPlugin.publisher }}</a><br/><br/>
+
+                            Description: {{ detailedPlugin.description }}<br/><br/>
+
                             Version: {{ detailedPlugin.version }}<br/>
                         </p>
                     </div>
@@ -52,13 +66,13 @@
         </div>
         {% else %}
         <div class='redsheepStoreColLeft'>
-            {% if topFivePlugins is iterable %}
+            {% if topPlugins is iterable %}
             <div class='redsheepStoreBox'>
                 <div class='redsheepStoreBoxHeading'>
                     Top Downloads
                 </div>
                 <div class='redsheepStoreBoxContent'>
-                    {% for key, plugin in topFivePlugins %}
+                    {% for key, plugin in topPlugins %}
                     <div class='element {% if key == 0 %}firstElement {% endif %}{% if key == (topFivePlugins|length - 1) %}lastElement{% endif %}'>
                         <a href="/plugin/{{ plugin.name }}">{{ plugin.name }}</a>
                     </div>

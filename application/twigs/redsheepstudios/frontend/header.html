@@ -16,5 +16,11 @@
         {% endif %}
 
         <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'/>
+        
+        {% if staticBaseHost %}
+            <script type="text/javascript" src="{{ staticBaseHost }}js/jquery.min.js"></script>
+        {% else %}
+            <script type="text/javascript" src="{{ baseHost }}assets/js/jquery.min.js"></script>
+        {% endif %}
     </head>
     <body>
