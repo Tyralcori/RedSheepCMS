@@ -46,8 +46,10 @@ class Redsheepcore_Mail {
     }
 
     /**
-     * INIT Mail
-     * @param type $subscribe
+     * Inits the mail transport
+     * @param type $pattern
+     * @param type $emails
+     * @return boolean
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/14
      */
