@@ -1,4 +1,7 @@
 <script type="text/javascript">
+    // Placeholder
+    var gridster;
+    
     $(function() {
         // Grid system - Based on http://gridster.net/ (Awesome!!)
         redSheepGridHandling = {
@@ -39,9 +42,24 @@
             killItem: function(number) {
                 gridster.remove_widget(document.getElementsByClassName('grid-' + number));
             },
-            
-            // Reloads whole grid
+              
+            // "Clear" grid
+            killAll: function() {
+                // Clear
+                gridster.destroy(true);
+                
+                // Reset counter
+                redSheepGridHandling.gridCounter = 0;
+            },
+                    
+            // Reload the grid
             reload: function() {
+                redSheepGridHandling.killAll();
+                redSheepGridHandling.init();
+            },
+            
+            // Init whole grid
+            init: function() {
                 // Create gridster var
                 gridster = $(".gridster ul").gridster({
                     widget_margins: [redSheepGridHandling.widgetMarginWidth, redSheepGridHandling.widgetMarginHeight],
@@ -52,21 +70,19 @@
                     max_rows: redSheepGridHandling.gridRowMax,
                     resize: {
                         enabled: redSheepGridHandling.widgetResizeable
-                    }
+                    },
+                    autogenerate_stylesheet: true,
                 }).data('gridster');
             }
 
         };
         
-        // Gridster placeholder
-        var gridster;
-        
         // Reload Grid
-        redSheepGridHandling.reload();
+        redSheepGridHandling.init();
     });
 </script>
 <br/><br/>
-<a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a> | <a href="javascript:redSheepGridHandling.reload();">Reload Grid</a>
+<a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a> | <a href="javascript:window.location.reload()">Reload Grid</a>
 <div class="gridster">
     <ul></ul>
 </div>
