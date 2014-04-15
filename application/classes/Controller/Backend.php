@@ -45,6 +45,10 @@ class Controller_Backend extends Controller_Redsheep {
      * @since 2014/03/11
      */
     public function action_index() {
+        // Generate a grid with 9 height and 9 width
+        Redsheepcore_Grid::generate(9,9); // Just experimental - i will delete this after a while
+        
+        
         // Get version
         $version = Redsheepcore::getConfig('version') ? Redsheepcore::getConfig('version') : 'default';
 

@@ -1,0 +1,72 @@
+<script type="text/javascript">
+    $(function() {
+        // Grid system - Based on http://gridster.net/ (Awesome!!)
+        redSheepGridHandling = {
+            // Some vars
+            widgetMarginHeight: 3,
+            widgetMarginWidth: 3,
+            
+            widgetHeight: 100,
+            widgetWidth: 100,
+            
+            gridColMin: 4,
+            gridColMax: 8,
+            gridRowMin: 4,
+            gridRowMax: 8,
+            
+            gridCounter: 0,
+            
+            widgetResizeable: true,
+
+            // Just a simple log function (test)
+            log: function() {
+                var serial = gridster.serialize();
+                console.log(serial);
+            },
+                    
+            // Spawn new item
+            spawnItem: function () {
+                gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
+                '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
+                redSheepGridHandling.gridCounter + 
+                '</li>', 1, 1);
+        
+                // Plus one
+                redSheepGridHandling.gridCounter = parseInt(redSheepGridHandling.gridCounter) + 1;
+            },
+                
+            // Kill item by number
+            killItem: function(number) {
+                gridster.remove_widget(document.getElementsByClassName('grid-' + number));
+            },
+            
+            // Reloads whole grid
+            reload: function() {
+                // Create gridster var
+                gridster = $(".gridster ul").gridster({
+                    widget_margins: [redSheepGridHandling.widgetMarginWidth, redSheepGridHandling.widgetMarginHeight],
+                    widget_base_dimensions: [redSheepGridHandling.widgetHeight, redSheepGridHandling.widgetWidth],
+                    min_cols: redSheepGridHandling.gridColMin,
+                    min_rows: redSheepGridHandling.gridRowMin,
+                    max_cols: redSheepGridHandling.gridColMax,
+                    max_rows: redSheepGridHandling.gridRowMax,
+                    resize: {
+                        enabled: redSheepGridHandling.widgetResizeable
+                    }
+                }).data('gridster');
+            }
+
+        };
+        
+        // Gridster placeholder
+        var gridster;
+        
+        // Reload Grid
+        redSheepGridHandling.reload();
+    });
+</script>
+<br/><br/>
+<a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a> | <a href="javascript:redSheepGridHandling.reload();">Reload Grid</a>
+<div class="gridster">
+    <ul></ul>
+</div>
