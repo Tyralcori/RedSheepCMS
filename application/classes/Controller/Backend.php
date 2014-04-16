@@ -170,6 +170,27 @@ class Controller_Backend extends Controller_Redsheep {
                 )
         );
     }
+    
+    /**
+     * Translation Overview
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/16
+     */
+    public function action_translation() {
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('translation', array(
+            'edit' => 'id',
+            'save' => true,
+            'delete' => true,
+            'allowHTML' => true,
+            'ignore' => array(
+                'id',
+            ),
+            'hide' => array(
+            ),
+                )
+        );
+    }
 
     /**
      * Navigation Overview
