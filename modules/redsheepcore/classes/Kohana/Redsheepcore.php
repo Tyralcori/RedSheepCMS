@@ -202,6 +202,10 @@ class Kohana_Redsheepcore extends View {
             // Set action response
             self::setTemplate('actionResponse', $spaceCalled->action_index());
         }
+        
+        
+        // Replace placeholders by language
+        Redsheepcore_Lang::generate(self::getSession('language'));
 
         // Execute after events by URI
         self::setTemplate('afterEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'after'));        
