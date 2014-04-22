@@ -207,9 +207,10 @@ class Kohana_Redsheepcore extends View {
         }
         
         
-        // Replace placeholders by language
-        Redsheepcore_Lang::generate(self::getSession('language'));
-
+        // Replace placeholders by language (frontend only)
+        if(strtolower($space) == 'frontend') {
+            Redsheepcore_Lang::generate(self::getSession('language'));
+        }
         // Execute after events by URI
         self::setTemplate('afterEvents', Redsheepcore_Event::execute(htmlentities($_uri), 'after'));        
     }
