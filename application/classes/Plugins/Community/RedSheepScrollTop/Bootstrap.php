@@ -72,7 +72,7 @@ class Plugins_Community_RedSheepScrollTop_Bootstrap extends Controller implement
         return array(
             'name' => 'RedSheepScrollTop',
             'description' => 'Creates a little box "Scroll to top on bottom page"',
-            'version' => '1.0.0',
+            'version' => '1.0.1',
             'publisher' => 'RedSheep Studios',
             'publisherHomepage' => 'http://redsheepstudios.com/',
         );
