@@ -86,7 +86,7 @@ class Kohana_Redsheepcore extends View {
         }
 
         // Config elements
-        $elements = array('version', 'template', 'baseHost', 'title', 'staticBaseHost');
+        $elements = array('version', 'template', 'baseHost', 'title', 'staticBaseHost', 'bannerLink');
 
         // Iterate all elements 
         foreach ($elements as $key => $element) {
@@ -99,12 +99,12 @@ class Kohana_Redsheepcore extends View {
             // Create entry if not given
             if (empty($config->name) && empty($config->value)) {
                 $config->name = $element;
-                $config->value = 'default';
+                $config->value = '';
                 $config->save();
             }
 
             // Set config
-            self::setConfig($element, ($config->value ? $config->value : 'default'));
+            self::setConfig($element, ($config->value));
         }
         
         // Set space in template

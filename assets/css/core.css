@@ -94,7 +94,7 @@ body {
 }
 
 .redsheepBanner {
-    position:absolute;
+    position:relative;
     top:10px;
     left:10px;
     width:880px;
@@ -107,9 +107,9 @@ body {
 }
 
 .redsheepPresent {
-    position:absolute;
+    position:relative;
     left:20px;
-    top:300px;
+    top:20px;
     width:860px;
 }
 

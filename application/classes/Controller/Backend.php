@@ -410,7 +410,7 @@ class Controller_Backend extends Controller_Redsheep {
             'save' => true,
             'delete' => true,
             'ignore' => array(
-                'id',
+                'id', 
             ),
             'hide' => array(
             ),

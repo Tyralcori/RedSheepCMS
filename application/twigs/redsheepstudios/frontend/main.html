@@ -28,9 +28,11 @@
     </div>
 
     <div class="redsheepContent">
+        {% if bannerLink is not empty %}
         <div class="redsheepBanner">
             {% include "%template%/%area%/elements/banner"|replace({"%template%": template, "%area%": area}) %}
         </div>
+        {% endif %}
 
         <div class="redsheepPresent">
             {% if siteOutput %}
