@@ -153,6 +153,9 @@ class Kohana_Redsheepcore extends View {
             if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {
                 // 404 error not found
                 $siteActionToLoad = 'error';
+                
+                // Log this 
+                Redsheepcore_Watchdog::setLog('error', 'failureCall', 'Fail to call: Controller_' . $space, 'action_' . $siteActionToLoad);
             }
         }        
         

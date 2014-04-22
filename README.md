@@ -26,7 +26,10 @@ $env->addExtension(new Twig_Extension_StringLoader());
 
 
 ## Whats next?
-Smarty as second template engine, SOLR plugin for whatever, caching methods like APC and redis (if it is usefull), some nice templates, and last but not least a full useable backend.
+#### Smarty as second template engine, [in Progress]
+#### SOLR plugin for whatever, [Soon]
+#### Caching methods like APC and redis (if it is usefull), [DONE]
+#### Some nice templates, and last but not least a full useable backend. ["DONE"]
 
 ## FAQ
 Are you ashamed for your english?
