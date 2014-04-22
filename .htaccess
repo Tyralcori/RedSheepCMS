@@ -1,6 +1,6 @@
 RewriteEngine on
 
-RewriteCond $1 !^(index\.php|apc\.php|assets|LIB|robots\.txt)
+RewriteCond $1 !^(index\.php|apc\.php|assets|LIB|favicon\.ico|robots\.txt)
 RewriteRule ^(.*)$ /index.php/$1 [L]
 
 

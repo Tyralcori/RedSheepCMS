@@ -150,12 +150,12 @@ class Kohana_Redsheepcore extends View {
         // If current action not in viewport
         if(!in_array($siteActionToLoad, $foundViewports) && !in_array($siteActionToLoad, $foundViewportsLinks)) {            
             // And if not exists
-            if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {
+            if(!method_exists('Controller_' . $space, 'action_' . $siteActionToLoad)) {    
+                // Log this 
+                Redsheepcore_Watchdog::setLog('error', 'failureCall', 'Fail to call: Controller_' . $space . '::' .  'action_' . $siteActionToLoad);
+                
                 // 404 error not found
                 $siteActionToLoad = 'error';
-                
-                // Log this 
-                Redsheepcore_Watchdog::setLog('error', 'failureCall', 'Fail to call: Controller_' . $space, 'action_' . $siteActionToLoad);
             }
         }        
         

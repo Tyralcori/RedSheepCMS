@@ -117,7 +117,7 @@ class Pluginmanager extends Controller {
 
                         // Plugin model
                         $plugin = ORM::factory('plugin')->where('name', '=', $pluginValue)->find();
-
+                        
                         // Register only new plugins
                         if (!empty($plugin->version)) {
                             continue;
@@ -136,7 +136,7 @@ class Pluginmanager extends Controller {
                             // Save changed / new plugin
                             $plugin->save();
                         }
-
+                        
 
                         // Add plugin into "container"
                         self::setPlugins($currentSpace, $pluginMetaDatas);
@@ -193,8 +193,7 @@ class Pluginmanager extends Controller {
             foreach ($configContainerTemp as $key => $value) {
                 // Explode on :
                 $currTemp = explode(':', $value);
-                $pluginConfig[$currTemp[0]] = $currTemp[1] ? $currTemp[1] : 'empty';
- 
+                $pluginConfig[$currTemp[0]] = isset($currTemp[1]) ? $currTemp[1] : 'empty';  
             }
         }
         
@@ -302,6 +301,9 @@ class Pluginmanager extends Controller {
             // Uninstall function?
             $return = self::executePluginFunction($pluginID, 'install');
 
+            // Plugin config
+            self::pluginConfig($pluginID, self::executePluginFunction($pluginID, 'getConfig'));
+            
             // Datetime
             $selectedPlugin->installedOn = date('Y-m-d H:i:s');
         } else {
@@ -386,6 +388,69 @@ class Pluginmanager extends Controller {
 
         // Everything fine
         return $return;
+    }
+    
+    /**
+     * Create config by id and config return
+     * @param type $pluginID
+     * @param type $pluginConfig
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/22
+     */
+    private static function pluginConfig($pluginID = null, $pluginConfig = null) {
+        // Must not be empty
+        if(empty($pluginID)) {
+            return false;
+        }
+        
+        // Get plugin
+        $plugin = ORM::factory('plugin')->where('id', '=', $pluginID)->find();
+        
+        // Plugin ID must not be empty
+        if(empty($plugin->id)) {
+            return false;
+        }
+        
+        // Holds config
+        $pluginValueConfig = '';
+        
+        // Check, if config is okay
+        if(!empty($pluginConfig) && is_array($pluginConfig)) {
+            // Holds config
+            $pluginValueConfig .= '{';
+            
+            foreach($pluginConfig as $configKEY => $configValue) {
+                $pluginValueConfig .= $configValue['name'] . ':0,';
+            }
+            
+            $pluginValueConfig = rtrim($pluginValueConfig, ',');
+            
+            // Add closing brace
+            $pluginValueConfig .= '}';
+        }
+        
+        // Plugin name in config table
+        $pluginNameConfig = 'Plugin_' . $plugin->name;
+        
+        // Get current config
+        $currentConfig = ORM::factory('config')->where('name', '=', $pluginNameConfig)->find();
+        
+        // Check if id is given or not
+        if(!empty($currentConfig->id)) {
+            // Set ID, else we have a new entry
+            $currentConfig->id = $currentConfig->id;
+        }
+        
+        // Set more datas
+        $currentConfig->name = $pluginNameConfig;
+        $currentConfig->value = $pluginValueConfig;
+        
+        // Save
+        $currentConfig->save();
+        
+        // Everything is fine
+        return true;
     }
 
     /**
