@@ -44,4 +44,24 @@ class Model_User extends ORM {
 	),
 
     );
+    
+    /**
+      * This function hashes the password by input
+      * @param type $input
+      * @return boolean
+      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+      * @since 2014/03/24
+      */
+     public function hashPasword($input = null) {
+         // If empty there is nothing to hash
+         if (empty($input)) {
+             return false;
+         }
+         // Salt. Psst!!!
+         $salt = "NMæſđss3amtł3qkfáw";
+         // Hash it
+         $pass = hash('sha256', $salt . $input);
+         // Return hashed password
+         return $pass;
+     }
 }
