@@ -1,63 +1,62 @@
 <script type="text/javascript">
     // Placeholder
     var gridster;
-    
+
     $(function() {
         // Grid system - Based on http://gridster.net/ (Awesome!!)
         redSheepGridHandling = {
             // Some vars
             widgetMarginHeight: 3,
             widgetMarginWidth: 3,
-            
             widgetHeight: 100,
             widgetWidth: 100,
-            
             gridColMin: 4,
             gridColMax: 8,
             gridRowMin: 4,
             gridRowMax: 8,
-            
-            gridCounter: 0,
-            
+            gridCounter: 0,            
             widgetResizeable: true,
-
             // Just a simple log function (test)
-            log: function() {
+            save: function() {
                 var serial = gridster.serialize();
-                console.log(serial);
+                
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "/backend/grid/save",
+                    data: {save: serial},
+                    success: function(msg) {
+                        alert(msg.message);
+                    }
+                });
             },
-                    
             // Spawn new item
-            spawnItem: function () {
+            spawnItem: function() {
                 gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
-                '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
-                redSheepGridHandling.gridCounter + 
-                '</li>', 1, 1);
-        
+                        '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
+                        redSheepGridHandling.gridCounter +
+                        '</li>', 1, 1);
+
                 // Plus one
                 redSheepGridHandling.gridCounter = parseInt(redSheepGridHandling.gridCounter) + 1;
             },
-                
             // Kill item by number
             killItem: function(number) {
                 gridster.remove_widget(document.getElementsByClassName('grid-' + number));
             },
-              
             // "Clear" grid
             killAll: function() {
                 // Clear
                 gridster.destroy(true);
-                
+
                 // Reset counter
                 redSheepGridHandling.gridCounter = 0;
             },
-                    
             // Reload the grid
             reload: function() {
                 redSheepGridHandling.killAll();
                 redSheepGridHandling.init();
             },
-            
             // Init whole grid
             init: function() {
                 // Create gridster var
@@ -76,13 +75,18 @@
             }
 
         };
-        
+
         // Reload Grid
         redSheepGridHandling.init();
     });
 </script>
-<br/><br/>
-<a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a> | <a href="javascript:window.location.reload()">Reload Grid</a>
+<div class="gridPanel">
+    <a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a>
+
+    <br/><a href="javascript:redSheepGridHandling.save()">Save Grid</a>
+
+    <br/><br/><br/><a href="javascript:window.location.reload()">Reload Grid</a>
+</div>
 <div class="gridster">
     <ul></ul>
 </div>

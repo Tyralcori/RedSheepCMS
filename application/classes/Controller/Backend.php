@@ -73,6 +73,26 @@ class Controller_Backend extends Controller_Redsheep {
         // Everything fine
         return array('status' => 'success', 'message' => 'Logged in', 'backendSession' => $dataSession);
     }
+    
+    /**
+     * Handle grid
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/23
+     */
+    public function action_grid() {
+        // Get whole uri
+        $_uri = str_replace('//', '/', '/' . Request::detect_uri());
+        
+        // Get handle
+        $handle = str_replace('/backend/grid/', '', $_uri);
+        
+        // Call handle
+        $responseGrid = Redsheepcore_Grid::handle($handle, (isset($_POST[$handle]) ? $_POST[$handle] : array()));
+        
+        // JSON Response
+        echo json_encode($responseGrid);
+        die();
+    }
 
     /**
      * Plugin Loader

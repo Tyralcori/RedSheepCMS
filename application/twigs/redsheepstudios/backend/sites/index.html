@@ -1,6 +1,5 @@
 {% if actionResponse.backendSession is empty %}
     {% include "%template%/%area%/elements/loginmask"|replace({"%template%": template, "%area%": area}) %}
 {% else %}
-    Logged in as {{ actionResponse.backendSession.username }}
     {% include "%template%/%area%/elements/grid"|replace({"%template%": template, "%area%": area}) %}
 {% endif %}
