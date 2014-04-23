@@ -14,24 +14,79 @@
             gridColMax: 8,
             gridRowMin: 4,
             gridRowMax: 8,
-            gridCounter: 0,            
+            gridCounter: 0,
             widgetResizeable: true,
-            // Just a simple log function (test)
+            // Saves the grid
             save: function() {
+                // Serialize the grid
                 var serial = gridster.serialize();
-                
+
+                // Ajax reuqest to handle
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
                     url: "/backend/grid/save",
                     data: {save: serial},
                     success: function(msg) {
+                        // Replace alert with a nice auto hiding message
                         alert(msg.message);
+                    }
+                });
+            },
+            // Load all grid id
+            load: function() {
+                // Clear the options
+                $('#gridID').html('');
+                
+                // Ajax Request to handle
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "/backend/grid/load",
+                    success: function(msg) {
+                        // Fill selectbox
+                        $.each($.parseJSON(msg.message), function(key, value) {
+                            $("#gridID").append('<option value=' + value +  '>' + value + '</option>');
+                        });
+                        // Call picker modal
+                        $('#gridSelector').modal();
+                    }
+                });
+            },
+            // Load a grid by id
+            loadGridByID: function() {
+                // Ajax Request to handle
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {load: $("#gridID").val()},
+                    url: "/backend/grid/load",
+                    success: function(msg) {
+                        // Clear grid
+                        redSheepGridHandling.killAll();
+                        
+                        // Get loaded grid
+                        var loadedGrid = msg.message;
+                        
+                        // Generate grid
+                        $.each($.parseJSON(loadedGrid), function(key, value){
+                            // Add widget by following: html, width, height, col, row
+                            gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
+                            '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
+                            redSheepGridHandling.gridCounter +
+                            '</li>', value.size_x, value.size_y, value.col, value.row);
+                    
+                            // Plus one
+                            redSheepGridHandling.gridCounter = parseInt(redSheepGridHandling.gridCounter) + 1;
+                        });
+                        
+
                     }
                 });
             },
             // Spawn new item
             spawnItem: function() {
+                // Pattern for adding new widget
                 gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
                         '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
                         redSheepGridHandling.gridCounter +
@@ -47,7 +102,7 @@
             // "Clear" grid
             killAll: function() {
                 // Clear
-                gridster.destroy(true);
+                gridster.remove_all_widgets();
 
                 // Reset counter
                 redSheepGridHandling.gridCounter = 0;
@@ -76,17 +131,43 @@
 
         };
 
+        // Register Event on "loadSelectedGrid"
+        $('.loadSelectedGrid').click(function() {
+            redSheepGridHandling.loadGridByID();
+            $('.hideModal').click();
+        });
+
         // Reload Grid
         redSheepGridHandling.init();
     });
 </script>
 <div class="gridPanel">
-    <a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Item</a>
+    <a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Gridelement</a>
 
     <br/><a href="javascript:redSheepGridHandling.save()">Save Grid</a>
 
-    <br/><br/><br/><a href="javascript:window.location.reload()">Reload Grid</a>
+    <br/><a href="javascript:redSheepGridHandling.load()">Load Grid</a>
+
+    <br/><br/><br/><a href="javascript:redSheepGridHandling.reload()">Reload Grid</a>
 </div>
 <div class="gridster">
     <ul></ul>
+</div>
+
+<div id="gridSelector" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSelector" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Load grid</h4>
+            </div>
+            <div class="modal-body">
+                <select id="gridID" name="gridID" class="form-control"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default hideModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary loadSelectedGrid">Load selected grid</button>
+            </div>
+        </div>
+    </div>
 </div>

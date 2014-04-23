@@ -38,6 +38,14 @@ class Redsheepcore_Grid {
                     $return = self::saveGrid($param);
                 }
                 break;
+            case 'load':
+                // Load grid
+                if (!empty($param)) {
+                    $return = self::loadGrid($param);
+                } else {
+                    $return = self::loadGrid();
+                }
+                break;
             // Whatever handle
             default:
                 break;
@@ -49,7 +57,7 @@ class Redsheepcore_Grid {
         }
 
         // Hmm.. should never be called
-        return array('status' => 'pending', 'message' => 'So return message');
+        return array('status' => 'pending', 'message' => 'No return message');
     }
 
     /**
@@ -85,6 +93,35 @@ class Redsheepcore_Grid {
         }
 
         return array('status' => 'success', 'message' => 'Successfully saved');
+    }
+    
+    private static function loadGrid($id = null) {
+        // Container return
+        $returnContainer = array();
+        
+        // Select grid by id
+        if(!empty($id)) {
+            $gridLoad = ORM::factory('grid')->where('gridID', '=', (int)$id)->find_all()->as_array();
+            
+            // Iterate these elements 
+            foreach($gridLoad as $key => $gridElement) {
+                $returnContainer[$key]['gridID'] = $id;
+                $returnContainer[$key]['col'] = $gridElement->positionX;
+                $returnContainer[$key]['row'] = $gridElement->positionY;
+                $returnContainer[$key]['size_x'] = $gridElement->width;
+                $returnContainer[$key]['size_y'] = $gridElement->height;
+            }
+        } else {
+            // Select all available gridIDs
+            $gridLoad = ORM::factory('grid')->group_by('gridID')->find_all();
+            
+            // Iterate all given grids
+            foreach($gridLoad as $gridKey => $grid) {
+                $returnContainer[] = isset($grid->gridID) ? $grid->gridID : 0;
+            }            
+        }    
+        
+        return array('status' => 'success', 'message' => json_encode($returnContainer));
     }
 
     /**
