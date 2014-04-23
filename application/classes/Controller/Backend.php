@@ -166,8 +166,20 @@ class Controller_Backend extends Controller_Redsheep {
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/03/26
      */
-    public function action_accounts() {
-        
+    public function action_user() {
+        // Yeah, this is more easier
+        Redsheepcore_Form::generate('user', array(
+            'edit' => 'ID',
+            'save' => true,
+            'delete' => true,
+            'ignore' => array(
+                'ID', 
+            ),
+            'hide' => array(
+                'password',
+            ),
+                )
+        );
     }
     
     /**

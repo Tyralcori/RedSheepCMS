@@ -1,4 +1,4 @@
-{% if formDataValues.id %}
+{% if (formDataValues.id or formDataValues.ID) %}
 <form action="/backend/{{ formDataSection }}/{{ attribute(formDataValues, formData_edit) }}" method="POST">    
         {% if formDataMessage %}
             <label>{{ formDataMessage }}</label><br/><br/>
