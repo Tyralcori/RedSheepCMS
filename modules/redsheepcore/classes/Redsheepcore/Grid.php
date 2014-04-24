@@ -61,7 +61,7 @@ class Redsheepcore_Grid {
     }
 
     /**
-     * 
+     * Save grid by serialized object
      * @param type $grid
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/23
@@ -95,6 +95,13 @@ class Redsheepcore_Grid {
         return array('status' => 'success', 'message' => 'Successfully saved');
     }
     
+    /**
+     * Load grid by id if given. Else load ids
+     * @param type $id
+     * @return type
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/04/23
+     */
     private static function loadGrid($id = null) {
         // Container return
         $returnContainer = array();
