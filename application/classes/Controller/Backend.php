@@ -46,7 +46,7 @@ class Controller_Backend extends Controller_Redsheep {
      */
     public function action_index() {
         // Generate a grid with 9 height and 9 width
-        Redsheepcore_Grid::generate(9,9); // Just experimental - i will delete this after a while
+        Redsheepcore_Grid::generate(8,8); // Just experimental - i will delete this after a while
         
         
         // Get version
@@ -87,7 +87,7 @@ class Controller_Backend extends Controller_Redsheep {
         $handle = str_replace('/backend/grid/', '', $_uri);
         
         // Call handle
-        $responseGrid = Redsheepcore_Grid::handle($handle, (isset($_POST[$handle]) ? $_POST[$handle] : array()));
+        $responseGrid = Redsheepcore_Grid::handle($handle, (isset($_POST[$handle]) ? $_POST[$handle] : array()), (isset($_POST['gridContainer']) ? $_POST['gridContainer'] : array()), (isset($_POST['gridID']) ? $_POST['gridID'] : array()));
         
         // JSON Response
         echo json_encode($responseGrid);

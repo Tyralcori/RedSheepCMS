@@ -39,6 +39,9 @@ class Model_Grid extends ORM {
 	'widgetID' => array(
 		'max_length' => 0,
 	),
+        'widgetContentID' => array(
+		'max_length' => 0,
+	),
 
     );
 }

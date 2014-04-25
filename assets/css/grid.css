@@ -31,7 +31,7 @@ li .killItem:hover {
     position:fixed;
     top:110px;
     right:10px;
-    height:300px;
+    height:215px;
     width:150px;
     background-color: white;
     -moz-box-shadow: 0 0 2px 2px grey;
@@ -39,4 +39,9 @@ li .killItem:hover {
     box-shadow: 0 0 2px 2px grey;
     color: grey;
     text-align:center;
+}
+
+.gridPanelHead {
+    margin-top:5px;
+    font-weight:bold;
 }

@@ -11,22 +11,27 @@
             widgetHeight: 100,
             widgetWidth: 100,
             gridColMin: 4,
-            gridColMax: 8,
+            gridColMax: {{ rsGridConfigElements.width }},
             gridRowMin: 4,
-            gridRowMax: 8,
+            gridRowMax: {{ rsGridConfigElements.height }},
             gridCounter: 0,
+            gridLoadedID: 0,
             widgetResizeable: true,
+            widgetContainer: Array(),
             // Saves the grid
             save: function() {
                 // Serialize the grid
                 var serial = gridster.serialize();
+                
+                // Include grid infos
+                var grid = redSheepGridHandling.widgetContainer;
 
                 // Ajax reuqest to handle
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
                     url: "/backend/grid/save",
-                    data: {save: serial},
+                    data: {save: serial, gridContainer: grid, gridID: redSheepGridHandling.gridLoadedID},
                     success: function(msg) {
                         // Replace alert with a nice auto hiding message
                         alert(msg.message);
@@ -65,11 +70,18 @@
                         // Clear grid
                         redSheepGridHandling.killAll();
                         
+                        // Set grid id
+                        redSheepGridHandling.gridLoadedID = $("#gridID").val();
+                        
                         // Get loaded grid
                         var loadedGrid = msg.message;
-                        
+
                         // Generate grid
                         $.each($.parseJSON(loadedGrid), function(key, value){
+                            
+                            // Fill container
+                            redSheepGridHandling.widgetContainer[key] = parseInt(value.widgetID);
+                            
                             // Add widget by following: html, width, height, col, row
                             gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
                             '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
@@ -85,11 +97,14 @@
                 });
             },
             // Spawn new item
-            spawnItem: function() {
+            spawnItem: function(elementType) {
+                // Set widget container
+                redSheepGridHandling.widgetContainer[redSheepGridHandling.gridCounter] = elementType;
+                console.log(redSheepGridHandling.widgetContainer);
                 // Pattern for adding new widget
                 gridster.add_widget('<li class="new grid-' + redSheepGridHandling.gridCounter + '">' +
                         '<a class="killItem" href="javascript:javascript:redSheepGridHandling.killItem(' + redSheepGridHandling.gridCounter + ');">X</a>' +
-                        redSheepGridHandling.gridCounter +
+                        elementType +
                         '</li>', 1, 1);
 
                 // Plus one
@@ -97,10 +112,17 @@
             },
             // Kill item by number
             killItem: function(number) {
+                // Unset in widget container
+                redSheepGridHandling.widgetContainer[number] = '';
+                
+                // Unset in grid
                 gridster.remove_widget(document.getElementsByClassName('grid-' + number));
             },
             // "Clear" grid
             killAll: function() {
+                // Container
+                redSheepGridHandling.widgetContainer = Array();
+                
                 // Clear
                 gridster.remove_all_widgets();
 
@@ -142,13 +164,20 @@
     });
 </script>
 <div class="gridPanel">
-    <a href="javascript:redSheepGridHandling.spawnItem();">Spawn new Gridelement</a>
-
-    <br/><a href="javascript:redSheepGridHandling.save()">Save Grid</a>
+    
+    <p class="gridPanelHead">ELEMENTS</p>
+    {% for widget in rsGridWidgetElements %}
+        <a href="javascript:redSheepGridHandling.spawnItem('{{ widget.type }}');">{{ widget.name }}</a><br/>
+    {% endfor %}
+       
+    <hr/>
+    
+    <p class="gridPanelHead">OVERVIEW</p>
+    <a href="javascript:redSheepGridHandling.save()">Save Grid</a>
 
     <br/><a href="javascript:redSheepGridHandling.load()">Load Grid</a>
 
-    <br/><br/><br/><a href="javascript:redSheepGridHandling.reload()">Reload Grid</a>
+    <br/><a href="javascript:redSheepGridHandling.reload()">Reload Grid</a>   
 </div>
 <div class="gridster">
     <ul></ul>
