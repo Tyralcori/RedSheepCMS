@@ -22,9 +22,16 @@ li .killItem {
     cursor:pointer;
 }
 
-li .killItem:hover {
+li .killItem:hover, li .wrenchItem:hover {
     text-decoration:none;
     color:red;
+}
+
+li .wrenchItem {
+    position:absolute;
+    right:15px;
+    top:3px;
+    cursor:pointer;
 }
 
 .gridPanel {
@@ -44,4 +51,12 @@ li .killItem:hover {
 .gridPanelHead {
     margin-top:5px;
     font-weight:bold;
+}
+
+.gridPreview {
+    position:absolute;
+    top:20px;
+    left:5px;
+    right:5px;
+    bottom:5px;
 }

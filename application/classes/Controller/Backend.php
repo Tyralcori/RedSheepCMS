@@ -87,7 +87,7 @@ class Controller_Backend extends Controller_Redsheep {
         $handle = str_replace('/backend/grid/', '', $_uri);
         
         // Call handle
-        $responseGrid = Redsheepcore_Grid::handle($handle, (isset($_POST[$handle]) ? $_POST[$handle] : array()), (isset($_POST['gridContainer']) ? $_POST['gridContainer'] : array()), (isset($_POST['gridID']) ? $_POST['gridID'] : array()));
+        $responseGrid = Redsheepcore_Grid::handle($handle, (isset($_POST[$handle]) ? $_POST[$handle] : array()), (isset($_POST['gridContainer']) ? $_POST['gridContainer'] : array()), (isset($_POST['gridContainerID']) ? $_POST['gridContainerID'] : array()), (isset($_POST['gridID']) ? $_POST['gridID'] : array()));
         
         // JSON Response
         echo json_encode($responseGrid);
