@@ -530,8 +530,7 @@ class Kohana_Redsheepcore extends View {
                     break;
                 case 'grid':
                     // Get grid content
-                    $getGrid = ORM::factory('grid')->where('id', '=', $siteType['typeID'])->find()->as_array();
-
+                    $getGrid = ORM::factory('grid')->where('gridID', '=', $siteType['typeID'])->find()->as_array();
                     // Return grid content
                     return $getGrid;
                     break;

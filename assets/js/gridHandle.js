@@ -243,13 +243,18 @@
                 // Reset counter
                 redSheepGridHandling.gridCounter = 0;
             },
+            // Stop drag and drop elements
+            disable: function () {
+                gridster.disable(); 
+                gridster.disable_resize();
+            },
             // Reload the grid
             reload: function() {
                 redSheepGridHandling.killAll();
                 redSheepGridHandling.init();
             },
             // Init whole grid
-            init: function() {
+            init: function() {                
                 // Create gridster var
                 gridster = $(".gridster ul").gridster({
                     widget_margins: [redSheepGridHandling.widgetMarginWidth, redSheepGridHandling.widgetMarginHeight],

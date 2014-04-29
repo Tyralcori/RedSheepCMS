@@ -16,9 +16,9 @@
     {% if siteOutput.gridID %}
     <script type='text/javascript'>
         $(function() {
-        redSheepGridHandling.siteMode = true;
-        redSheepGridHandling.widgetResizeable = false;
-        redSheepGridHandling.loadGridByID({{ siteOutput.gridID }});
+            redSheepGridHandling.siteMode = true;
+            redSheepGridHandling.loadGridByID({{ siteOutput.gridID }});
+            redSheepGridHandling.disable();
         });
     </script>
     {% endif %}
