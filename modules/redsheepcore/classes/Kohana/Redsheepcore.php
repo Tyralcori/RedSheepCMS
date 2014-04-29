@@ -528,6 +528,13 @@ class Kohana_Redsheepcore extends View {
                     // Return static site content
                     return $getStaticSite['text'];
                     break;
+                case 'grid':
+                    // Get grid content
+                    $getGrid = ORM::factory('grid')->where('id', '=', $siteType['typeID'])->find()->as_array();
+
+                    // Return grid content
+                    return $getGrid;
+                    break;
             }
         }
     }

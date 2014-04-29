@@ -3,6 +3,29 @@
 {% endif %}
 
 {% if oneViewport.id is not empty %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+        // Check if grid or statissite has to be shown
+        function checkShow() {
+            if($('.type').val() === 'grid') {
+                $('.staticsiteSelector').fadeOut();
+                $('.gridSelector').fadeIn();
+            } else {
+                $('.staticsiteSelector').fadeIn();
+                $('.gridSelector').fadeOut();
+            }
+        };
+        
+        // On dropdown change
+        $('.type').change(function() {
+            checkShow();
+        });
+        
+        // Aaaaand check on call
+        checkShow();
+    });
+</script>
+
 <form action="/backend/navigation/{{ oneViewport.id }}" method="POST">
 {% else %}
 <form action="/backend/navigation/?newSite=true" method="POST">
@@ -19,14 +42,26 @@
     
     <div class="form-group">
         <label for="inputHeadline">Type</label>
-        <input type="text" class="form-control" id="type" name="type" placeholder="Type" value="{{ oneViewport.type }}">
+        <select name='type' class="form-control type">
+            <option value='staticsite' id='staticsite' name='staticsite' {% if oneViewport.type  == 'staticsite' %}selected="selected"{% endif %}>Staticsite</option>
+            <option value='grid' id='grid' name='grid' {% if oneViewport.type == 'grid' %}selected="selected"{% endif %}>Grid</option>
+        </select>
     </div>
     
-    <div class="form-group">
+    <div class="form-group staticsiteSelector">
         <label for="inputHeadline">Show site element</label>
         <select name='elementID' class="form-control">
              {% for site in oneViewport.availableSites %}
                 <option value='{{ site.id }}' id='{{ site.id }}' name='{{ site.id }}' {% if oneViewport.typeID == site.id %}selected="selected"{% endif %}>{{ site.name }}</option>
+             {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group gridSelector" style='display:none;'>
+        <label for="inputHeadline">Show grid element</label>
+        <select name='elementID' class="form-control">
+             {% for grid in oneViewport.availableGrids %}
+                <option value='{{ grid.gridID }}' id='{{ grid.gridID }}' name='{{ grid.gridID }}' {% if oneViewport.typeID == grid.id %}selected="selected"{% endif %}>{{ grid.gridName }}</option>
              {% endfor %}
         </select>
     </div>

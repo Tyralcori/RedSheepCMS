@@ -232,7 +232,7 @@ class Controller_Backend extends Controller_Redsheep {
     public function action_navigation() {
         // Get all navigation elements - saved in "viewports"
         $navigationElements = ORM::factory('viewport')->find_all()->as_array();
-
+        
         // New container Element
         $containerElement = array();
 
@@ -256,6 +256,14 @@ class Controller_Backend extends Controller_Redsheep {
                 $containerElement[$key]['type'] = 'staticsite';
                 $containerElement[$key]['typeID'] = $navigationElement->typeID;
                 $containerElement[$key]['typeName'] = $staticSiteElement['name'] ? $staticSiteElement['name'] : 'Empty name';
+            }
+            
+            // If grid, get the another name
+            if ($navigationElement->type == 'grid') {
+                $gridElement = ORM::factory('gridinfo')->where('gridID', '=', $navigationElement->typeID)->find()->as_array();
+                $containerElement[$key]['type'] = 'grid';
+                $containerElement[$key]['typeID'] = $navigationElement->typeID;
+                $containerElement[$key]['typeName'] = $gridElement['gridName'] ? $gridElement['gridName'] : 'Empty name';
             }
         }
 
@@ -298,6 +306,9 @@ class Controller_Backend extends Controller_Redsheep {
 
                 // Get all available sites
                 $viewportSpecial['availableSites'] = ORM::factory('staticsite')->find_all()->as_array();
+                
+                // Get all available grids
+                $viewportSpecial['availableGrids'] = ORM::factory('gridinfo')->find_all()->as_array();
 
                 // Return all given viewport elements
                 Redsheepcore::setTemplate('oneViewport', $viewportSpecial);
@@ -339,15 +350,19 @@ class Controller_Backend extends Controller_Redsheep {
                 // Just a safe flag
                 Redsheepcore::setTemplate('siteIsSaved', 'Successfully saved!');
             }
+            
             // Edit a special site by viewport ID
             $viewportSpecial = ORM::factory('viewport')->where('id', '=', $viewportID)->find()->as_array();
             if (!empty($viewportSpecial['name'])) {
                 // Get name from static site by id
-                $viewportStaticTemp = ORM::factory('staticsite')->where('id', '=', $viewportSpecial['typeID'])->find()->as_array();
-                $viewportSpecial['typeName'] = $viewportStaticTemp['name'] ? $viewportStaticTemp['name'] : 'Empty name';
+                $viewportStaticTemp = ORM::factory($viewportSpecial['type'])->where('id', '=', $viewportSpecial['typeID'])->find()->as_array();
+                $viewportSpecial['typeName'] = isset($viewportStaticTemp['name']) ? $viewportStaticTemp['name'] : (isset($viewportStaticTemp['gridName']) ? $viewportStaticTemp['gridName'] : 'Empty name');
 
                 // Get all available sites
                 $viewportSpecial['availableSites'] = ORM::factory('staticsite')->find_all()->as_array();
+
+                // Get all available grids
+                $viewportSpecial['availableGrids'] = ORM::factory('gridinfo')->find_all()->as_array();
 
                 // Return all given viewport elements
                 Redsheepcore::setTemplate('oneViewport', $viewportSpecial);

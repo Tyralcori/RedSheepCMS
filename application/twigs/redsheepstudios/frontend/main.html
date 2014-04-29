@@ -36,7 +36,14 @@
 
         <div class="redsheepPresent">
             {% if siteOutput %}
-                {{ include(template_from_string(siteOutput)) }}
+                {% if siteOutput.gridID %}
+                    <!-- GRID -->
+                    <div class="gridster">
+                        <ul></ul>
+                    </div>
+                {% else %}
+                    {{ include(template_from_string(siteOutput)) }}
+                {% endif %}
             {% else %}
                 {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
             {% endif %}

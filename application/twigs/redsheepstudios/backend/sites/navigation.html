@@ -20,7 +20,10 @@
                 <td>{{ viewport.name }}</td>
                 <td>{{ viewport.link }}</td>
                 <td>{{ viewport.type }}</td>
-                <td><a href='/backend/sites/{{ viewport.typeID }}'>{{ viewport.typeName }}</a></td>
+                <td>
+                    {% if viewport.type == 'staticsite' %}<a href='/backend/sites/{{ viewport.typeID }}'>{% endif %}
+                        {{ viewport.typeName }}
+                    {% if viewport.type == 'staticsite' %}</a>{% endif %}</td>
                 <td>{{ viewport.isActive|replace({1: "Yes", 0: "No"}) }}</td>
                 <td>{{ viewport.position }}</td>
                 <td><a href='/backend/navigation/{{ viewport.id }}'>Edit</a></d>
