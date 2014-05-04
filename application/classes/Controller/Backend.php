@@ -204,6 +204,15 @@ class Controller_Backend extends Controller_Redsheep {
     }
     
     /**
+     * Database Administration
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/05/04
+     */
+    public function action_database() {
+
+    }
+    
+    /**
      * Translation Overview
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/04/16
