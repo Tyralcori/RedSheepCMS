@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/srv/www/www.localdev.ragnarok.de/RedSheepCMS/application/classes/Plugins/Community/RedSheepGallery/view/frontend/index.html</file>
+            <file>file:/srv/www/www.localdev.ragnarok.de/RedSheepCMS/application/classes/Plugins/Community/RedSheepGallery/view/assets/css/gallery.css</file>
+            <file>file:/srv/www/www.localdev.ragnarok.de/RedSheepCMS/application/classes/Plugins/Community/RedSheepGallery/view/assets/js/gallery.js</file>
+            <file>file:/srv/www/www.localdev.ragnarok.de/RedSheepCMS/application/classes/Plugins/Community/RedSheepGallery/Bootstrap.php</file>
+        </group>
     </open-files>
 </project-private>

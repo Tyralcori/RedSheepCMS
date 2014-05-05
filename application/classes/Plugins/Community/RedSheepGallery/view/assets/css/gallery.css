@@ -1,3 +1,117 @@
 body {
     font-family:'Oswald', Arial,Helvetica,sans-serif;    
 }
+
+.galleryContainer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    min-height:100%;
+    height:auto;
+}
+
+.galleryHead {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:150px;
+    width:100%;
+    text-align:center;
+}
+
+.galleryHead a, .navigation a {
+    color: #4A4646;
+    text-decoration: none;
+}
+
+.galleryHead a:hover, .navigation a:hover {
+    color: #8F1414;
+    text-decoration: none;
+}
+
+.galleryHeadline {
+    font-size:40px;
+}
+
+.gallerySlogan {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.navigation {
+    position: absolute;
+    top: 100px;
+    height: 43px;
+    width: 100%;
+    border-top: #4A4646 1px dashed;
+    border-bottom: #4A4646 1px dashed;
+    word-spacing: 20px;
+    text-align: center;
+}
+
+.naviPoint {
+    position: relative;
+    top: 5px;
+    font-size: 20px;
+}
+
+.images {
+    position:absolute;
+    top:140px;
+    left:0px;
+    width:100%;
+}
+
+.itemContainer {
+    position:relative;
+    margin:auto auto;
+    width:550px;
+    background-color:white;
+    border-radius:10px;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #888;
+    text-align:left;
+    padding-left:20px;
+}
+
+.itemPictureInner {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    max-width: 100% !important;
+}
+
+.itemTitle {
+    position:relative;
+    top:10px;
+    height:50px;
+}
+
+.itemMeta {
+    height:30px;
+}
+
+.itemMetaDate {
+    word-spacing: 3px;    
+}
+
+.itemMetaAuthor {
+    padding-left:30px;
+}
+
+.readMore, .readMore:hover {
+    margin-top:20px;
+    color:white !important;
+}
+
+.itemMore {
+    position: relative;
+    min-height: 80px;
+}
+
+.commentMore {
+    position:absolute;
+    margin-top: 25px;
+    left:415px;
+}
