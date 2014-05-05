@@ -212,16 +212,21 @@
             },
             // Loads the element into the widget
             loadSelectedElementInto: function(id, widgetID) {
-                if($('#editSelector').val()) {
-                    var loadBy = $('#editSelector').val();
+                if(id) {
+                    var loadBy = id;
                 } else {
-                    if($("#editSelectorImage").val()) {
-                        var loadBy = $("#editSelectorImage").val();
+                    if($('#editSelector').val()) {
+                        var loadBy = $('#editSelector').val();
                     } else {
-                        var loadBy = $("#editSelectorVideo").val();
+                        if($("#editSelectorImage").val()) {
+                            var loadBy = $("#editSelectorImage").val();
+                            var denyCallback = true;
+                        } else {
+                            var loadBy = $("#editSelectorVideo").val();
+                            var denyCallback = true;
+                        }
                     }
                 }
-
                 // Save element
                 $.ajax({
                     type: "POST",
@@ -270,7 +275,7 @@
                         $('.grid-' + gridID + ' .gridPreview').html(saveResponse.message.text);
                         
                         // Fallback - first element
-                        if(redSheepGridHandling.loadGridByIDFallBackHTML < 1) {
+                        if(redSheepGridHandling.loadGridByIDFallBackHTML < 1 && !denyCallback) {
                             redSheepGridHandling.loadGridByIDFallBackHTML = saveResponse.message.text;
                         }
                     }
