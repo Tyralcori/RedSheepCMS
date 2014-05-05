@@ -1,6 +1,65 @@
+{% set stopRendering = false %}
 {% for plugin in plugins.message %}
+
     {% if plugin.return.message.view %}
-        {{ plugin.return.message.view|raw }}
+        {% if stopRendering is empty %}
+            {% if plugin.return.message.isOnly %}
+                {% set stopRendering = 'isOnly' %}
+            {% endif %}
+            {{ include(template_from_string(plugin.return.message.view)) }}            
+        {% endif %}
     {% endif %}
+    
 {% endfor %}
-FRONTEND
+
+{% if stopRendering is empty %}
+<div class="redsheepContainer">
+    <div class="redsheepHeader">
+        <div class="redsheepHeaderInner">
+            <a href='{{ baseHost }}' title='RedSheep Studios'><label class="redsheepLogoStyle">RedSheep Studios</label></a>
+            <div class="redsheepNavPoints">
+                <ul>
+                {% for navi in navigation.top %}                
+                    <li><a href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a></li>                                
+                {% endfor %}
+                </ul>
+            </div>
+        </div>        
+    </div>
+
+    <div class="redsheepContent">
+        {% if bannerLink is not empty %}
+        <div class="redsheepBanner">
+            {% include "%template%/%area%/elements/banner"|replace({"%template%": template, "%area%": area}) %}
+        </div>
+        {% endif %}
+
+        <div class="redsheepPresent">
+            {% if siteOutput %}
+                {% if siteOutput.gridID %}
+                    <!-- GRID -->
+                    <div class="gridster">
+                        <ul></ul>
+                    </div>
+                {% else %}
+                    {{ include(template_from_string(siteOutput)) }}
+                {% endif %}
+            {% else %}
+                {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+            {% endif %}
+        </div>
+
+        <div class="redsheepFooter">
+            <div class="redsheepFooterInner">
+                Copyright &copy; 2014 - RedSheep Studios   
+                <div class="redsheepFooterInnerRight">
+                    {% for navi in navigation.bottom %}                
+                        <a class="redsheepFooterLink" href="{{ baseHost }}{{ navi.link|replace({'/': ''}) }}">{{ navi.name }}</a> 
+                        |                             
+                    {% endfor %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

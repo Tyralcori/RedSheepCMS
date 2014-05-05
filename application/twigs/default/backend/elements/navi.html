@@ -1,0 +1,36 @@
+<div class="redsheepNaviSlideInner">
+    <nav>
+        <ul class="redSheepNaviMenu">
+            <li><a href='{{ baseHost }}backend/' title='RedSheep Studios Backend'>Redsheep Studios Backend</a></li>     
+            <li><a href='javascript:slideClose();' title='Close'>Close</a></li>
+            
+            <li><a href="javascript:invertSub('adminSub');" class="redSheepNaviToggle">Administration <i class="fa fa-caret-down"></i></a>
+                <ul class="redSheepNaviSubMenu adminSub" style="display:none;">
+                    <li><a href='{{ baseHost }}backend/database' title='Database'>Database</a></li>    
+                    <li><a href='{{ baseHost }}backend/user' title='User'>User</a></li>         
+                    <li><a href='{{ baseHost }}backend/log' title='Log'>Log</a></li>
+                </ul>
+            </li>
+            
+            <li><a href="javascript:invertSub('settingSub');" class="redSheepNaviToggle">Settings <i class="fa fa-caret-down"></i></a>
+                <ul class="redSheepNaviSubMenu settingSub" style="display:none;">
+                    <li><a href='{{ baseHost }}backend/plugin' title='Plugins'>Plugins</a></li>
+                    <li><a href='{{ baseHost }}backend/config' title='Config'>Config</a></li>
+                    <li><a href='{{ baseHost }}backend/mailpattern' title='Mail Patterns'>Mail Patterns</a></li>  
+                    <li><a href='{{ baseHost }}backend/cron' title='Cronjobs'>Cronjobs</a></li>                    
+                </ul>
+            </li>
+            
+            <li><a href="javascript:invertSub('siteSub');" class="redSheepNaviToggle">Site <i class="fa fa-caret-down"></i></a>
+                <ul class="redSheepNaviSubMenu siteSub" style="display:none;">
+                    <li><a href='{{ baseHost }}backend/navigation' title='Navigation'>Navigation</a></li>
+                    <li><a href='{{ baseHost }}backend/sites' title='Sites'>Sites</a></li>  
+                    <li><a href='{{ baseHost }}backend/translation' title='Sites'>Translations</a></li>  
+                </ul>
+            </li>
+            
+            <li><a href='{{ baseHost }}backend/logout' title='Logout'>Logout</a></li>
+            <li><a href='{{ baseHost }}backend/' title='Copyright'>&copy; 2014 Redsheep Studios V {{ version }}</a></li>
+        </ul>
+    </nav>
+</div>

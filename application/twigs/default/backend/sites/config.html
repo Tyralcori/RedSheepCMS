@@ -1,0 +1,10 @@
+<label class="redsheepHeadline">Config</label>
+<hr/>
+<p class="redsheepDescription">
+    <label>Attention! Please edit only the config settings, if you know, what to do. Only for experts!</label>
+    {% if configSaved %}
+        <br/><label>Config saved.</label><br/>
+    {% endif %}
+    
+    {% include "%template%/%area%/elements/formListing"|replace({"%template%": template, "%area%": area}) %}
+</p>

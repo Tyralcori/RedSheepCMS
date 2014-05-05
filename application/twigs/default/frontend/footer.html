@@ -1,2 +1,26 @@
+    {% if staticBaseHost %}
+        <script type="text/javascript" src="{{ staticBaseHost }}js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/core.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/plugins.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/grid.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/gridHandle.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ baseHost }}assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ baseHost }}assets/js/core.js"></script>
+        <script type="text/javascript" src="{{ baseHost }}assets/js/plugins.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/grid.js"></script>
+        <script type="text/javascript" src="{{ staticBaseHost }}js/gridHandle.js"></script>
+    {% endif %}
+    
+    {# SPECIAL EXCEPTION #}
+    {% if siteOutput.gridID %}
+    <script type='text/javascript'>
+        $(function() {
+            redSheepGridHandling.siteMode = true;
+            redSheepGridHandling.loadGridByID({{ siteOutput.gridID }});
+            redSheepGridHandling.disable();
+        });
+    </script>
+    {% endif %}
     </body>
 </html>

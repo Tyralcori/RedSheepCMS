@@ -1,6 +1,33 @@
 {% for plugin in plugins.message %}
-    {% if plugin.return.message.view %}
-        {{ plugin.return.message.view|raw }}
-    {% endif %}
+{% if plugin.return.message.view %}
+{{ include(template_from_string(plugin.return.message.view)) }}
+{% endif %}
 {% endfor %}
-BACKEND
+<div class="redsheepContainer">
+    <div class="redsheepHeader">
+        <div class="redsheepHeaderInner">            
+            <a href='{{ baseHost }}backend' title='RedSheep Studios'><label class="redsheepLogoStyle">RedSheep Studios Backend</label></a>
+        </div>        
+    </div>
+
+    {% if backendSession is not empty %}
+        <div class="setTop redSheepNaviBTN">
+            <i class="fa fa-align-justify"></i>
+        </div>
+
+        <div class="redsheepNaviSlide">
+            {% include "%template%/%area%/elements/navi"|replace({"%template%": template, "%area%": area}) %}
+        </div>
+    {% endif %}
+    <div class="redsheepContent">
+        <div class="redsheepPresent">
+            {% include "%template%/%area%/sites/%action%"|replace({"%template%": template, "%area%": area, "%action%": action}) %}
+        </div>
+
+        <div class="redsheepFooter">
+            <div class="redsheepFooterInner">
+                Copyright &copy; 2014 - RedSheep Studios   
+            </div>
+        </div>
+    </div>
+</div>
