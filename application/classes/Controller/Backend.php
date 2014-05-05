@@ -448,10 +448,10 @@ class Controller_Backend extends Controller_Redsheep {
                     }
                 }
             }
+            
+            // Something wrong
+            return array('status' => 'failure', 'message' => 'Wrong username / email and password.', 'backendSession' => false);
         }
-
-        // Something wrong
-        return array('status' => 'failure', 'message' => 'Wrong username / email and password.', 'backendSession' => false);
     }
 
     /**
