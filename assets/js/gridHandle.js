@@ -117,9 +117,15 @@
                                     firstwidgetContentID = value.widgetContentID;
                                     firstKey = key;
                                 }
-                                // Generate content 
-                                redSheepGridHandling.currentWidgetType = 'text';
-                                redSheepGridHandling.loadSelectedElementInto(value.widgetContentID, key);
+                                
+                                // Check if id is int or not
+                                if(value.widgetContentID != parseInt(value.widgetContentID)) {
+                                    $('.grid-' + redSheepGridHandling.gridCounter + ' .gridPreview').html(value.widgetContentID);
+                                } else {
+                                    // Generate content 
+                                    redSheepGridHandling.currentWidgetType = 'text';
+                                    redSheepGridHandling.loadSelectedElementInto(value.widgetContentID, key);
+                                }
                             }
                             
                             // Plus one
@@ -129,9 +135,12 @@
                 });
                 
                 // Reload 0 because "prevent default" - must be loaded to fill
-                setTimeout(function(){ 
-                    $('.grid-0 .gridPreview').html(redSheepGridHandling.loadGridByIDFallBackHTML);
-                }, 500);
+                if(redSheepGridHandling.loadGridByIDFallBackHTML) {
+                    setTimeout(function(){ 
+                        $('.grid-0 .gridPreview').html(redSheepGridHandling.loadGridByIDFallBackHTML);
+
+                    }, 500);
+                }
             },
             // Spawn new item
             spawnItem: function(elementType) {
@@ -178,19 +187,41 @@
                             });
                             
                             // Call edit modal
-                            $('#gridEdit').modal();
+                            $('#gridEditText').modal();
+                        }
+                        
+                        // VIDEO: 
+                        if(editType == 'youtubevideo') {
+                            // Call edit modal
+                            $('#gridEditVideo').modal();
+                        }
+                        
+                        // IMAGE:
+                        if(editType == 'image') {
+                            // Call image modal
+                            $('#gridEditImage').modal();
                         }
                     }
                 });
             },
+            // Return infos about a special grid element
+            getInfos: function(id) {
+                var serial = gridster.serialize();
+                
+                return serial[id];
+            },
             // Loads the element into the widget
             loadSelectedElementInto: function(id, widgetID) {
-                if(id) {
-                    var loadBy = id;
+                if($('#editSelector').val()) {
+                    var loadBy = $('#editSelector').val();
                 } else {
-                    var loadBy = $("#editSelector").val();
+                    if($("#editSelectorImage").val()) {
+                        var loadBy = $("#editSelectorImage").val();
+                    } else {
+                        var loadBy = $("#editSelectorVideo").val();
+                    }
                 }
-                
+
                 // Save element
                 $.ajax({
                     type: "POST",
@@ -214,6 +245,27 @@
                         // Set id
                         redSheepGridHandling.widgetContainerID[gridID] = saveResponse.message.id; 
 
+                        // Check widgetType
+                        if(redSheepGridHandling.currentWidgetType == 'youtubevideo' || redSheepGridHandling.currentWidgetType == 'image') {
+                            // Register onResize Element
+                            function listener() {
+                                var resizeHeightTo = $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').height();
+                                var resizeWidthTo = $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').width();
+                                
+                                $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').children().attr('height', resizeHeightTo);
+                                $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').children().attr('width', resizeWidthTo);
+                            }
+                            
+                            // Currently dirty
+                            setInterval(listener , 500);
+                            
+                            // First height & width setter
+                            var resizeHeightTo = $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').height();
+                            var resizeWidthTo = $('.grid-' + redSheepGridHandling.currentWidgetID + ' > .gridPreview').width();
+                            
+                            // Set new height and width
+                            saveResponse.message.text = saveResponse.message.text.replace('%HEIGHT%', resizeHeightTo).replace('%WIDTH%', resizeWidthTo);
+                        }
                         // Add response text into grid element
                         $('.grid-' + gridID + ' .gridPreview').html(saveResponse.message.text);
                         

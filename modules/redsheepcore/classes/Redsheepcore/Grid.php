@@ -129,7 +129,7 @@ class Redsheepcore_Grid {
             // Set widgetID if given
             if (isset($gridContainer[$key])) {
                 $needle = self::getWidgets($gridContainer[$key]);
-                $newGRIDElement->widgetID = empty($needle) ? (int) $gridContainer[$key] : $needle;
+                $newGRIDElement->widgetID = empty($needle) ? $gridContainer[$key] : $needle;
 
                 // Set widgetContentID if given
                 if (isset($gridContainerID[$key])) {
@@ -359,6 +359,47 @@ class Redsheepcore_Grid {
         return $textContainer;
     }
 
+    /**
+     * Return embed code youtubevideos
+     * @param type $id
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/05/05
+     */
+    private static function editElement_youtubevideo($id = null) {
+        // Check if id is given
+        if(isset($id)) {
+            // Youtube Pattern:
+            $pattern = '<iframe width="%WIDTH%" height="%HEIGHT%" src="//www.youtube.com/embed/%ID%" frameborder="0" allowfullscreen></iframe>';
+            
+            // Return pattern with replaced ID
+            return array('id' => str_replace('%ID%', $id, $pattern), 'text' => str_replace('%ID%', $id, $pattern));
+        }   
+        
+        // Nothing to do
+        return false;
+    }
+    
+    /**
+     * Return embed code images
+     * @param type $id
+     * @return boolean
+     * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
+     * @since 2014/05/05
+     */
+    private static function editElement_image($id = null) {
+        // Check if id is given
+        if(isset($id)) {
+            // Youtube Pattern:
+            $pattern = '<img width="%WIDTH%" height="%HEIGHT%" src="%ID%"/>';
+            
+            // Return pattern with replaced ID
+            return array('id' => str_replace('%ID%', $id, $pattern), 'text' => str_replace('%ID%', $id, $pattern));
+        }   
+        
+        // Nothing to do
+        return false;
+    }
 }
 
 ?>

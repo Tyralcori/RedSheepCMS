@@ -39,16 +39,54 @@
     </div>
 </div>
 
-<!-- EDIT MODAL -->
-<div id="gridEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridEdit" aria-hidden="true">
+<!-- EDIT TEXT MODAL -->
+<div id="gridEditText" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridEdit" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="gridEditLabel">Edit element</h4>
+                <h4 class="modal-title" id="gridEditLabel">Edit text element</h4>
             </div>
             <div class="modal-body modalBodyEdit">
                 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default hideModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary loadSelectedElementInto">Save changes on element</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT VIDEO MODAL -->
+<div id="gridEditVideo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridEdit" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="gridEditLabel">Edit Youtube-Video element</h4>
+            </div>
+            <div class="modal-body modalBodyEdit">
+                <input id="editSelectorVideo" class="form-control" type="text" name="videoID" placeholder="Youtube Video ID"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default hideModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary loadSelectedElementInto">Save changes on element</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT IMAGE MODAL -->
+<div id="gridEditImage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridEdit" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="gridEditLabel">Edit Imgae element</h4>
+            </div>
+            <div class="modal-body modalBodyEdit">
+                <input id="editSelectorImage" class="form-control" type="text" name="imageID" placeholder="Image Source"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default hideModal" data-dismiss="modal">Close</button>
