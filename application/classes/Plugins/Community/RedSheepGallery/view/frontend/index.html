@@ -1,4 +1,4 @@
-<div class="galleryContainer" style="background-image:url({{ staticBaseHost }}/gallery/bg.jpg);">
+<div class="galleryContainer">
     <div class="galleryHead">
         <a href="/">
             <div class="galleryHeadline">{{ title }}</div>
@@ -11,21 +11,22 @@
     </div>
 
     <div class="images">
+        {% if specialImage %}
         <div class="itemContainer">
             <div class="itemTitle">
-                <a href="asasas" hidefocus="true" style="outline:none;">
-                    <h2>Title</h2>
+                <a href="/image/{{ specialImage.0.headline }}" hidefocus="true" style="outline:none;">
+                    <h2>{{ specialImage.0.headline }}</h2>
                 </a>
             </div>
 
             <div class="itemMeta">
-                <span class="itemMetaDate"><i class="service-icon fa fa-clock-o"></i>&nbsp;May 05, 2014</span>
-                <span class="itemMetaAuthor"><i class="service-icon fa fa-user"></i>&nbsp;Tob</span>
+                <span class="itemMetaDate"><i class="service-icon fa fa-clock-o"></i>&nbsp;{{ specialImage.0.prettyDate }}</span>
+                <span class="itemMetaAuthor"><i class="service-icon fa fa-user"></i>&nbsp;{{ specialImage.0.author }}</span>
             </div>
 
             <div class="itemPicture">
-                <a href="asasas" hidefocus="true" style="outline:none;">
-                    <img src="" alt="itemTitle" width="500" height="" class="itemPictureInner">
+                <a href="/image/{{ specialImage.0.headline }}" hidefocus="true" style="outline:none;">
+                    <img src="{{ specialImage.0.name }}" alt="itemTitle" width="500" height="" class="itemPictureInner">
                 </a>
             </div>
 
@@ -34,14 +35,54 @@
             </div>
 
             <div class="itemMore">
-                <a href="asasas" hidefocus="true" class="btn btn-primary readMore">
+                <a href="/image/{{ specialImage.0.headline }}" hidefocus="true" class="btn btn-primary readMore">
                     READ MORE
                 </a>
 
-                <a href="asasas#comments" class="link-comments commentMore" hidefocus="true" style="outline: none;">
+                <a href="/image/{{ specialImage.0.headline }}#comments" class="link-comments commentMore" hidefocus="true" style="outline: none;">
                     0 Comments
                 </a>
             </div>
-        </div>
+        </div><br/><br/>
+        {% else %}
+        {% for image in imageList %}
+        <div class="itemContainer">
+            <div class="itemTitle">
+                <a href="/image/{{ image.headline }}" hidefocus="true" style="outline:none;">
+                    <h2>{{ image.headline }}</h2>
+                </a>
+            </div>
+
+            <div class="itemMeta">
+                <span class="itemMetaDate"><i class="service-icon fa fa-clock-o"></i>&nbsp;{{ image.prettyDate }}</span>
+                <span class="itemMetaAuthor"><i class="service-icon fa fa-user"></i>&nbsp;{{ image.author }}</span>
+            </div>
+
+            <div class="itemPicture">
+                <a href="/image/{{ image.headline }}" hidefocus="true" style="outline:none;">
+                    <img src="{{ image.name }}" alt="itemTitle" width="500" height="" class="itemPictureInner">
+                </a>
+            </div>
+
+            <div class="itemSocial">
+
+            </div>
+
+            <div class="itemMore">
+                <a href="/image/{{ image.headline }}" hidefocus="true" class="btn btn-primary readMore">
+                    READ MORE
+                </a>
+
+                <a href="/image/{{ image.headline }}#comments" class="link-comments commentMore" hidefocus="true" style="outline: none;">
+                    0 Comments
+                </a>
+            </div>
+        </div><br/><br/>
+        {% endfor %}
+        {% endif %}
     </div>
+</div>
+
+<div class="footer">
+    COPYRIGHT &copy; 2014 - REDSHEEP STUDIOS
 </div>

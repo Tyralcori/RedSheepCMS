@@ -1,23 +1,140 @@
 /** Automatic generated css file **/
-/** Style for plugin RedSheepScrollTop: Start **/
-.scrollTop {
-    position:fixed;
-    bottom:5px;
-    right:5px;
-    width:100px;
-    height:25px;
-    background-color:grey;
-    opacity:0.7;
-    color:white;
-    border:1px black solid;
-    border-radius:5px;
-    display:none;
-    z-index:9999;
+/** Style for plugin RedSheepGallery: Start **/
+body {
+    font-family:'Oswald', Arial,Helvetica,sans-serif;    
+    background:url('/assets/gallery/bg.jpg') repeat center center fixed;
+}
+
+.galleryContainer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;    
+    height:100%;
+}
+
+.galleryHead {
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:150px;
+    width:100%;
     text-align:center;
 }
 
-.scrollTop:hover {
-    opacity:0.9;
-    cursor:pointer;
+.galleryHead a, .navigation a {
+    color: #4A4646;
+    text-decoration: none;
 }
-/** Style for plugin RedSheepScrollTop: END **/
+
+.galleryHead a:hover, .navigation a:hover {
+    color: #8F1414;
+    text-decoration: none;
+}
+
+.galleryHeadline {
+    font-size:40px;
+}
+
+.gallerySlogan {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.navigation {
+    position: absolute;
+    top: 100px;
+    height: 43px;
+    width: 100%;
+    border-top: #4A4646 1px dashed;
+    border-bottom: #4A4646 1px dashed;
+    word-spacing: 20px;
+    text-align: center;
+}
+
+.naviPoint {
+    position: relative;
+    top: 5px;
+    font-size: 20px;
+}
+
+.images {
+    position:absolute;
+    top:140px;
+    left:0px;
+    width:100%;
+}
+
+.itemContainer {
+    position:relative;
+    margin:auto auto;
+    width:550px;
+    background-color:white;
+    border-radius:10px;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #888;
+    text-align:left;
+    padding-left:20px;
+}
+
+.itemPictureInner {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    max-width: 100% !important;
+}
+
+.itemTitle {
+    position:relative;
+    top:10px;
+    height:50px;
+
+}
+
+.itemTitle a {
+    color:#8F1414!important;
+}
+
+.itemMeta {
+    height:30px;
+}
+
+.itemMetaDate {
+    word-spacing: 3px;    
+}
+
+.itemMetaAuthor {
+    padding-left:30px;
+}
+
+.readMore, .readMore:hover {
+    margin-top:20px;
+    color:white !important;
+    background-color:#8F1414;
+    border-color:darkred;
+}
+
+.itemMore {
+    position: relative;
+    min-height: 80px;
+}
+
+.commentMore, .commentMore:hover {
+    position:absolute;
+    margin-top: 25px;
+    left:415px;
+    color:#8F1414;
+}
+
+.footer {
+    position:fixed;
+    bottom:0px;
+    left:0px;
+    height:30px;
+    right:0px;
+    text-align:center;
+    color:#4A4646;
+    background-color:white;
+    opacity:0.7;
+}
+/** Style for plugin RedSheepGallery: END **/
