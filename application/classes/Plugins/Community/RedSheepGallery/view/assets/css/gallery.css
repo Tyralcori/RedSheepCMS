@@ -50,6 +50,11 @@ body {
     text-align: center;
 }
 
+.navigation .active {
+    color: #8F1414;
+    font-weight:bold;
+}
+
 .naviPoint {
     position: relative;
     top: 5px;
@@ -103,6 +108,45 @@ body {
 
 .itemMetaAuthor {
     padding-left:30px;
+}
+
+.itemVote {
+    position:absolute;
+    top:20px;
+    left:-45px;
+    height:100px;
+    width:50px;
+    font-size:22px;
+    text-align:center;
+    border-radius:5px;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #888;
+    background-color:#8F1414;
+    color:white;
+}
+
+.voteResult {
+    position:absolute;
+    bottom:5px;
+    height:30px;
+    width:42px;
+    left:4px;
+    text-align:center;
+    font-size:21px;
+    background-color:white;
+    border-radius:5px;
+    color:#8F1414;
+}
+
+.itemVote .fa-thumbs-up, .itemVote .fa-thumbs-down {
+    color:white!important;
+    cursor:pointer;
+}
+
+.itemVote .fa-thumbs-up:hover, .itemVote .fa-thumbs-down:hover {
+    color:red!important;
+    cursor:pointer;
 }
 
 .readMore, .readMore:hover {

@@ -124,6 +124,50 @@ class Plugins_Community_RedSheepGallery_Bootstrap extends Controller implements 
         $isImageCalled = strpos($_uri, 'image');
         $imageCalled = str_replace('image', '', $_uri);
 
+        // Check, if user want the latest
+        $isLatestCalled = strpos($_uri, 'latest');
+        
+        // Check, if upvote is called
+        $isUpvoteCalled = strpos($_uri, 'upvote');
+        
+        // Check, if downvote is called
+        $isDownvoteCalled = strpos($_uri, 'downvote');
+        
+        // Ajax votes only
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && ($isDownvoteCalled === 0 || $isUpvoteCalled === 0)) {
+            // Developement var
+            $userID = 1;
+            
+            // Get called image
+            $imageCalled = isset($_POST) ? Redsheepcore_Data::run($_POST['pictureID']) : false;
+            
+            // Must not be empty
+            if(empty($imageCalled)) {
+                return false;
+            }
+            
+            // Set vote into table
+            $setVote = ORM::factory('galleriesvote');
+            $setVote->pictureKey = $imageCalled;
+            $setVote->userID = $userID;
+            $setVote->direction = ($isUpvoteCalled === 0) ? 'up' : 'down';
+            $setVote->votedOn = 'NOW()';
+            $setVote->save();
+            
+            // Get picture vote sum
+            $getVoteSumPic = ORM::factory('gallery')->where('smallLink', '=', $imageCalled)->find();
+            
+            // Calculate new sum
+            $sum = ($isUpvoteCalled === 0) ? ((empty($getVoteSumPic->voteSum) ? 0 : $getVoteSumPic->voteSum) + 1) : ((empty($getVoteSumPic->voteSum) ? 0 : $getVoteSumPic->voteSum) - 1);
+
+            // Set new vote sum
+            DB::update('galleries')->set(array('voteSum' => (int) $sum))->where('smallLink', '=', $imageCalled)->execute();
+            
+            // Return new sum
+            echo json_encode(array('voteSum' => (int) $sum));
+            die();
+        }
+        
         // Check if image is called
         if ($isImageCalled === 0 && $imageCalled) {
             // Return special image - no ajax
@@ -135,8 +179,16 @@ class Plugins_Community_RedSheepGallery_Bootstrap extends Controller implements 
                 self::$_counter = (int) $_POST['offset'];
             }
 
-            // Get next images
-            $response = self::getLatestImages();
+            // If latest images, no filter
+            if ($isLatestCalled === 0) {
+                // Get next images
+                $response = self::getLatestImages();
+                Redsheepcore::setTemplate('activeNavPoint', 'latest');
+            } else {
+                // Get next images (hot)
+                $response = self::getLatestImages(50);
+                Redsheepcore::setTemplate('activeNavPoint', 'hot');
+            }
 
             // If is ajax request, return json response 
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -165,18 +217,26 @@ class Plugins_Community_RedSheepGallery_Bootstrap extends Controller implements 
      * @author Alexander Czichelski <a.czichelski@elitecoder.eu>
      * @since 2014/05/06
      */
-    private static function getLatestImages($limit = 3) {
-        // Get first 3 images in desc direction by uploadAt (latest at first)
-        $response = ORM::factory('gallery')->order_by('uploadAt', 'DESC')->limit($limit)->offset(self::$_counter)->find_all()->as_array();
+    private static function getLatestImages($filter = null, $limit = 3) {
+        if (!empty($filter)) {
+            // Set filter
+            $filterd = (int) $filter;
+
+            // Get first 3 images in desc direction by uploadAt (latest at first) | FILTER BY Impressions
+            $response = ORM::factory('gallery')->where('impressions', '>=', $filterd)->order_by('uploadAt', 'DESC')->limit($limit)->offset(self::$_counter)->find_all()->as_array();
+        } else {
+            // Get first 3 images in desc direction by uploadAt (latest at first)
+            $response = ORM::factory('gallery')->order_by('uploadAt', 'DESC')->limit($limit)->offset(self::$_counter)->find_all()->as_array();
+        }
 
         // Count all elements
         $countElements = ORM::factory('gallery')->count_all();
 
         // Check if images to load
-        if ($countElements < (self::$_counter )) {             
+        if ($countElements < (self::$_counter )) {
             return array();
         }
-        
+
         // Return response
         return self::makePrettyResponse($response);
     }
@@ -197,8 +257,37 @@ class Plugins_Community_RedSheepGallery_Bootstrap extends Controller implements 
         // Make safe data
         $headline = Redsheepcore_Data::run($imageTitle);
 
+        // Set picture
+        $picture = ORM::factory('gallery')->where('smallLink', '=', $headline)->find_all()->as_array();
+
+        // Get the token
+        $hasToken = Redsheepcore::getSession($headline);
+
+        // Check, if token is setted
+        if (!$hasToken) {
+            // At least i only expecting exactly one found image
+            foreach ($picture as $key => $singlePicture) {
+                // Set impressions
+                $currentImpressions = (int) $singlePicture->impressions;
+
+                // If empty impressions, its the first impression
+                if (empty($currentImpressions)) {
+                    $currentImpressions = 1;
+                } else {
+                    // Impression + 1
+                    $currentImpressions += 1;
+                }
+
+                // Update the impressions
+                DB::update('galleries')->set(array('impressions' => $currentImpressions))->where('smallLink', '=', $headline)->execute();
+
+                // Set impression deny token
+                Redsheepcore::setSession($headline, true);
+            }
+        }
+
         // Return image by healdine (title)
-        return self::makePrettyResponse(ORM::factory('gallery')->where('headline', '=', $headline)->find_all()->as_array());
+        return self::makePrettyResponse($picture);
     }
 
     /**
@@ -218,17 +307,26 @@ class Plugins_Community_RedSheepGallery_Bootstrap extends Controller implements 
         $imageContainer = array();
 
         // Some nice properties
-        $proertiesRequired = array('headline', 'name', 'uploadAt', 'author');
+        $proertiesRequired = array('headline', 'name', 'uploadAt', 'author', 'smallLink', 'voteSum');
 
         // Iterate all images
         foreach ($images as $key => $image) {
             // Foreach propertie 
-            foreach ($proertiesRequired as $keyProperite => $value) {
+            foreach ($proertiesRequired as $keyPropertie => $value) {
                 // Some pretty date
                 if ($value == 'uploadAt') {
                     $date = new DateTime(date($images[$key]->$value));
                     $imageContainer[$key]['prettyDate'] = $date->format('d M, Y H:i:s');
                 }
+                
+                // Check voteSum
+                if($value == 'voteSum') {                    
+                    if(empty($images[$key]->$value)) {
+                        $images[$key]->$value = 0;
+                    }
+                    $imageContainer[$key]['voteSum'] = (int) $images[$key]->$value;
+                }
+                
                 // Add current propertie in image container
                 $imageContainer[$key][$value] = $images[$key]->$value;
             }
